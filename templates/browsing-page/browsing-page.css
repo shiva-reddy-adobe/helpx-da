@@ -231,13 +231,7 @@ body.browsing-page .section .heading-with-link p {
   white-space: nowrap;
 }
 
-/* ===== Tutorials section — light background ===== */
-body.browsing-page .section:has(.heading-with-link) {
-  background: #f5f5f5;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-}
+/* ===== Tutorials section ===== */
 
 /* ===== Popular articles section — 3 column cards ===== */
 body.browsing-page .section:has(h2) .content-card {
@@ -267,9 +261,21 @@ body.browsing-page main > .section:last-child:has(.metadata) {
   display: none;
 }
 
-/* ===== Feedback section — full width in content area ===== */
+/* ===== Feedback section — fixed at viewport bottom ===== */
 body.browsing-page .section:has(.feedback) {
-  margin: 2rem 0;
+  margin: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+body.browsing-page .feedback {
+  position: static;
+  transform: none;
+  left: auto;
 }
 
 body.browsing-page .feedback {
