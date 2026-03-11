@@ -57,6 +57,23 @@ body.support-hub .section.whats-new-bg {
   margin-top: 2.5rem;
 }
 
+/* What's new: 4-column grid */
+body.support-hub .section.whats-new-bg .content-card {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1079px) {
+  body.support-hub .section.whats-new-bg .content-card {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  body.support-hub .section.whats-new-bg .content-card {
+    grid-template-columns: 1fr;
+  }
+}
+
 body.support-hub .section.whats-new-bg > * {
   max-width: 75rem;
   margin-left: auto;

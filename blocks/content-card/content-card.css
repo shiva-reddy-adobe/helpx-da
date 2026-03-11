@@ -73,7 +73,9 @@
 }
 
 .content-card-item:has(.content-card-image) .content-card-body p {
-  display: none;
+  font-size: 0.875rem;
+  color: #1473e6;
+  margin: 0.25rem 0 0;
 }
 
 /* ===== Cards without images (Popular articles / article-card style) ===== */
