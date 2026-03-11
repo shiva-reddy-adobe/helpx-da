@@ -1,0 +1,124 @@
+/* Procedure block - matches helpxNext procedure.less + stepsandprocedure.less */
+.procedure {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+.procedure-steps {
+  counter-reset: step-counter 0;
+  list-style: none;
+  margin-top: 1.5rem;
+  padding-left: 0;
+}
+
+.procedure-step {
+  counter-increment: step-counter;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-left: 2.75rem;
+}
+
+.procedure-step::before {
+  content: counter(step-counter) / "";
+  position: absolute;
+  left: 0;
+  border-radius: 50%;
+  background-color: var(--color-gray-160);
+  height: 2rem;
+  width: 2rem;
+  text-align: center;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--color-black);
+  line-height: 1.875rem;
+}
+
+.procedure-content {
+  flex: 1;
+}
+
+.procedure-content p:first-child {
+  margin-top: 0;
+}
+
+.procedure-content p:last-child {
+  margin-bottom: 0;
+}
+
+.procedure-content ul {
+  padding-left: 1.25rem;
+}
+
+/* Sub-steps (nested ordered lists) */
+.procedure-content ol {
+  counter-reset: sub-step-counter 0;
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.procedure-content ol > li {
+  counter-increment: sub-step-counter;
+  position: relative;
+  padding-left: 2.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.procedure-content ol > li::before {
+  content: counter(sub-step-counter) / "";
+  position: absolute;
+  left: 0;
+  border-radius: 50%;
+  background-color: var(--color-gray-160);
+  height: 2rem;
+  width: 2rem;
+  text-align: center;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--color-black);
+  line-height: 1.875rem;
+}
+
+.procedure-media {
+  flex-shrink: 0;
+}
+
+.procedure-media img {
+  border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Desktop: side-by-side layout */
+@media only screen and (min-width: 1080px) {
+  .procedure-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .procedure-media {
+    width: 300px;
+  }
+}
+
+/* RTL */
+html[dir="rtl"] .procedure-step {
+  padding-left: 0;
+  padding-right: 2.75rem;
+}
+
+html[dir="rtl"] .procedure-step::before {
+  left: auto;
+  right: 0;
+}
+
+html[dir="rtl"] .procedure-content ol > li {
+  padding-left: 0;
+  padding-right: 2.75rem;
+}
+
+html[dir="rtl"] .procedure-content ol > li::before {
+  left: auto;
+  right: 0;
+}

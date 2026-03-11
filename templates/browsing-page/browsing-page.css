@@ -1,0 +1,88 @@
+/* Browsing Page Template — helpxNext-browsingPage */
+
+/* Layout: left rail nav + content grid */
+body.browsing-page main {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-gutter);
+}
+
+@media only screen and (min-width: 1080px) {
+  body.browsing-page main .section {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 40px;
+  }
+}
+
+/* Left rail navigation */
+body.browsing-page .toc-nav {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+@media only screen and (max-width: 1079px) {
+  body.browsing-page .toc-nav {
+    position: static;
+    max-height: none;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-gray-160);
+    padding-bottom: 16px;
+  }
+}
+
+/* Content area */
+body.browsing-page .section > div:not(.toc-nav) {
+  min-width: 0;
+}
+
+/* Card grid within browsing pages */
+body.browsing-page .content-card-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+  body.browsing-page .content-card-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  body.browsing-page .content-card-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Section headings */
+body.browsing-page main h1 {
+  font-size: var(--heading-font-size-xl);
+  margin-bottom: 8px;
+}
+
+body.browsing-page main h2 {
+  font-size: var(--heading-font-size-l);
+  margin-top: 32px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-gray-160);
+}
+
+body.browsing-page main p {
+  color: var(--color-gray-700);
+  line-height: 1.5;
+}
+
+/* Breadcrumb spacing */
+body.browsing-page .breadcrumb {
+  margin-bottom: 16px;
+}
+
+/* RTL */
+html[dir="rtl"] body.browsing-page main .section {
+  direction: rtl;
+}

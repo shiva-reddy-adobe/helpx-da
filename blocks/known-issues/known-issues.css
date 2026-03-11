@@ -1,0 +1,144 @@
+/* known-issues block – styles derived from helpxNext knownAndFixedIssues.less */
+
+.known-issues {
+  max-width: var(--grid-container-width);
+  margin: 0.5rem auto;
+}
+
+.known-issues-container {
+  border: 0.0625rem solid var(--color-known-issues-border);
+  border-radius: 0.625rem;
+  padding: 1.25rem 1.5rem 0;
+}
+
+/* Title and status row */
+.known-issue-item {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding: 0;
+  border-bottom: none;
+  gap: 0;
+}
+
+.known-issue-item:last-child {
+  border-bottom: none;
+}
+
+.known-issue-title {
+  flex-grow: 1;
+  padding: 0.125rem 0;
+  color: var(--color-known-issues-summary-content);
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+  .known-issue-title {
+    width: 100%;
+  }
+}
+
+/* Status badge */
+.known-issue-status {
+  display: flex;
+  margin: 0.125rem 0;
+  border-radius: 0.3125rem;
+  color: var(--color-known-issues-status-text);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  white-space: nowrap;
+  padding: 0;
+  text-transform: none;
+}
+
+.known-issue-status-open {
+  background-color: var(--color-known-issues-open-bg);
+}
+
+.known-issue-status-resolved,
+.known-issue-status-fixed {
+  background-color: var(--color-known-issues-resolved-bg);
+}
+
+.known-issue-status .icon {
+  margin: 0.25rem 0.3125rem 0.25rem 0.4375rem;
+  width: 1rem;
+  height: 1rem;
+  content: ' ';
+}
+
+.known-issue-status-open .icon {
+  background: url('/content/dam/help/helpxNext/icons/S2_Icon_AlertTriangle_20_N.svg') no-repeat bottom;
+}
+
+.known-issue-status-resolved .icon,
+.known-issue-status-fixed .icon {
+  background: url('/content/dam/help/helpxNext/icons/S2_Icon_CheckmarkCircle_20_N.svg') no-repeat bottom;
+}
+
+.known-issue-status .status-text {
+  margin: 0.25rem 0.5625rem 0.3125rem 0;
+}
+
+/* App detail table */
+.known-issue-body table.app-detail {
+  margin: 1rem auto;
+  width: 100%;
+}
+
+.known-issue-body table.app-detail tr {
+  background: none;
+}
+
+.known-issue-body table.app-detail tr td {
+  border: none;
+  padding: 0;
+  color: var(--color-known-issues-table-content);
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+}
+
+.known-issue-body table.app-detail tr td:first-child {
+  padding-right: 1rem;
+  color: var(--color-known-issues-summary-content);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.known-issue-body table.app-detail tr td:last-child {
+  width: 100%;
+}
+
+/* Section content */
+.known-issue-desc {
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.known-issue-desc p,
+.known-issue-desc ul > li,
+.known-issue-desc ol > li {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--color-known-issues-summary-content);
+}
+
+.known-issue-desc p.section-title {
+  margin-bottom: 0.125rem;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.known-issue-desc p.section-title.next-steps {
+  margin-bottom: 0.25rem;
+}
+
+.known-issue-desc ul,
+.known-issue-desc ol {
+  padding-left: 1.25rem;
+}

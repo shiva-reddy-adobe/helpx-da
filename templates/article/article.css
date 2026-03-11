@@ -1,0 +1,145 @@
+/* helpxNext article template — pixel-perfect match */
+
+body.article {
+  --article-max-width: 900px;
+  --article-sidebar-width: 280px;
+}
+
+/* Article content area */
+body.article main {
+  max-width: var(--article-max-width);
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+body.article main .section > .default-content {
+  max-width: 100%;
+}
+
+/* Reading-optimized typography */
+body.article main p,
+body.article main li {
+  font-size: var(--body-font-size-l);
+  line-height: 1.7;
+  color: var(--color-text-body);
+}
+
+/* Article title */
+body.article main h1 {
+  font-size: var(--heading-font-size-xxl);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+/* Sub-headings spacing */
+body.article main h2 {
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+body.article main h3 {
+  font-size: 24px;
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+/* Last updated date */
+body.article .last-updated {
+  font-size: var(--body-font-size-s);
+  font-style: italic;
+  color: var(--color-gray-400);
+  margin-bottom: 24px;
+}
+
+/* Images */
+body.article main img {
+  border-radius: 8px;
+  margin: 16px 0;
+}
+
+/* Code blocks */
+body.article main pre {
+  background: var(--color-gray-100);
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: var(--body-font-size-s);
+  line-height: 1.5;
+}
+
+body.article main code {
+  font-family: "Courier New", monospace;
+  font-size: 0.9em;
+}
+
+body.article main :not(pre) > code {
+  background: var(--color-gray-100);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Blockquotes */
+body.article main blockquote {
+  border-left: 3px solid var(--color-blue-500);
+  padding-left: 16px;
+  margin: 24px 0;
+  color: var(--color-gray-600);
+}
+
+/* Links in article content */
+body.article main a:not(.btn) {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+body.article main a:not(.btn):hover {
+  color: var(--color-blue-700);
+}
+
+/* Tablet breakpoint */
+@media only screen and (max-width: 1079px) {
+  body.article main h1 {
+    font-size: 28px;
+  }
+
+  body.article main h3 {
+    font-size: 20px;
+  }
+}
+
+/* Desktop: TOC sidebar layout */
+@media only screen and (min-width: 1080px) {
+  body.article main {
+    display: flex;
+    gap: 48px;
+    max-width: calc(var(--article-max-width) + var(--article-sidebar-width) + 48px);
+    padding: 32px 24px 64px;
+  }
+
+  /* When toc-nav is present, it becomes the sidebar */
+  body.article main .toc-nav {
+    flex: 0 0 var(--article-sidebar-width);
+    order: -1;
+  }
+
+  /* When table-of-contents is present inline */
+  body.article main .table-of-contents {
+    flex: 0 0 var(--article-sidebar-width);
+    order: -1;
+  }
+
+  /* Main content sections take remaining space */
+  body.article main .section {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* RTL */
+html[dir="rtl"] body.article main blockquote {
+  border-left: none;
+  border-right: 3px solid var(--color-blue-500);
+  padding-left: 0;
+  padding-right: 16px;
+}

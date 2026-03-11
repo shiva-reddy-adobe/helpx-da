@@ -1,0 +1,110 @@
+/* Product Hub Template — helpxNext-productHubV2 */
+
+body.product-hub main {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-gutter);
+}
+
+/* Hero section */
+body.product-hub .section.hero {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+
+body.product-hub .section.hero h1 {
+  font-size: var(--heading-font-size-xxl);
+  margin-bottom: 12px;
+}
+
+body.product-hub .section.hero p {
+  font-size: var(--body-font-size-l);
+  color: var(--color-gray-600);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Product icon in hero */
+body.product-hub .section.hero .product-badge {
+  margin-bottom: 16px;
+}
+
+/* Category sections */
+body.product-hub main h2 {
+  font-size: var(--heading-font-size-l);
+  margin-top: 40px;
+  margin-bottom: 16px;
+}
+
+/* Tile grid */
+body.product-hub .product-hub-tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+  body.product-hub .product-hub-tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  body.product-hub .product-hub-tiles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  body.product-hub .product-hub-tiles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Quick links row */
+body.product-hub .section.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--color-gray-160);
+}
+
+body.product-hub .section.quick-links a {
+  font-size: var(--body-font-size-s);
+  color: var(--color-link);
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 20px;
+  transition: background 0.15s ease;
+}
+
+body.product-hub .section.quick-links a:hover {
+  background: var(--color-gray-100);
+  text-decoration: none;
+}
+
+/* Popular articles within hub */
+body.product-hub .popular-articles {
+  margin-top: 32px;
+}
+
+/* Search bar when present */
+body.product-hub .search-bar {
+  max-width: 600px;
+  margin: 24px auto;
+}
+
+/* Recommended section */
+body.product-hub .recommended-cards {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-gray-160);
+}
+
+/* RTL */
+html[dir="rtl"] body.product-hub .section.hero {
+  direction: rtl;
+}

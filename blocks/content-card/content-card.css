@@ -1,0 +1,93 @@
+/* Content Card - based on contentcard.less + shared/card/card.less */
+.content-card {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .content-card {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1080px) {
+  .content-card {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.content-card-item {
+  background: #fff;
+  border-radius: 0.625rem;
+  overflow: hidden;
+  box-shadow: 0 0.0625rem 0.375rem 0 rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.2s ease;
+  margin: 0.1875rem;
+  height: 100%;
+}
+
+.content-card-item:hover {
+  box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.19);
+}
+
+.content-card-image {
+  overflow: hidden;
+}
+
+.content-card-image img {
+  border-radius: 0.625rem;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.content-card-body {
+  padding: 1rem 1.5rem 1.25rem;
+}
+
+.content-card-body h3,
+.content-card-body h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 130%;
+  color: #000;
+  margin: 0 0 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.content-card-body p {
+  font-size: 1rem;
+  color: #222;
+  margin: 0 0 0.75rem;
+  line-height: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content-card-link {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4b4b4b;
+  text-decoration: none;
+}
+
+.content-card-link:hover {
+  text-decoration: underline;
+}
+
+.content-card-item:hover .content-card-body h3,
+.content-card-item:hover .content-card-body h4 {
+  text-decoration: underline;
+  color: #000;
+}

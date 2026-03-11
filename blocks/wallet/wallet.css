@@ -1,0 +1,75 @@
+/* wallet block – styles derived from helpx commerceWallet index.less */
+
+.wallet {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+/* Modal container */
+.wallet .modal-container .backdrop {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.4;
+}
+
+.wallet .modal-dialog {
+  width: 90%;
+  height: 90%;
+  z-index: 10;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+.wallet .modal-dialog .loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+/* Banner */
+.wallet-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  background: var(--color-blue-500);
+  border-radius: 8px;
+  color: var(--color-white);
+}
+
+.wallet-text {
+  font-size: var(--body-font-size-m);
+  font-weight: 500;
+  margin: 0;
+  color: var(--color-white);
+}
+
+.wallet-cta {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--color-white);
+  color: var(--color-blue-500);
+  font-size: var(--body-font-size-s);
+  font-weight: 600;
+  border-radius: 20px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+.wallet-cta:hover {
+  background: var(--color-gray-100);
+}
+
+@media only screen and (max-width: 767px) {
+  .wallet-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+}

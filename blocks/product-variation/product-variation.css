@@ -1,0 +1,61 @@
+/* Product Variation - based on productVariation.less (device dropdown) */
+.product-variation {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+.product-variation-container {
+  display: flex;
+  align-items: center;
+  gap: 0.9375rem;
+  margin-top: 0.9375rem;
+}
+
+.product-variation-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4b4b4b;
+  white-space: nowrap;
+}
+
+.product-variation-select {
+  appearance: none;
+  padding: 0.5rem 2.25rem 0.5rem 0.75rem;
+  border: 1px solid #d3d3d3;
+  border-radius: 0.625rem;
+  background: #f5f5f5 url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%23464646' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
+  font-family: var(--body-font-family);
+  font-size: 0.875rem;
+  color: #4b4b4b;
+  cursor: pointer;
+  min-width: 12.5rem;
+  height: 2.25rem;
+}
+
+.product-variation-select:hover {
+  border-color: #959595;
+}
+
+.product-variation-select:focus {
+  outline: none;
+  border-color: #1473e6;
+  box-shadow: 0 0 0 1px #1473e6;
+}
+
+/* RTL */
+html[dir="rtl"] .product-variation-select {
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  background-position: left 0.75rem center;
+}
+
+@media (max-width: 767px) {
+  .product-variation-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-variation-select {
+    width: 100%;
+    min-width: auto;
+  }
+}

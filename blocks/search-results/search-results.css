@@ -1,0 +1,128 @@
+/* search-results block – styles derived from helpxNext searchAllErrors.less */
+
+.search-results {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+/* Search all errors card */
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  max-height: 6rem;
+  background-color: var(--color-white);
+  box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.12);
+  border-radius: 0.625rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.19);
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item .search-icon {
+  margin-right: 1rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+.search-result-item .search-content {
+  flex: 1;
+  margin-left: 2rem;
+  margin-top: 0.875rem;
+}
+
+.search-result-title {
+  display: block;
+  margin: 0 0 0.25rem 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-black);
+  text-decoration: none;
+}
+
+.search-result-title:hover {
+  text-decoration: underline;
+}
+
+.search-result-url {
+  display: block;
+  font-size: var(--body-font-size-xs);
+  color: var(--color-green-400);
+  margin-bottom: 8px;
+}
+
+.search-result-desc {
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--color-gray-975);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.search-result-item .search-arrow {
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.search-results-summary {
+  font-size: var(--body-font-size-s);
+  color: var(--color-gray-500);
+  margin: 0 0 24px;
+}
+
+.search-results-loading {
+  color: var(--color-gray-500);
+  font-style: italic;
+}
+
+.search-results-empty {
+  color: var(--color-gray-500);
+  padding: 32px 0;
+}
+
+/* Pagination */
+.search-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 24px 0;
+}
+
+.search-page-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-gray-250);
+  border-radius: 4px;
+  background: var(--color-white);
+  font-family: var(--font-family);
+  font-size: var(--body-font-size-s);
+  color: var(--color-gray-700);
+  cursor: pointer;
+}
+
+.search-page-btn:hover {
+  background: var(--color-gray-100);
+}
+
+.search-page-btn.is-active {
+  background: var(--color-blue-500);
+  color: var(--color-white);
+  border-color: var(--color-blue-500);
+}
+
+/* Phone */
+@media only screen and (max-width: 767px) {
+  .search-result-item .search-content {
+    margin-left: 0;
+    margin-right: 1rem;
+  }
+}

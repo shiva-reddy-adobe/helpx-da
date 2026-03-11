@@ -1,0 +1,66 @@
+/* support-hub block – styles derived from helpxNext supportHub layout.less */
+
+.support-hub {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+.support-hub-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.support-hub-greeting h2 {
+  font-size: var(--heading-font-size-xl);
+  color: var(--color-black);
+  margin: 0 0 8px;
+}
+
+.support-hub-section {
+  padding: 24px;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-160);
+  border-radius: 8px;
+}
+
+.support-hub-section h3 {
+  font-size: var(--heading-font-size-m);
+  margin: 0 0 16px;
+}
+
+/* Tablet: 768px–1079px */
+@media only screen and (min-width: 768px) and (max-width: 1079px) {
+  .support-hub {
+    padding: 0 1.25rem;
+  }
+
+  .support-hub-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .support-hub-greeting {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Desktop: 1080px+ */
+@media only screen and (min-width: 1080px) {
+  .support-hub-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .support-hub-greeting {
+    grid-column: 1 / -1;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .support-hub {
+    padding: 0 1.5rem;
+    width: 100%;
+    max-width: 87.5rem;
+  }
+}

@@ -1,0 +1,250 @@
+/* search-bar block – styles derived from helpxNext search.less */
+
+.search-bar {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+.search-bar-form {
+  display: flex;
+  width: 19.5rem;
+  height: 2.5rem;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 2.75rem;
+  margin: 0 auto;
+}
+
+.search-bar-input-wrap {
+  display: flex;
+  flex-grow: 1;
+  border: 0.125rem solid var(--color-search-border);
+  flex-direction: row-reverse;
+  padding: 0 1rem;
+  border-radius: 1.25rem;
+  background-color: var(--color-search-background);
+  align-items: center;
+  position: relative;
+}
+
+/* Search input */
+.search-bar-input {
+  color: var(--color-search-input);
+  text-align: left;
+  height: 2.25rem;
+  text-indent: 0.75rem;
+  font-size: 0.875rem;
+  width: 100%;
+  border: none;
+  padding: 0;
+  margin-left: -0.3rem;
+  background: transparent;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.search-bar-input:focus {
+  outline: thin;
+}
+
+.search-bar-input::placeholder {
+  color: var(--color-search-placeholder-text);
+  font-style: italic;
+  letter-spacing: 0;
+  opacity: 1;
+}
+
+.search-bar-input-wrap:hover .search-bar-input::placeholder {
+  color: var(--color-search-hover-placeholder-text);
+}
+
+/* Submit button */
+.search-bar-submit {
+  width: 1.25rem;
+  border: none;
+  padding: 0;
+  color: var(--color-search-submit-button);
+  transform: scaleX(-1);
+  background-size: 1rem;
+  background-image: url("/content/dam/help/helpxNext/icons/search.svg");
+  background-color: transparent;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: visible;
+  font-size: 0;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Clear button */
+.search-bar-clear {
+  transform: scale3d(1.4, 1.4, 1.4);
+  background-color: transparent;
+  background-image: url("/content/dam/help/helpxNext/icons/cross.svg");
+  cursor: pointer;
+  width: 1.25rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 0.75rem;
+  border: none;
+  padding: 0;
+  height: 1.25rem;
+}
+
+.search-bar-clear.hidden {
+  display: none;
+}
+
+/* Suggestions dropdown */
+.search-bar-suggestions {
+  position: absolute;
+  width: calc(100% + 3rem);
+  display: block;
+  overflow: hidden;
+  padding: 0.313rem 0;
+  z-index: 2;
+  border-radius: 0.25rem;
+  margin-top: 0.5rem;
+  margin-left: -2.188rem;
+  border: 1px solid var(--color-search-suggestion-border);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+  background: var(--color-search-background);
+  top: 100%;
+  left: 0;
+  list-style: none;
+}
+
+.search-bar-suggestions[hidden] {
+  display: none;
+}
+
+.search-bar-suggestion {
+  transition: opacity 0.3s;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  list-style-type: none;
+  padding: 0;
+}
+
+.search-bar-suggestion a,
+.search-bar-suggestion {
+  color: var(--color-search-suggestion-link);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0.125rem 1.25rem;
+  vertical-align: bottom;
+  display: inline-block;
+  width: 100%;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.search-bar-suggestion:hover {
+  text-decoration: underline;
+  background: var(--color-search-suggestion-link-hover);
+}
+
+.search-bar-suggestion:focus {
+  background-color: var(--color-title-bar-search-blue-700-trans);
+}
+
+/* Toggle icon (mobile collapsed state) */
+.search-bar .toggle-icon {
+  display: none;
+}
+
+/* Article / browsing page context */
+body.helpxNext-article .search-bar-form,
+body.helpxNext-browsingPage .search-bar-form {
+  width: 30rem;
+}
+
+body.helpxNext-article .search-bar-suggestions,
+body.helpxNext-browsingPage .search-bar-suggestions {
+  width: 30rem;
+}
+
+/* RTL */
+html[dir="rtl"] .search-bar-input {
+  text-align: right;
+  margin-left: 0;
+  margin-right: -0.3rem;
+}
+
+html[dir="rtl"] .search-bar-submit {
+  transform: none;
+}
+
+/* Tablet */
+@media only screen and (min-width: 768px) and (max-width: 1079px) {
+  .search-bar-form {
+    width: 95vw;
+  }
+}
+
+/* Phone */
+@media only screen and (max-width: 767px) {
+  .search-bar-form {
+    width: 85vw;
+    margin: 0 auto;
+  }
+
+  .search-bar.toggle .search-bar-input-wrap {
+    display: none;
+  }
+
+  .search-bar.toggle .toggle-icon {
+    display: block;
+    background-image: url("/content/dam/help/helpxNext/icons/search.svg");
+    transform: scaleX(-1);
+    width: 1rem;
+    height: 1rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    margin-left: 1.25rem;
+    background-color: transparent;
+    overflow: visible;
+    font-size: 0;
+    border: none;
+    padding: 0;
+  }
+
+  .search-bar.toggle .toggle-icon.expanded {
+    transform: none;
+    background-image: none;
+    font-size: 0.875rem;
+    color: var(--color-search-expanded-text);
+  }
+
+  .search-bar.toggle.expanded {
+    background-color: var(--color-search-background);
+  }
+
+  .search-bar.toggle.expanded .search-bar-input-wrap {
+    display: flex;
+    transition: opacity 0.5s;
+  }
+
+  .search-bar.toggle.expanded .search-bar-suggestions {
+    width: calc(100% + 3.125rem);
+  }
+
+  body.helpxNext-article .search-bar-form,
+  body.helpxNext-browsingPage .search-bar-form,
+  body.helpxNext-supportHub .search-bar-form,
+  body.helpxNext-productHub .search-bar-form {
+    width: 20.5rem;
+  }
+
+  body.helpxNext-article .search-bar-suggestions,
+  body.helpxNext-browsingPage .search-bar-suggestions,
+  body.helpxNext-supportHub .search-bar-suggestions,
+  body.helpxNext-productHub .search-bar-suggestions {
+    width: 20.5rem;
+  }
+}

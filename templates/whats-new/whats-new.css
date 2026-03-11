@@ -1,0 +1,73 @@
+/* What's New Template — helpxNext-WhatsNew */
+
+body.whats-new main {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-gutter);
+}
+
+/* Page header */
+body.whats-new .section.header {
+  padding: 32px 0 24px;
+  border-bottom: 1px solid var(--color-gray-160);
+  margin-bottom: 24px;
+}
+
+body.whats-new .section.header h1 {
+  font-size: var(--heading-font-size-xxl);
+  margin-bottom: 8px;
+}
+
+body.whats-new .section.header p {
+  font-size: var(--body-font-size-l);
+  color: var(--color-gray-600);
+  line-height: 1.5;
+}
+
+/* Filter/product selector row */
+body.whats-new .section.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 0;
+  margin-bottom: 16px;
+}
+
+body.whats-new .section.filters button {
+  font-size: var(--body-font-size-s);
+  padding: 6px 14px;
+  border: 1px solid var(--color-gray-250);
+  border-radius: 20px;
+  background: var(--color-white);
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+body.whats-new .section.filters button:hover {
+  border-color: var(--color-gray-400);
+}
+
+body.whats-new .section.filters button.active {
+  background: var(--color-link);
+  color: var(--color-white);
+  border-color: var(--color-link);
+}
+
+/* Timeline entries (whats-new block) */
+body.whats-new .whats-new-container {
+  max-width: 800px;
+}
+
+/* Year/month group headers */
+body.whats-new main h2 {
+  font-size: var(--heading-font-size-l);
+  margin-top: 40px;
+  margin-bottom: 16px;
+  color: var(--color-gray-800);
+}
+
+/* RTL */
+html[dir="rtl"] body.whats-new main {
+  direction: rtl;
+}

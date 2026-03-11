@@ -1,0 +1,23 @@
+/* Experience Fragment Template — helpxNext-XF */
+
+/* Minimal chrome — fragments are embedded in other pages */
+body.xf main {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  padding: 0 var(--grid-gutter);
+}
+
+/* No extra spacing for fragments */
+body.xf main .section {
+  padding: 0;
+}
+
+body.xf main .section + .section {
+  margin-top: 16px;
+}
+
+/* Hide header/footer when rendered as fragment */
+body.xf header,
+body.xf footer {
+  display: none;
+}

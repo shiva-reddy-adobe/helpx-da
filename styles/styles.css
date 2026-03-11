@@ -1,8 +1,511 @@
-/* 
- * Put project specific base styles here.
- *
- * Note: The proect does not load this file.
- *       You will need to load these using scripts.js.
- * 
- *
- */
+:root {
+  /* grid */
+  --grid-container-width: 83.4%;
+  --grid-column-width: calc(var(--grid-container-width) / 12);
+  --grid-gutter-width: 8.3%;
+
+  /* spacing */
+  --spacing-xxl: 48px;
+  --spacing-xl: 32px;
+  --spacing-l: 24px;
+  --spacing-m: 12px;
+  --spacing-s: 8px;
+  --spacing-xs: 4px;
+
+  /* helpxNext color tokens (from colors.less) */
+  --color-white: #fff;
+  --color-black: #000;
+
+  /* grays */
+  --color-gray-25: #f7f8f7;
+  --color-gray-50: #f3f3f3;
+  --color-gray-100: #f5f5f5;
+  --color-gray-125: #f8f8f8;
+  --color-gray-150: #eaeaea;
+  --color-gray-155: #e9e9e9;
+  --color-gray-160: #e6e6e6;
+  --color-gray-175: #e1e1e1;
+  --color-gray-185: #dadada;
+  --color-gray-200: #d5d5d5;
+  --color-gray-225: #dedede;
+  --color-gray-250: #ccc;
+  --color-gray-300: #8e8e8e;
+  --color-gray-350: #747474;
+  --color-gray-400: #6e6e6e;
+  --color-gray-500: #505050;
+  --color-gray-600: #4b4b4b;
+  --color-gray-700: #464646;
+  --color-gray-750: #323232;
+  --color-gray-800: #333;
+  --color-gray-900: #2c2c2c;
+  --color-gray-925: #292929;
+  --color-gray-950: #212121;
+  --color-gray-975: #222;
+  --color-gray-1100: #131313;
+
+  /* blues */
+  --color-blue-400: #2680eb;
+  --color-blue-500: #1473e6;
+  --color-blue-600: #0265dc;
+  --color-blue-700: #3b63fb;
+  --color-blue-regular: #1473e6;
+
+  /* yellows */
+  --color-yellow-500: #f8d904;
+  --color-yellow-600: #e68618;
+  --color-yellow-regular: #ff6;
+
+  /* oranges */
+  --color-orange-300: #e68619;
+  --color-orange-alert: #fc7d00;
+  --color-orange-500: #da7b11;
+
+  /* reds */
+  --color-red-500: #e34850;
+  --color-red-solid: #f00;
+
+  /* greens */
+  --color-green-400: #2d9d78;
+
+  /* semantic colors */
+  --color-link: var(--color-blue-600);
+  --color-text: var(--color-gray-800);
+  --color-text-body: var(--color-gray-800);
+  --color-heading: var(--color-gray-900);
+  --color-caption: var(--color-gray-400);
+  --color-background: var(--color-white);
+
+  /* note/callout colors (helpx-specific borders) */
+  --color-note-border: var(--color-blue-500);
+  --color-tip-border: var(--color-green-400);
+  --color-alert-border: var(--color-red-500);
+  --color-caution-border: var(--color-yellow-600);
+  --color-note-text: var(--color-gray-600);
+  --color-helpx-note-border: #4f8ee9;
+  --color-helpx-caution-border: #e68618;
+  --color-helpx-tip-border: #44b556;
+  --color-helpx-alert-border: #d9402e;
+
+  /* table colors (A3 theme values) */
+  --color-table-header-bg: #ededed;
+  --color-table-alt-row-bg: #f7f8f7;
+  --color-table-border: #bdbdbd;
+
+  /* tags colors */
+  --color-tags-gray: #747474;
+  --color-tags-active: #f4f4f4;
+  --color-tags-blue: #378ef0;
+
+  /* search colors */
+  --color-search-placeholder-text: var(--color-gray-400);
+  --color-search-background: var(--color-white);
+  --color-search-expanded-text: var(--color-gray-600);
+  --color-search-hover-placeholder-text: var(--color-gray-600);
+  --color-search-input: var(--color-gray-950);
+  --color-search-border: var(--color-gray-150);
+  --color-search-suggestion-border: var(--color-gray-250);
+  --color-search-suggestion-link: var(--color-blue-500);
+  --color-search-suggestion-link-hover: var(--color-gray-100);
+  --color-search-submit-button: var(--color-gray-700);
+  --color-title-bar-search-blue-700-trans: #3278ff33;
+
+  /* breadcrumb colors */
+  --color-breadcrumb-text: var(--color-gray-700);
+  --color-breadcrumb-text-active: var(--color-gray-900);
+  --color-breadcrumb-text-mobile: var(--color-gray-700);
+  --color-breadcrumb-chevron: var(--color-gray-925);
+
+  /* feedback colors */
+  --color-fb-sticker-bg: var(--color-gray-100);
+  --color-fb-sticker-border: var(--color-gray-150);
+  --color-fb-banner-text: var(--color-gray-750);
+  --color-fb-questions-text: var(--color-gray-500);
+  --color-fb-invalid: var(--color-red-500);
+  --color-fb-suggestions-text: var(--color-gray-350);
+
+  /* toc colors */
+  --color-toc-link: var(--color-gray-600);
+  --color-toc-title: var(--color-gray-900);
+  --color-toc-link-active: var(--color-gray-160);
+  --color-toc-link-active-hover: var(--color-gray-200);
+  --color-toc-mobile-border: var(--color-gray-175);
+  --color-toc-link-hover: #c6c6c6;
+
+  /* social share colors */
+  --color-social-tooltip-bg: #575757;
+  --color-social-icons-bg: var(--color-gray-350);
+  --color-social-icons-bg-hover: var(--color-gray-750);
+  --color-social-icons-bg-active: var(--color-gray-500);
+
+  /* navlist colors */
+  --color-navlist-bg: var(--color-gray-200);
+  --color-navlist-item: var(--color-gray-700);
+  --color-navlist-item-active: var(--color-black);
+
+  /* plan-card colors */
+  --color-plan-card-gray-300: #e0e0e0;
+  --color-plan-card-gray-900: var(--color-gray-900);
+  --color-plan-card-black-trans: rgb(0 0 0 / 16%);
+  --color-plan-card-qlinks: var(--color-gray-975);
+
+  /* known issues colors */
+  --color-known-issues-open-bg: #d73220;
+  --color-known-issues-resolved-bg: #05834e;
+  --color-known-issues-border: var(--color-gray-160);
+  --color-known-issues-summary-content: #222;
+  --color-known-issues-table-content: var(--color-gray-700);
+  --color-known-issues-status-text: var(--color-white);
+
+  /* reference component colors */
+  --color-reference-border-default: #cc9;
+  --color-reference-bg-default: #ffc;
+  --color-reference-bg-green: #90ee90;
+  --color-reference-bg-blue: #b0c4de;
+  --color-reference-bg-purple: #dda0dd;
+
+  /* agent text */
+  --color-agent-text: #c00;
+
+  /* image magnification */
+  --color-image-magnification-modal-bg: rgb(234 234 234 / 90%);
+  --color-image-magnification-shadow: rgb(0 0 0 / 25%);
+
+  /* previous/next */
+  --color-prev-next-text: var(--color-gray-975);
+  --color-prev-next-title-text: var(--color-black);
+
+  /* last updated / section title */
+  --color-last-updated-text: var(--color-gray-700);
+  --color-section-title-text: var(--color-black);
+
+  /* inline text */
+  --color-uicontrol-text: var(--color-yellow-500);
+
+  /* image / chiclet */
+  --image-bg: var(--color-gray-150);
+  --chiclet-shadow: var(--color-gray-150);
+  --color-page-icon-bg: var(--color-gray-100);
+
+  /* ai overview colors */
+  --color-ai-overview-border: #9a3cf9;
+  --color-ai-overview-summary-bg: #f7f8ff;
+  --color-ai-overview-skeleton-line-bg-1: #ebeeff;
+  --color-ai-overview-skeleton-line-bg-2: #d8deff;
+  --color-ai-overview-feedback-button: #717171;
+
+  /* renditions colors */
+  --color-renditions-text-bg: var(--color-gray-900);
+  --color-renditions-subnav-footer-logo-text: var(--color-white);
+  --color-renditions-bg: var(--color-black);
+  --color-renditions-anchor-text: var(--color-gray-700);
+
+  /* device dropdown */
+  --color-device-dropdown: #e9e9e9;
+
+  /* loader (spectrum 2) */
+  --color-s2-loader-border-bg: #dadada;
+  --color-s2-loader-border-fg: #3b63fb;
+
+  /* product theme colors */
+  --color-express: #5258e4;
+  --color-express-cta-bg: #5258e4;
+  --color-express-cta-hover-bg: #4046ca;
+  --color-express-cta-focus-shadow: #147af3;
+  --color-express-cta-active-bg: #3236a8;
+  --color-firefly: #ea3829;
+  --color-photo: #31a8ff;
+  --color-dva: #99f;
+  --color-3d-ar: #99e83f;
+  --color-print: #f36;
+  --color-drawing: #ff9a00;
+  --color-dc: #b30b00;
+  --color-ux: #ff61f6;
+  --color-misc: #000;
+
+  /* anchor/browsing link */
+  --color-anchor-link: var(--color-gray-600);
+
+  /* top nav */
+  --color-nav-top-bg: var(--color-white);
+
+  /* fonts */
+  --font-family: "Adobe Clean", adobe-clean, "Trebuchet MS", sans-serif;
+
+  /* helpxNext typography tokens */
+  --heading-font-size-xxl: 36px;
+  --heading-font-size-xl: 28px;
+  --heading-font-size-l: 24px;
+  --heading-font-size-m: 20px;
+  --heading-font-size-s: 16px;
+  --heading-font-size-xs: 16px;
+  --heading-line-height: 1.3;
+  --heading-font-weight: 700;
+
+  /* body */
+  --body-font-size-xl: 20px;
+  --body-font-size-l: 18px;
+  --body-font-size-m: 16px;
+  --body-font-size-s: 14px;
+  --body-font-size-xs: 12px;
+  --body-line-height: 1.6;
+
+  /* breakpoints (reference values, used in media queries below) */
+  /* phone: 360px, tablet: 768-1079px, desktop: 1080px+, big-desktop: 1440px+, wide-screen: 1920px+ */
+
+  /* misc */
+  --header-height: 64px;
+  --breadcrumb-height: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 8rem;
+  scroll-padding-bottom: 8rem;
+}
+
+html:has(#adbmsgContentContainer[style*="display: block"]) {
+  scroll-padding-bottom: 0;
+}
+
+body {
+  margin: 0;
+  overflow: auto;
+  background-color: var(--color-background);
+  color: var(--color-text-body);
+  font-family: var(--font-family);
+  font-size: var(--body-font-size-l);
+  line-height: var(--body-line-height);
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.section {
+  display: block;
+}
+
+.section > .default-content {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+main ul,
+main ol {
+  padding-inline-start: 1.25rem;
+}
+
+main ul ul,
+main ol ol,
+main ul ol,
+main ol ul {
+  padding-inline-start: 1.25rem;
+}
+
+main li ul li {
+  list-style-type: disc;
+}
+
+/* helpxNext table styles */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table tr,
+table th,
+table td {
+  padding: 9px 10px;
+  border: 1px solid var(--color-table-border);
+}
+
+table th p,
+table td p {
+  margin: 0;
+}
+
+table tr:nth-child(odd) {
+  background: var(--color-table-alt-row-bg);
+}
+
+table tr:first-child th {
+  background: var(--color-table-header-bg);
+  font-weight: bold;
+}
+
+table tr:first-child th b {
+  font-weight: bold;
+}
+
+table img {
+  width: auto;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+li {
+  margin-block: 0.5em;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--heading-font-weight);
+  line-height: var(--heading-line-height);
+  color: var(--color-heading);
+  margin: 0;
+  padding: 0;
+}
+
+h4,
+h5,
+h6 {
+  font-weight: var(--heading-font-weight);
+  line-height: var(--body-line-height);
+  margin: 0;
+  padding: 0;
+}
+
+p,
+ol > li,
+ul > li,
+th,
+td {
+  color: var(--color-text-body);
+  font-size: var(--body-font-size-l);
+  line-height: var(--body-line-height);
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+h1 {
+  font-size: var(--heading-font-size-xxl);
+}
+
+h2 {
+  font-size: var(--heading-font-size-xl);
+}
+
+h3 {
+  font-size: var(--heading-font-size-l);
+}
+
+h4 {
+  font-size: var(--heading-font-size-m);
+  color: var(--color-black);
+}
+
+h5 {
+  font-size: var(--heading-font-size-s);
+  color: var(--color-text-body);
+}
+
+h6 {
+  font-size: var(--heading-font-size-xs);
+  color: var(--color-caption);
+  font-style: italic;
+}
+
+small {
+  font-size: var(--body-font-size-s);
+  line-height: var(--body-line-height);
+}
+
+strong {
+  font-weight: 700;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+}
+
+pre {
+  overflow: auto;
+}
+
+/* inline text styles */
+span.kbd {
+  font-family: "Courier New", sans-serif;
+  font-weight: bold;
+}
+
+span.code {
+  font-family: "Courier New", sans-serif;
+}
+
+span.uicontrol {
+  font-weight: bold;
+  background-color: var(--color-uicontrol-text);
+}
+
+/* helpxNext note/callout styles */
+.note,
+.tip,
+.caution,
+.alert {
+  padding: 12px 16px;
+  margin: 16px 0;
+  border-left: 3px solid;
+  color: var(--color-note-text);
+}
+
+.note { border-left-color: var(--color-note-border); }
+.tip { border-left-color: var(--color-tip-border); }
+.caution { border-left-color: var(--color-caution-border); }
+.alert { border-left-color: var(--color-alert-border); }
+
+/* helpxNext phone breakpoint */
+@media only screen and (max-width: 767px) {
+  :root {
+    --heading-font-size-xxl: 28px;
+    --heading-font-size-xl: 24px;
+    --heading-font-size-l: 20px;
+  }
+}
+
+/* helpxNext tablet breakpoint (768px - 1079px) */
+@media only screen and (min-width: 768px) and (max-width: 1079px) {
+  :root {
+    --heading-font-size-xxl: 28px;
+    --heading-font-size-xl: 24px;
+    --heading-font-size-l: 20px;
+  }
+}
+
+/* helpxNext desktop breakpoint (1080px+) - uses default :root values */
+
+/* helpxNext big-desktop breakpoint (1440px+) */
+@media only screen and (min-width: 1440px) {
+  :root {
+    --grid-container-width: 1200px;
+  }
+}
+
+/* helpxNext wide-screen breakpoint (1920px+) */
+@media only screen and (min-width: 1920px) {
+  :root {
+    --grid-container-width: 1400px;
+  }
+}
+
+/* RTL support */
+html[dir="rtl"] ul,
+html[dir="rtl"] ol {
+  padding-left: 0;
+  padding-right: 1.25rem;
+}

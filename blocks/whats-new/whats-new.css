@@ -1,0 +1,201 @@
+/* whats-new block – styles derived from helpxNext whatsNew.less */
+
+.whats-new {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+.whats-new-container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Fixed (left) container */
+.whats-new-container .fixed-container {
+  /* left column */
+}
+
+.whats-new-container .fixed-container .fixed-subtitle {
+  font-size: 1rem;
+}
+
+/* Scroll (right) container – carousel */
+.whats-new-container .scroll-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 1.5625rem) / 2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1rem;
+}
+
+/* Cards */
+.whats-new-entry {
+  scroll-snap-align: start;
+  background-color: var(--color-white);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.whats-new-date {
+  flex-shrink: 0;
+  font-size: var(--body-font-size-s);
+  color: var(--color-gray-500);
+  min-width: 140px;
+  padding-top: 2px;
+}
+
+.whats-new-body {
+  flex: 1;
+}
+
+.whats-new-title {
+  display: block;
+  font-size: var(--body-font-size-l);
+  font-weight: 700;
+  color: var(--color-link);
+  text-decoration: none;
+  margin-bottom: 4px;
+}
+
+.whats-new-title:hover {
+  text-decoration: underline;
+}
+
+.whats-new-product {
+  display: inline-block;
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  color: var(--color-gray-500);
+  background: var(--color-gray-100);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.whats-new-desc {
+  font-size: var(--body-font-size-s);
+  color: var(--color-gray-700);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Carousel controls */
+.whats-new-container .carousel-controls .prev-btn,
+.whats-new-container .carousel-controls .next-btn {
+  position: absolute;
+  z-index: 1;
+}
+
+.whats-new-container .carousel-controls .overlay-mask {
+  position: absolute;
+  background: linear-gradient(to right, transparent, var(--color-white));
+  pointer-events: none;
+}
+
+/* Phone: <768px */
+@media only screen and (max-width: 767px) {
+  .whats-new-container {
+    grid-template-columns: 1fr;
+  }
+
+  .whats-new-container .fixed-container {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .whats-new-container .scroll-container {
+    grid-auto-columns: calc(100% / 1.5);
+    margin-top: 1rem;
+  }
+
+  .whats-new-container .carousel-controls .prev-btn {
+    left: -1.125rem;
+  }
+
+  .whats-new-container .carousel-controls .overlay-mask {
+    width: 1.875rem;
+    height: 56%;
+    top: 40%;
+    right: -4%;
+  }
+
+  .whats-new-container .carousel-controls .next-btn {
+    right: -3%;
+  }
+}
+
+/* Tablet portrait: 768px–899px */
+@media only screen and (min-width: 768px) and (max-width: 899px) {
+  .whats-new-container .carousel-controls .prev-btn {
+    left: 33%;
+  }
+
+  .whats-new-container .carousel-controls .overlay-mask {
+    height: 90%;
+    width: 1.75rem;
+    right: -2%;
+    top: -1%;
+  }
+
+  .whats-new-container .carousel-controls .next-btn {
+    right: -2%;
+  }
+}
+
+/* Tablet landscape: 900px–1199px */
+@media only screen and (min-width: 900px) and (max-width: 1199px) {
+  .whats-new-container .carousel-controls .prev-btn {
+    left: 31%;
+  }
+
+  .whats-new-container .carousel-controls .overlay-mask {
+    right: -1.75%;
+    top: -1%;
+    height: 94%;
+    width: 1.875rem;
+  }
+
+  .whats-new-container .carousel-controls .next-btn {
+    right: -1.5%;
+  }
+}
+
+/* Desktop: 1200px–1439px */
+@media only screen and (min-width: 1200px) and (max-width: 1439px) {
+  .whats-new-container .carousel-controls .overlay-mask {
+    right: -2%;
+    top: -4%;
+    height: 94%;
+    width: 2.25rem;
+  }
+
+  .whats-new-container .carousel-controls .prev-btn {
+    left: 33%;
+  }
+
+  .whats-new-container .carousel-controls .next-btn {
+    right: -2%;
+  }
+}
+
+/* Big desktop: 1440px+ */
+@media only screen and (min-width: 1440px) {
+  .whats-new-container .carousel-controls .overlay-mask {
+    right: -1.5%;
+    top: -2%;
+    height: 94%;
+    width: 1.875rem;
+  }
+
+  .whats-new-container .carousel-controls .next-btn {
+    right: -1.5%;
+  }
+
+  .whats-new-container .carousel-controls .prev-btn {
+    left: 32.5%;
+  }
+}

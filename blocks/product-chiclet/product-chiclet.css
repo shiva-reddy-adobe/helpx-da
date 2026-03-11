@@ -1,0 +1,72 @@
+/* Product Chiclet - based on productchiclet.less + smartproductchiclet/styles.less */
+.product-chiclet {
+  max-width: var(--grid-container-width);
+  margin: 1rem auto;
+}
+
+.product-chiclet-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.product-chiclet-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 8.0625rem;
+  min-height: 7.5rem;
+  box-shadow: 0 0.125rem 0.1875rem 0 rgba(0, 0, 0, 0.1),
+    0 0.0625rem 0.25rem 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.625rem;
+  text-decoration: none;
+  color: #000;
+  transition: box-shadow 0.2s ease;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.product-chiclet-item:hover {
+  border-radius: 0.625rem;
+  background: #fff;
+  box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.16);
+}
+
+.product-chiclet-icon {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+}
+
+.product-chiclet-icon img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  border-radius: 0.625rem;
+}
+
+.product-chiclet-name {
+  font-size: 1rem;
+  text-align: center;
+  margin: 0.75rem 0;
+  color: #000;
+  white-space: nowrap;
+}
+
+@media (max-width: 1079px) {
+  .product-chiclet-item {
+    width: 8.8125rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-chiclet-item {
+    width: 8.625rem;
+  }
+}
+
+/* RTL */
+html[dir="rtl"] .product-chiclet-grid {
+  direction: rtl;
+}

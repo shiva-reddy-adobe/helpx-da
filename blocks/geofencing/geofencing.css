@@ -1,0 +1,15 @@
+/* geofencing block – minimal styles (no original LESS found in helpx source) */
+
+.geofencing {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+}
+
+.geofencing-content {
+  animation: geofence-fade-in 0.3s ease;
+}
+
+@keyframes geofence-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

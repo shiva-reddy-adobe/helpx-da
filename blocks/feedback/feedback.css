@@ -1,0 +1,327 @@
+/* Feedback block - matches helpxNext feedback.less */
+.feedback {
+  max-width: 650px;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 9999;
+}
+
+.feedback svg {
+  flex-shrink: 0;
+}
+
+.feedback-container {
+  display: flex;
+  margin: 0 auto;
+  background-color: var(--color-fb-sticker-bg);
+  border-radius: 10px;
+  border: 1px solid var(--color-fb-sticker-border);
+}
+
+.feedback-wrapper {
+  flex: 1;
+  display: flex;
+  margin: 0 1rem;
+  padding: 0.7rem;
+}
+
+.feedback-banner {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-banner p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 10px 0;
+  overflow-wrap: break-word;
+}
+
+/* Welcome banner (initial question) */
+.feedback-banner.banner-welcome {
+  flex-wrap: wrap;
+}
+
+.feedback-banner.banner-welcome p {
+  font-weight: bold;
+  color: var(--color-fb-banner-text);
+  margin-right: 1rem;
+}
+
+.feedback-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.feedback-buttons .feedback-btn-group:first-child {
+  margin-right: 0.5rem;
+}
+
+.feedback-btn {
+  padding: 0 0.813rem;
+  border-radius: 16px;
+  border: 2px solid var(--color-gray-350);
+  background: var(--color-white);
+  color: var(--color-gray-700);
+  font-family: var(--font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.feedback-btn:hover {
+  border-color: var(--color-blue-500);
+  color: var(--color-blue-500);
+}
+
+.feedback-btn:focus-visible {
+  outline: 2px solid var(--color-blue-500);
+  outline-offset: 2px;
+}
+
+/* Transitional banner (follow-up questions/suggestions) */
+.feedback-banner.banner-transitional {
+  flex-direction: column;
+}
+
+.feedback-banner.banner-transitional .feedback-label {
+  display: flex;
+  margin: 10px 0 10px -2px;
+}
+
+.feedback-banner.banner-transitional .feedback-label svg {
+  margin-top: 3px;
+}
+
+.feedback-banner.banner-transitional .feedback-label p {
+  font-weight: bold;
+  color: var(--color-fb-banner-text);
+  margin: 0 0 0 0.5rem;
+}
+
+.feedback-questions,
+.feedback-suggestions {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-questions input {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-fb-questions-text);
+}
+
+.feedback-suggestions {
+  margin-top: 1rem;
+}
+
+.feedback-suggestions.invalid .feedback-char-limit {
+  color: var(--color-fb-invalid);
+}
+
+.feedback-suggestions.invalid .feedback-textarea {
+  border-color: var(--color-fb-invalid);
+}
+
+.feedback-suggestions small {
+  font-size: 0.875rem;
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-gray-600);
+}
+
+.feedback-textarea {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  width: 436px;
+  height: 64px;
+  resize: none;
+  padding: 8px;
+  border: 1px solid var(--color-gray-250);
+  border-radius: 4px;
+  font-family: var(--font-family);
+  box-sizing: border-box;
+}
+
+.feedback-textarea:focus {
+  outline: none;
+  border-color: var(--color-blue-500);
+  box-shadow: 0 0 0 1px var(--color-blue-500);
+}
+
+.feedback-textarea.is-invalid {
+  border-color: var(--color-fb-invalid);
+  box-shadow: 0 0 0 1px var(--color-fb-invalid);
+}
+
+.feedback-action-btns {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.feedback-submit {
+  padding: 8px 24px;
+  border: none;
+  border-radius: 16px;
+  background: var(--color-blue-500);
+  color: var(--color-white);
+  font-family: var(--font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.feedback-submit:hover {
+  background: var(--color-blue-600);
+}
+
+/* Thank you banner */
+.feedback-thanks {
+  display: flex;
+  align-items: flex-start;
+  margin: 10px 0;
+  padding: 0.7rem 1rem;
+}
+
+.feedback-thanks svg {
+  margin-top: 3px;
+}
+
+.feedback-thanks p {
+  margin: 0 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Close button */
+.feedback-close {
+  visibility: hidden;
+  margin-top: 0.7rem;
+  margin-right: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Fixed mode (sticky at bottom) */
+.feedback.fixed {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, 0);
+  animation: slideUp 0.5s ease-in 0s 1;
+}
+
+.feedback.fixed .feedback-wrapper {
+  transform: translateX(1.7rem);
+}
+
+.feedback.fixed .feedback-close {
+  visibility: visible;
+}
+
+/* Tablet */
+@media only screen and (max-width: 1079px) {
+  .feedback-container .feedback-close {
+    visibility: hidden;
+  }
+
+  .feedback-banner.banner-welcome {
+    flex-direction: column;
+  }
+
+  .feedback-banner.banner-welcome p {
+    margin-left: 0;
+  }
+
+  .feedback-buttons {
+    flex-wrap: nowrap;
+  }
+
+  .feedback-buttons .feedback-btn-group:first-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .feedback-suggestions .feedback-textarea {
+    width: 100%;
+  }
+}
+
+/* Phone */
+@media only screen and (max-width: 767px) {
+  .feedback-container .feedback-close {
+    visibility: hidden;
+  }
+
+  .feedback-banner.banner-welcome {
+    flex-direction: column;
+  }
+
+  .feedback-banner.banner-welcome p {
+    margin-left: 0;
+  }
+
+  .feedback-buttons {
+    flex-wrap: nowrap;
+  }
+
+  .feedback-buttons .feedback-btn-group:first-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .feedback-suggestions .feedback-textarea {
+    width: 100%;
+  }
+
+  .feedback-wrapper {
+    transform: none;
+  }
+}
+
+/* RTL */
+html[dir="rtl"] .feedback-wrapper {
+  transform: translateX(-2rem);
+}
+
+html[dir="rtl"] .feedback-banner.banner-welcome p {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+html[dir="rtl"] .feedback-buttons .feedback-btn-group:not(:first-child) {
+  margin-right: 0.5rem;
+  margin-left: 0;
+}
+
+html[dir="rtl"] .feedback-banner.banner-transitional .feedback-label p {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+html[dir="rtl"] .feedback-thanks p {
+  margin-right: 0.5rem;
+}
+
+html[dir="rtl"] .feedback-close {
+  margin-right: 0;
+  margin-left: 1.2rem;
+}
+
+/* Slide-up animation */
+@keyframes slideUp {
+  0% { transform: translate(-50%, 8rem); }
+  25% { transform: translate(-50%, 6rem); }
+  50% { transform: translate(-50%, 4rem); }
+  75% { transform: translate(-50%, 2rem); }
+  100% { transform: translate(-50%, 0rem); }
+}

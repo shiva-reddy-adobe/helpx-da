@@ -26,8 +26,7 @@ export const [setLibs, getLibs] = (() => {
   ];
 })();
 
-
-function decorateArea(area = document) {
+function decorateArea() {
   const eagerLoad = (parent, selector) => {
     const img = parent.querySelector(selector);
     img?.removeAttribute('loading');
@@ -39,38 +38,79 @@ function decorateArea(area = document) {
       eagerLoad(document, 'img');
       return;
     }
-  
-    // First image of first row
     eagerLoad(marquee, 'div:first-child img');
-    // Last image of last column of last row
     eagerLoad(marquee, 'div:last-child > div:last-child img');
   }());
 }
 
-// Add project-wide style path here.
-const STYLES = '';
+const STYLES = '/styles/styles.css';
 
-// Use 'https://www.adobe.com/libs' if you cannot map '/libs' to milo's origin and ensure you don't run into CORS issues.
 const LIBS = '/libs';
 
-// Add any config options.
 const CONFIG = {
-  // codeRoot: '',
-  // contentRoot: '',
-  // imsClientId: 'college',
-  // imsScope: 'AdobeID,openid,gnav',
-  // geoRouting: 'off',
-  // fallbackRouting: 'off',
-  // iconsExcludeBlocks: [],
+  codeRoot: '',
+  prodDomains: ['helpx.adobe.com', 'helpx-internal.adobe.com'],
+  imsClientId: 'helpx_thin',
+  imsScope: 'openid,AdobeID',
   decorateArea,
   locales: {
     '': { ietf: 'en-US', tk: 'hah7vzn.css' },
+    ar: { ietf: 'ar', tk: 'hah7vzn.css', dir: 'rtl' },
+    bg: { ietf: 'bg-BG', tk: 'hah7vzn.css' },
+    cs: { ietf: 'cs-CZ', tk: 'hah7vzn.css' },
+    ct: { ietf: 'zh-TW', tk: 'hah7vzn.css' },
+    cz: { ietf: 'cs-CZ', tk: 'hah7vzn.css' },
+    da: { ietf: 'da-DK', tk: 'hah7vzn.css' },
     de: { ietf: 'de-DE', tk: 'hah7vzn.css' },
+    el: { ietf: 'el-GR', tk: 'hah7vzn.css' },
+    es: { ietf: 'es-ES', tk: 'hah7vzn.css' },
+    et: { ietf: 'et-EE', tk: 'hah7vzn.css' },
+    fi: { ietf: 'fi-FI', tk: 'hah7vzn.css' },
+    fr: { ietf: 'fr-FR', tk: 'hah7vzn.css' },
+    he: { ietf: 'he-IL', tk: 'hah7vzn.css', dir: 'rtl' },
+    hi: { ietf: 'hi-IN', tk: 'hah7vzn.css' },
+    hr: { ietf: 'hr-HR', tk: 'hah7vzn.css' },
+    hu: { ietf: 'hu-HU', tk: 'hah7vzn.css' },
+    id: { ietf: 'id-ID', tk: 'hah7vzn.css' },
+    it: { ietf: 'it-IT', tk: 'hah7vzn.css' },
+    ja: { ietf: 'ja-JP', tk: 'hah7vzn.css' },
+    ko: { ietf: 'ko-KR', tk: 'zfo3ouc' },
     kr: { ietf: 'ko-KR', tk: 'zfo3ouc' },
+    lt: { ietf: 'lt-LT', tk: 'hah7vzn.css' },
+    lv: { ietf: 'lv-LV', tk: 'hah7vzn.css' },
+    nb: { ietf: 'nb-NO', tk: 'hah7vzn.css' },
+    nl: { ietf: 'nl-NL', tk: 'hah7vzn.css' },
+    no: { ietf: 'no-NO', tk: 'hah7vzn.css' },
+    pl: { ietf: 'pl-PL', tk: 'hah7vzn.css' },
+    pt: { ietf: 'pt-BR', tk: 'hah7vzn.css' },
+    ro: { ietf: 'ro-RO', tk: 'hah7vzn.css' },
+    ru: { ietf: 'ru-RU', tk: 'hah7vzn.css' },
+    sk: { ietf: 'sk-SK', tk: 'hah7vzn.css' },
+    sl: { ietf: 'sl-SI', tk: 'hah7vzn.css' },
+    sr: { ietf: 'sr-RS', tk: 'hah7vzn.css' },
+    sv: { ietf: 'sv-SE', tk: 'hah7vzn.css' },
+    th: { ietf: 'th-TH', tk: 'hah7vzn.css' },
+    tr: { ietf: 'tr-TR', tk: 'hah7vzn.css' },
+    uk: { ietf: 'uk-UA', tk: 'hah7vzn.css' },
+    vi: { ietf: 'vi-VN', tk: 'hah7vzn.css' },
+    zh: { ietf: 'zh-CN', tk: 'hah7vzn.css' },
+    'zh-hans': { ietf: 'zh-Hans', tk: 'hah7vzn.css' },
+    'zh-hant': { ietf: 'zh-Hant', tk: 'hah7vzn.css' },
+    tw: { ietf: 'zh-TW', tk: 'hah7vzn.css' },
   },
 };
 
-// Decorate the page with site specific needs.
+function applyRtlDirection() {
+  const localeKey = Object.keys(CONFIG.locales).find((key) => {
+    const { pathname } = window.location;
+    return key && pathname.startsWith(`/${key}/`);
+  });
+  const locale = localeKey ? CONFIG.locales[localeKey] : null;
+  if (locale?.dir === 'rtl') {
+    document.documentElement.setAttribute('dir', 'rtl');
+  }
+}
+
 decorateArea();
 
 /*
@@ -92,9 +132,16 @@ const miloLibs = setLibs(LIBS);
   });
 }());
 
-(async function loadPage() {
+export async function loadPage() {
   const { loadArea, setConfig } = await import(`${miloLibs}/utils/utils.js`);
-  const config = setConfig({ ...CONFIG, miloLibs });
-  console.log(config);
+  setConfig({ ...CONFIG, miloLibs });
+  applyRtlDirection();
   await loadArea();
+  import('./lazy.js');
+}
+await loadPage();
+
+(function da() {
+  const { searchParams } = new URL(window.location.href);
+  if (searchParams.has('dapreview')) import('../tools/da/da.js').then((mod) => mod.default(loadPage)); // eslint-disable-line import/no-unresolved
 }());
