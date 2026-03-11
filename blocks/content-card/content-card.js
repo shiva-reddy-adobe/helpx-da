@@ -1,5 +1,6 @@
 function isImageUrl(url) {
-  return /\.(jpg|jpeg|png|gif|svg|webp)(\?.*)?$/i.test(url);
+  return /\.(jpg|jpeg|png|gif|svg|webp)(\?.*)?$/i.test(url)
+    || /scene7\.com\/is\/image\//i.test(url);
 }
 
 export default function init(el) {
