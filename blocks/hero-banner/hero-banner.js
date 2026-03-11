@@ -1,30 +1,126 @@
-const ASDE_ENDPOINT = 'https://adobesearch.adobe.io/autocomplete/completions';
-const ASDE_API_KEY = 'helpxcomprod';
+const ASDE_SDK_URL = 'https://prod.adobeccstatic.com/asde/v3.8.1/asde.min.js';
 const SEARCH_REDIRECT = '/search.html';
-const MAX_SUGGESTIONS = 5;
 
-let debounceTimer;
+const ASDE_CONFIG = {
+  apiVersion: { major: 1, minor: 0, revision: 0 },
+  apiKey: 'CCSearchHelpX',
+  client: 'Helpx',
+  surface: 'CCWeb',
+  env: 'prod',
+  featureFlags: 'temp_enable_search_history_server,temp_enable_search_auto_suggestion_server_uss,temp_enable_jump_urls,ccsearch_enable_geo_service,ccsearch_enable_sort_dropdown,ccsearch_enable_uss_contextual_parameters,ccsearch_enable_uss_auto_complete_contextual_parameters',
+  defaultSelectedTab: 'support',
+};
 
-async function fetchSuggestions(query) {
-  if (!query || query.length < 2) return [];
-  const locale = (document.documentElement.lang || 'en').split('-')[0];
-  const url = `${ASDE_ENDPOINT}?q[text]=${encodeURIComponent(query)}&q[locale]=${locale}&scope=adobe_com`;
-  try {
-    const resp = await fetch(url, {
-      headers: { 'x-api-key': ASDE_API_KEY, 'Content-Type': 'application/json' },
-    });
-    if (!resp.ok) return [];
-    const data = await resp.json();
-    return (data.suggested_completions || []).slice(0, MAX_SUGGESTIONS);
-  } catch {
-    return [];
+/* Lightweight HostContext for ASDE SDK */
+class HelpxHostContext {
+  constructor(config) {
+    this.config = config;
+    this.hostUIState = { tab: config.defaultSelectedTab, folder: '', library: '', routePath: '' };
   }
+
+  get environment() { return this.config.env; }
+
+  get locale() {
+    const lang = document.documentElement.lang || 'en';
+    return lang.split('-')[0];
+  }
+
+  get geoCode() {
+    try {
+      const loc = sessionStorage.getItem('feds_location');
+      if (loc) return JSON.parse(loc).country || null;
+    } catch { /* noop */ }
+    return null;
+  }
+
+  get countryCode() { return null; }
+
+  get hostInfo() {
+    return {
+      surface: this.config.surface,
+      client: this.config.client,
+      version: this.config.apiVersion,
+      apiKey: this.config.apiKey,
+    };
+  }
+
+  get userLoggedOut() {
+    return !(window.adobeIMS?.isSignedInUser?.());
+  }
+
+  get imsInfo() {
+    return { authenticated: false };
+  }
+
+  get handledResultCategories() { return []; }
+
+  get uiStyling() {
+    return {
+      overflowX: 'visible',
+      overflowY: 'visible',
+      styleSpecifier: 'asdeHelpx',
+      topOffsetHeight: 0,
+      bottomOffsetHeight: 40,
+      leftOffsetWidth: 0,
+    };
+  }
+
+  get featureFlags() {
+    const ff = this.config.featureFlags;
+    return ff ? ff.split(',').map((f) => f.trim()) : [];
+  }
+
+  get showTutorialModal() { return false; }
+
+  get searchDefaultTab() { return this.config.defaultSelectedTab || 'support'; }
+
+  get HostUIState() { return this.hostUIState; }
+
+  getHostUIState() { return this.hostUIState; }
+
+  setHostUIState(tab, folder, library, routePath) {
+    this.hostUIState = { tab, folder, library, routePath };
+  }
+
+  openURI(uri, sameTab) {
+    if (sameTab) window.location.href = uri;
+    else window.open(uri, '_blank');
+    return true;
+  }
+
+  openURISameTab(uri) {
+    window.location.href = uri;
+    return true;
+  }
+
+  canStoreHistory() { return true; }
+
+  search() {
+    return Promise.resolve({ resultItems: [], totalResults: 0 });
+  }
+
+  analyticsDataFunction() {
+    return { analyticData: { source: 'Helpx', componentName: 'AsdeHelpx' } };
+  }
+
+  // stubs for WAM-dependent methods
+  async isAppLaunchable() { return false; }
+  launchApp() {}
+  async getProductCTAActions() { return []; }
+  async isCCDPresent() { return false; }
+  async installApp() {}
+  logger() {}
 }
 
-function navigateToSearch(query) {
-  const q = query.trim();
-  if (!q) return;
-  window.location.href = `${SEARCH_REDIRECT}?q=${encodeURIComponent(q)}`;
+function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    if (window.ASDE) { resolve(); return; }
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.append(script);
+  });
 }
 
 export default function init(el) {
@@ -33,6 +129,14 @@ export default function init(el) {
 
   const headingText = rows[0]?.textContent?.trim() || 'Hi, how can we help?';
   const searchPlaceholder = rows[1]?.textContent?.trim() || 'Search Help & Support';
+
+  // Set usseInfo for ASDE redirect
+  window.usseInfo = window.usseInfo || {
+    endPoint: 'https://adobesearch.adobe.io/autocomplete/completions',
+    apiKey: 'helpxcomprod',
+    redirectUrl: SEARCH_REDIRECT,
+    autocompleteLocales: 'en,fr,de,ja',
+  };
 
   const container = document.createElement('div');
   container.className = 'hero-banner-container';
@@ -49,92 +153,48 @@ export default function init(el) {
   h1.textContent = headingText;
   content.append(h1);
 
-  // ASDE Search form with autocomplete
-  const form = document.createElement('form');
-  form.className = 'hero-banner-search';
-  form.setAttribute('role', 'search');
+  // ASDE search mount point
+  const searchWrap = document.createElement('div');
+  searchWrap.className = 'hero-banner-search';
 
-  const searchIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  searchIcon.setAttribute('width', '20');
-  searchIcon.setAttribute('height', '20');
-  searchIcon.setAttribute('viewBox', '0 0 24 24');
-  searchIcon.setAttribute('fill', 'none');
-  searchIcon.setAttribute('aria-hidden', 'true');
-  searchIcon.innerHTML = '<path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/>';
+  const searchBarContainer = document.createElement('div');
+  searchBarContainer.className = 'searchBar-container';
+  searchWrap.append(searchBarContainer);
 
-  const input = document.createElement('input');
-  input.type = 'search';
-  input.className = 'hero-banner-search-input';
-  input.placeholder = searchPlaceholder;
-  input.setAttribute('aria-label', searchPlaceholder);
-  input.setAttribute('autocomplete', 'off');
-  input.setAttribute('aria-autocomplete', 'list');
-
-  const suggestions = document.createElement('ul');
-  suggestions.className = 'hero-banner-suggestions';
-  suggestions.setAttribute('role', 'listbox');
-  suggestions.setAttribute('hidden', '');
-
-  // Autocomplete input handler
-  input.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(async () => {
-      const results = await fetchSuggestions(input.value.trim());
-      suggestions.textContent = '';
-      if (!results.length) {
-        suggestions.setAttribute('hidden', '');
-        return;
-      }
-      results.forEach((s) => {
-        const li = document.createElement('li');
-        li.className = 'hero-banner-suggestion';
-        li.setAttribute('role', 'option');
-        li.textContent = s.name || s;
-        li.addEventListener('click', () => {
-          input.value = li.textContent;
-          suggestions.setAttribute('hidden', '');
-          navigateToSearch(input.value);
-        });
-        suggestions.append(li);
-      });
-      suggestions.removeAttribute('hidden');
-    }, 300);
-  });
-
-  // Keyboard navigation for suggestions
-  input.addEventListener('keydown', (e) => {
-    const items = [...suggestions.querySelectorAll('.hero-banner-suggestion')];
-    const active = suggestions.querySelector('.is-active');
-    const idx = items.indexOf(active);
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      active?.classList.remove('is-active');
-      const next = items[idx + 1] || items[0];
-      next?.classList.add('is-active');
-      input.value = next?.textContent || input.value;
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      active?.classList.remove('is-active');
-      const prev = items[idx - 1] || items[items.length - 1];
-      prev?.classList.add('is-active');
-      input.value = prev?.textContent || input.value;
-    }
-  });
-
-  // Hide suggestions on click outside
-  document.addEventListener('click', (e) => {
-    if (!form.contains(e.target)) suggestions.setAttribute('hidden', '');
-  });
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    suggestions.setAttribute('hidden', '');
-    navigateToSearch(input.value);
-  });
-
-  form.append(searchIcon, input, suggestions);
-  content.append(form);
+  content.append(searchWrap);
   container.append(content);
   el.append(container);
+
+  // Load ASDE SDK and mount search bar
+  const hostContext = new HelpxHostContext(ASDE_CONFIG);
+
+  const onSubmit = (query) => {
+    if (!query) return;
+    const q = query.trim();
+    const params = new URLSearchParams();
+    params.set('q', encodeURIComponent(q));
+    params.set('context', encodeURIComponent(window.location.href));
+    const redirectUrl = window.usseInfo?.redirectUrl || SEARCH_REDIRECT;
+    window.location.href = `${window.location.origin}${redirectUrl}?${params.toString()}`;
+  };
+
+  loadScript(ASDE_SDK_URL).then(async () => {
+    if (!window.ASDE) return;
+    try {
+      const response = await window.ASDE.mountSearchBar({
+        rootNode: searchBarContainer,
+        props: {
+          theme: 'light',
+          maxLength: '100',
+          placeholder: searchPlaceholder,
+          onSubmit,
+          searchHostContext: hostContext,
+        },
+      });
+      response.initiateSearch();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Error mounting ASDE search bar:', e);
+    }
+  });
 }
