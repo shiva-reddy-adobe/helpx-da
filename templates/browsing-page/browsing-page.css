@@ -60,14 +60,45 @@ body.browsing-page .toc-nav {
   overflow-y: auto;
 }
 
-/* Mobile/Tablet: TOC above content */
+/* Mobile/Tablet: single column, TOC hidden */
 @media only screen and (max-width: 1079px) {
+  body.browsing-page main {
+    padding: 0 1rem;
+  }
+
+  body.browsing-page main > .section:has(.product-badge) {
+    width: calc(100% + 2rem);
+    margin-left: -1rem;
+    left: 0;
+  }
+
   body.browsing-page .toc-nav {
     position: static;
     max-height: none;
     margin-bottom: 24px;
     border-bottom: 1px solid var(--color-gray-160);
     padding-bottom: 16px;
+  }
+}
+
+/* Phone: hide desktop TOC, show mobile dropdown from topnav */
+@media only screen and (max-width: 37.4375rem) {
+  body.browsing-page main > .section:has(.toc-nav) {
+    display: none;
+  }
+
+  body.browsing-page main > .section:has(.product-badge) {
+    width: 100vw;
+    margin-left: calc(-1rem);
+    left: 0;
+  }
+
+  body.browsing-page .section.two-column-cards .two-col-card h2 {
+    font-size: 1.375rem;
+  }
+
+  body.browsing-page main h2 {
+    font-size: 1.375rem;
   }
 }
 

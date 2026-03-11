@@ -216,6 +216,22 @@ function buildSearch() {
   const search = document.createElement('div');
   search.className = 'product-badge-search';
 
+  // ASDE search container (matches production #search-container)
+  const container = document.createElement('div');
+  container.id = 'search-container';
+  container.className = 'no-toggle';
+  container.dataset.placeHolderText = 'Search Adobe Help';
+  container.dataset.apiVersion = '1.0.0';
+  container.dataset.apiKey = 'CCSearchHelpX';
+  container.dataset.clientName = 'Helpx';
+  container.dataset.surfaceKey = 'CCWeb';
+  container.dataset.env = 'prod';
+
+  const searchSection = document.createElement('div');
+  searchSection.id = 'search-section';
+  container.append(searchSection);
+
+  // Fallback simple search (shown until ASDE loads)
   const form = document.createElement('form');
   form.action = '/search';
   form.method = 'get';
@@ -235,8 +251,33 @@ function buildSearch() {
   submitBtn.setAttribute('aria-label', 'Search');
 
   form.append(input, submitBtn);
-  search.append(form);
+  container.append(form);
+
+  search.append(container);
+
+  // Load ASDE search library
+  loadAsdeSearch(container, form);
+
   return search;
+}
+
+function loadAsdeSearch(container, fallbackForm) {
+  window.usseInfo = {
+    endPoint: 'https://adobesearch.adobe.io/autocomplete/completions',
+    apiKey: 'helpxcomprod',
+    redirectUrl: '/search',
+    autocompleteLocales: 'en,fr,de,ja',
+  };
+
+  const script = document.createElement('script');
+  script.src = 'https://prod.adobeccstatic.com/asde/v3.8.1/asde.min.js';
+  script.onload = () => {
+    // ASDE renders into #search-section, hide fallback form
+    if (container.querySelector('#search-section')?.children.length) {
+      fallbackForm.style.display = 'none';
+    }
+  };
+  document.head.append(script);
 }
 
 function buildActionItems(searchEl) {

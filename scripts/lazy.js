@@ -48,9 +48,22 @@ function loadAJO() {
   loadScript('https://cdn1.adoberesources.net/alloy/2.19.2/alloy.min.js', { async: '' });
 }
 
+function loadJarvis() {
+  window.fedsConfig = window.fedsConfig || {};
+  window.fedsConfig.jarvis = {
+    surfaceName: getMetadata('jarvis-surface') || 'helpx-default',
+    surfaceVersion: '1.0',
+    onReady() {},
+    onError() {},
+    openExistingChat() {},
+    directConfig: { lazyLoad: true },
+  };
+}
+
 (function loadLazy() {
   loadAdobeFonts();
   loadAnalytics();
   loadIMS();
   loadAJO();
+  loadJarvis();
 }());

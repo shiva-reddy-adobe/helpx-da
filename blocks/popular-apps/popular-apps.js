@@ -1,3 +1,22 @@
+const ICON_FALLBACKS = {
+  acrobat: 'https://helpx.adobe.com/content/dam/help/mnemonics/acrobat_dc_app_RGB.svg',
+  stock: 'https://helpx.adobe.com/content/dam/help/mnemonics/st_app_RGB.svg',
+  firefly: 'https://helpx.adobe.com/content/dam/help/mnemonics/firefly_appicon_64_1.svg',
+  'adobe express': 'https://helpx.adobe.com/content/dam/help/mnemonics/cc_express.svg',
+  illustrator: 'https://helpx.adobe.com/content/dam/help/mnemonics/ai_cc_app_RGB.svg',
+  photoshop: 'https://helpx.adobe.com/content/dam/help/mnemonics/ps_cc_app_RGB.svg',
+  'premiere pro': 'https://helpx.adobe.com/content/dam/help/mnemonics/pr_cc_app_RGB.svg',
+  'after effects': 'https://helpx.adobe.com/content/dam/help/mnemonics/ae_cc_app_RGB.svg',
+  lightroom: 'https://helpx.adobe.com/content/dam/help/mnemonics/Lr_cc_app_noshadow_RGB.svg',
+  indesign: 'https://helpx.adobe.com/content/dam/help/mnemonics/id_cc_app_RGB.svg',
+  xd: 'https://helpx.adobe.com/content/dam/help/mnemonics/xd_app_RGB_2017.svg',
+  animate: 'https://helpx.adobe.com/content/dam/help/mnemonics/an_app_RGB.svg',
+  dreamweaver: 'https://helpx.adobe.com/content/dam/help/mnemonics/dw_cc_app_RGB.svg',
+  fresco: 'https://helpx.adobe.com/content/dam/help/mnemonics/fr_cc_app_RGB.svg',
+  dimension: 'https://helpx.adobe.com/content/dam/help/mnemonics/dn_appicon_256.svg',
+  audition: 'https://helpx.adobe.com/content/dam/help/mnemonics/au_cc_app_RGB.svg',
+};
+
 function createAllAppsIcon() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', '48');
@@ -55,6 +74,13 @@ export default function init(el) {
       const imgEl = document.createElement('img');
       imgEl.src = imgLink.href;
       imgEl.alt = imgLink.textContent.trim();
+      const appName = (navLink?.textContent || imgLink.textContent).trim().toLowerCase();
+      imgEl.onerror = () => {
+        const fallback = ICON_FALLBACKS[appName];
+        if (fallback && imgEl.src !== fallback) {
+          imgEl.src = fallback;
+        }
+      };
       iconWrap.append(imgEl);
       item.append(iconWrap);
     }
