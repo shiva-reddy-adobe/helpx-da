@@ -1,154 +1,149 @@
-async function fetchTocData(url) {
-  const resp = await fetch(url);
-  if (!resp.ok) return [];
-  const json = await resp.json();
-  return json.data || json;
-}
+function getPageSections() {
+  const sections = [];
+  const contentSections = document.querySelectorAll('body.browsing-page main > .section:not(:has(.toc-nav)):not(:has(.product-badge)):not(:has(.navigation-list)):not(:has(.metadata))');
 
-function isQueryIndex(items) {
-  return items.length > 0 && items[0].path && !items[0].level;
-}
+  contentSections.forEach((section) => {
+    const h2 = section.querySelector('h2');
+    if (!h2) return;
 
-function getPathSegments(path) {
-  return path.replace(/^\/|\/$/g, '').split('/').filter(Boolean);
-}
+    const sectionData = {
+      title: h2.textContent.trim(),
+      id: h2.id || h2.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+      children: [],
+    };
 
-function formatTitle(segment) {
-  return segment.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-function transformQueryIndex(items) {
-  const sorted = [...items].sort((a, b) => a.path.localeCompare(b.path));
-  const result = [];
-  const sectionPaths = new Set();
-
-  // First pass: identify section (parent) paths
-  sorted.forEach((item) => {
-    const segments = getPathSegments(item.path);
-    if (segments.length >= 2) {
-      // Register the first segment as a section
-      sectionPaths.add(`/${segments[0]}`);
-    }
-  });
-
-  // Group items by their top-level section
-  const sections = new Map();
-  sorted.forEach((item) => {
-    const segments = getPathSegments(item.path);
-    const sectionKey = segments.length >= 2 ? `/${segments[0]}` : item.path;
-
-    if (!sections.has(sectionKey)) {
-      sections.set(sectionKey, []);
-    }
-    sections.get(sectionKey).push(item);
-  });
-
-  sections.forEach((children, sectionKey) => {
-    // Find the section root page or create a title from the path
-    const sectionRoot = children.find((c) => c.path === sectionKey);
-    const sectionTitle = sectionRoot ? sectionRoot.title : formatTitle(sectionKey.replace(/^\//, ''));
-
-    result.push({
-      title: sectionTitle,
-      path: sectionKey,
-      level: 1,
-    });
-
-    children.forEach((child) => {
-      if (child.path === sectionKey) return; // skip section root, already added
-      const segments = getPathSegments(child.path);
-      const level = Math.min(segments.length, 3); // cap at 3
-      result.push({
-        title: child.title,
-        path: child.path,
-        level,
+    // Collect h3 sub-sections
+    const h3s = section.querySelectorAll('h3');
+    if (h3s.length > 0) {
+      h3s.forEach((h3) => {
+        const subSection = {
+          title: h3.textContent.trim(),
+          id: h3.id || h3.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          links: [],
+        };
+        // Get links in the UL following this h3
+        let next = h3.nextElementSibling;
+        while (next && next.tagName !== 'H3' && next.tagName !== 'H2') {
+          if (next.tagName === 'UL') {
+            next.querySelectorAll('a').forEach((a) => {
+              subSection.links.push({ title: a.textContent.trim(), href: a.href });
+            });
+          }
+          next = next.nextElementSibling;
+        }
+        sectionData.children.push(subSection);
       });
-    });
+    } else {
+      // No h3s — collect links directly under h2
+      const wrapper = section.querySelector('.default-content-wrapper');
+      if (wrapper) {
+        wrapper.querySelectorAll('ul a').forEach((a) => {
+          sectionData.children.push({ title: a.textContent.trim(), href: a.href });
+        });
+      }
+    }
+
+    sections.push(sectionData);
   });
 
-  return result;
+  return sections;
 }
 
-function buildNavTree(items) {
+function buildNavTree(sections) {
   const nav = document.createElement('nav');
   nav.className = 'toc-nav-tree';
   nav.setAttribute('aria-label', 'Product navigation');
 
-  let currentSection = null;
-  let currentList = null;
-  const currentPath = window.location.pathname;
+  // Home link
+  const homeDiv = document.createElement('div');
+  homeDiv.className = 'toc-nav-home-link';
+  const homeLink = document.createElement('a');
+  homeLink.href = '/support.html';
+  homeLink.textContent = 'Adobe Help Center';
+  homeDiv.append(homeLink);
+  nav.append(homeDiv);
 
-  items.forEach((item) => {
-    const level = parseInt(item.level, 10) || 1;
+  // Product link
+  const productBadge = document.querySelector('.product-badge');
+  if (productBadge) {
+    const productName = productBadge.textContent.trim();
+    const productDiv = document.createElement('div');
+    productDiv.className = 'toc-nav-product-link selected';
+    const productLink = document.createElement('a');
+    productLink.href = window.location.pathname;
+    productLink.textContent = `${productName} Desktop Help`;
+    productDiv.append(productLink);
+    nav.append(productDiv);
+  }
 
-    if (level === 1) {
-      const section = document.createElement('div');
-      section.className = 'toc-nav-section';
+  sections.forEach((section) => {
+    const sectionEl = document.createElement('div');
+    sectionEl.className = 'toc-nav-section';
 
-      const header = document.createElement('button');
-      header.className = 'toc-nav-section-header';
-      header.setAttribute('aria-expanded', 'false');
-      header.textContent = item.title;
+    const header = document.createElement('button');
+    header.className = 'toc-nav-section-header';
+    header.setAttribute('aria-expanded', 'false');
 
-      const icon = document.createElement('span');
-      icon.className = 'toc-nav-chevron';
-      header.append(icon);
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = section.title;
+    const icon = document.createElement('span');
+    icon.className = 'toc-nav-chevron';
+    header.append(titleSpan, icon);
 
-      currentList = document.createElement('ul');
-      currentList.className = 'toc-nav-list';
-      currentList.setAttribute('hidden', '');
+    const list = document.createElement('ul');
+    list.className = 'toc-nav-list';
+    list.setAttribute('hidden', '');
 
-      header.addEventListener('click', () => {
-        const expanded = header.getAttribute('aria-expanded') === 'true';
-        header.setAttribute('aria-expanded', String(!expanded));
-        if (expanded) {
-          currentList.setAttribute('hidden', '');
-        } else {
-          currentList.removeAttribute('hidden');
-        }
-      });
+    header.addEventListener('click', () => {
+      const expanded = header.getAttribute('aria-expanded') === 'true';
+      header.setAttribute('aria-expanded', String(!expanded));
+      if (expanded) {
+        list.setAttribute('hidden', '');
+      } else {
+        list.removeAttribute('hidden');
+      }
+    });
 
-      section.append(header, currentList);
-      nav.append(section);
-      currentSection = section;
+    // Build child items
+    section.children.forEach((child) => {
+      if (child.links && child.links.length > 0) {
+        // Sub-section with h3 title and links
+        const subHeader = document.createElement('li');
+        subHeader.className = 'toc-nav-item toc-nav-subheader';
+        subHeader.textContent = child.title;
+        list.append(subHeader);
 
-      if (item.path) {
-        const link = document.createElement('a');
-        link.href = item.path;
-        link.className = 'toc-nav-section-link';
-        link.textContent = item.title;
-        if (currentPath === item.path || currentPath.startsWith(`${item.path}/`)) {
-          link.classList.add('is-current');
-          header.setAttribute('aria-expanded', 'true');
-          currentList.removeAttribute('hidden');
-        }
+        child.links.forEach((link) => {
+          const li = document.createElement('li');
+          li.className = 'toc-nav-item toc-nav-item-sub';
+          const a = document.createElement('a');
+          a.href = link.href;
+          a.className = 'toc-nav-link';
+          a.textContent = link.title;
+          if (window.location.pathname === new URL(a.href, window.location.origin).pathname) {
+            a.classList.add('is-current');
+          }
+          li.append(a);
+          list.append(li);
+        });
+      } else if (child.href) {
+        // Direct link (no sub-sections)
         const li = document.createElement('li');
         li.className = 'toc-nav-item';
-        li.append(link);
-        currentList.append(li);
-      }
-    } else if (currentList) {
-      const li = document.createElement('li');
-      li.className = level === 3 ? 'toc-nav-item toc-nav-item-sub' : 'toc-nav-item';
-
-      const link = document.createElement('a');
-      link.href = item.path || '#';
-      link.className = 'toc-nav-link';
-      link.textContent = item.title;
-
-      if (currentPath === item.path) {
-        link.classList.add('is-current');
-        li.classList.add('is-current');
-        const header = currentSection?.querySelector('.toc-nav-section-header');
-        if (header) {
-          header.setAttribute('aria-expanded', 'true');
-          currentList.removeAttribute('hidden');
+        const a = document.createElement('a');
+        a.href = child.href;
+        a.className = 'toc-nav-link';
+        a.textContent = child.title;
+        if (window.location.pathname === new URL(a.href, window.location.origin).pathname) {
+          a.classList.add('is-current');
         }
+        li.append(a);
+        list.append(li);
       }
+    });
 
-      li.append(link);
-      currentList.append(li);
-    }
+    sectionEl.append(header, list);
+    nav.append(sectionEl);
   });
 
   return nav;
@@ -171,20 +166,12 @@ function buildMobileToggle() {
 }
 
 export default async function init(el) {
-  const link = el.querySelector('a');
-  const sheetUrl = link ? link.href : el.textContent.trim();
-  if (!sheetUrl) return;
-
-  let items = await fetchTocData(sheetUrl);
-  if (!items.length) return;
-
-  // Auto-detect query index format (has path but no level) and transform
-  if (isQueryIndex(items)) {
-    items = transformQueryIndex(items);
-  }
+  // Build TOC from the page's own content sections
+  const sections = getPageSections();
+  if (!sections.length) return;
 
   const toggle = buildMobileToggle();
-  const tree = buildNavTree(items);
+  const tree = buildNavTree(sections);
 
   const wrapper = document.createElement('div');
   wrapper.className = 'toc-nav-wrapper';
