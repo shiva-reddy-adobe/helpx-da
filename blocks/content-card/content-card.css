@@ -137,13 +137,70 @@
   overflow: hidden;
 }
 
+/* Card heading (h4 wrapper for article cards) */
+.content-card-heading {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #000;
+  margin: 0 0 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.content-card-heading::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  width: 16px;
+  height: 16px;
+  background-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 4.5V14a1 1 0 01-1 1H4a1 1 0 01-1-1V2a1 1 0 011-1h5.5L13 4.5z" stroke="%236e6e6e" stroke-width="1.2"/><path d="M9 1v4h4" stroke="%236e6e6e" stroke-width="1.2"/><path d="M5 8h6M5 10.5h6" stroke="%236e6e6e" stroke-width="1.2"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.content-card-heading a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Card description */
+.content-card-desc {
+  font-size: 1rem;
+  color: #4b4b4b;
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .content-card-link {
   font-size: 1rem;
   font-weight: 600;
-  color: #4b4b4b;
+  color: #000;
   text-decoration: none;
 }
 
 .content-card-link:hover {
   text-decoration: underline;
+}
+
+/* Media card footer text (Hands-on Tutorial · Beginner · 3 min) */
+.content-card-item:has(.content-card-image) .content-card-body {
+  font-size: 0.875rem;
+  color: #6e6e6e;
+  line-height: 1.5;
+}
+
+/* Hover states */
+.content-card-item:hover .content-card-heading a {
+  text-decoration: underline;
+  color: #000;
 }
