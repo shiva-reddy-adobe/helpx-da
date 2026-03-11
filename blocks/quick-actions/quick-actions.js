@@ -8,12 +8,22 @@ export default function init(el) {
   const banner = document.createElement('div');
   banner.className = 'quick-actions-banner';
 
-  // Icon from first cell
+  // Icon from first cell — picture, img, or link to image
   const pic = cells[0]?.querySelector('picture, img');
-  if (pic) {
+  const imgLink = !pic ? cells[0]?.querySelector('a') : null;
+  const hasIcon = pic || (imgLink && /\.(jpg|jpeg|png|gif|svg|webp)(\?.*)?$/i.test(imgLink.href));
+
+  if (hasIcon) {
     const iconWrap = document.createElement('div');
     iconWrap.className = 'quick-actions-icon';
-    iconWrap.append(pic);
+    if (pic) {
+      iconWrap.append(pic);
+    } else if (imgLink) {
+      const img = document.createElement('img');
+      img.src = imgLink.href;
+      img.alt = imgLink.textContent.trim();
+      iconWrap.append(img);
+    }
     banner.append(iconWrap);
   }
 

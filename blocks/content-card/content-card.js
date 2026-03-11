@@ -1,3 +1,7 @@
+function isImageUrl(url) {
+  return /\.(jpg|jpeg|png|gif|svg|webp)(\?.*)?$/i.test(url);
+}
+
 export default function init(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
   if (!rows.length) return;
@@ -9,17 +13,26 @@ export default function init(el) {
     const card = document.createElement('div');
     card.className = 'content-card-item';
 
-    // First cell with image becomes card image
+    // First cell — check for image (picture, img, or link to image URL)
     const pic = cells[0]?.querySelector('picture, img');
-    if (pic) {
+    const imgLink = !pic ? cells[0]?.querySelector('a') : null;
+    const hasImage = pic || (imgLink && isImageUrl(imgLink.href));
+
+    if (hasImage) {
       const imageWrap = document.createElement('div');
       imageWrap.className = 'content-card-image';
-      if (pic.tagName === 'IMG') {
-        pic.loading = 'lazy';
+
+      if (pic) {
+        if (pic.tagName === 'IMG') pic.loading = 'lazy';
         imageWrap.append(pic);
-      } else {
-        imageWrap.append(pic);
+      } else if (imgLink) {
+        const img = document.createElement('img');
+        img.src = imgLink.href;
+        img.alt = imgLink.textContent.trim();
+        img.loading = 'lazy';
+        imageWrap.append(img);
       }
+
       card.append(imageWrap);
       cells.shift();
     }
@@ -37,7 +50,6 @@ export default function init(el) {
       const cta = body.querySelector('a');
       if (cta) {
         cta.classList.add('content-card-link');
-        // Make entire card clickable
         card.addEventListener('click', (e) => {
           if (e.target.tagName !== 'A') cta.click();
         });
