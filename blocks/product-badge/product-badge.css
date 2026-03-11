@@ -1,4 +1,4 @@
-/* Product Badge - Hero Banner with Blue Gradient */
+/* Product Badge - matches helpx product hub banner */
 .product-badge {
   max-width: var(--grid-container-width);
   margin: 0.75rem auto;
@@ -7,11 +7,12 @@
 .product-badge-container {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  background: linear-gradient(135deg, #1473e6 0%, #0d66d0 100%);
+  justify-content: center;
+  gap: 1rem;
+  background: linear-gradient(135deg, #d4e4f7 0%, #e8f0fb 40%, #f0f6ff 100%);
   border-radius: 12px;
-  padding: 24px 32px;
-  color: #fff;
+  padding: 20px 32px;
+  text-align: center;
 }
 
 .product-badge-icon {
@@ -21,38 +22,37 @@
 }
 
 .product-badge-icon img {
-  height: 64px;
-  width: 64px;
+  height: 42px;
+  width: 42px;
   object-fit: contain;
-  align-self: center;
 }
 
 .product-badge-text {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
 }
 
 .product-badge-platform {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.9);
+  color: #4b4b4b;
   text-transform: capitalize;
-  letter-spacing: 0;
+  letter-spacing: 0.02em;
   margin: 0;
   line-height: 1.4;
 }
 
 .product-badge-name {
-  font-size: 2rem;
+  font-size: 1.125rem;
   font-weight: 700;
-  color: #fff;
+  color: #2c2c2c;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .product-badge-name a {
-  color: #fff;
+  color: #2c2c2c;
   text-decoration: none;
 }
 
@@ -62,16 +62,16 @@
 
 @media (max-width: 767px) {
   .product-badge-container {
-    padding: 20px 24px;
-    gap: 1rem;
+    padding: 16px 20px;
+    gap: 0.75rem;
   }
 
   .product-badge-icon img {
-    height: 48px;
-    width: 48px;
+    height: 36px;
+    width: 36px;
   }
 
   .product-badge-name {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 }
