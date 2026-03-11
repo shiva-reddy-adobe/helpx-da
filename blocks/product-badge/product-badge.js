@@ -1,3 +1,8 @@
+/*
+ * Product Badge TopNav
+ * Port of helpx productbadge + productvariation + topNavBar + search
+ */
+
 const PRODUCT_ICONS = {
   photoshop: 'https://helpx.adobe.com/content/dam/help/mnemonics/ps_cc_app_RGB.svg',
   illustrator: 'https://helpx.adobe.com/content/dam/help/mnemonics/ai_cc_app_RGB.svg',
@@ -23,172 +28,18 @@ const OPEN_APP_URLS = {
   dreamweaver: 'https://www.adobe.com/download/dreamweaver',
 };
 
-const DEVICE_ICONS = {
+const DEVICE_ICON_URLS = {
   desktop: 'https://helpx.adobe.com/content/dam/help/devicedropdown/desktop-icon.svg',
   mobile: 'https://helpx.adobe.com/content/dam/help/devicedropdown/mobile-icon.svg',
   web: 'https://helpx.adobe.com/content/dam/help/devicedropdown/web-icon.svg',
 };
 
-function buildDeviceSelector(navListEl) {
-  const links = [...navListEl.querySelectorAll('a')];
-  if (!links.length) return null;
-
-  const currentPath = window.location.pathname;
-  const wrapper = document.createElement('div');
-  wrapper.className = 'product-badge-devices';
-
-  // Desktop: horizontal tabs
-  const tabs = document.createElement('div');
-  tabs.className = 'product-badge-device-tabs';
-
-  // Mobile: dropdown
-  const dropdown = document.createElement('div');
-  dropdown.className = 'product-badge-device-dropdown';
-
-  let activeText = '';
-  let activeDevice = '';
-
-  links.forEach((link) => {
-    const text = link.textContent.trim();
-    const device = text.toLowerCase();
-    const isActive = new URL(link.href, window.location.origin).pathname === currentPath;
-
-    if (isActive) {
-      activeText = text;
-      activeDevice = device;
-    }
-
-    // Tab item (desktop)
-    const tab = document.createElement('a');
-    tab.href = link.href;
-    tab.className = `product-badge-device-tab${isActive ? ' is-active' : ''}`;
-    if (isActive) tab.setAttribute('data-im', 'true');
-    const tabIcon = document.createElement('img');
-    tabIcon.src = DEVICE_ICONS[device] || '';
-    tabIcon.alt = '';
-    tabIcon.className = 'product-badge-device-icon';
-    tab.append(tabIcon);
-    const tabText = document.createElement('span');
-    tabText.className = 'product-badge-device-text';
-    tabText.textContent = text;
-    tab.append(tabText);
-    tabs.append(tab);
-  });
-
-  // Dropdown button (mobile)
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'product-badge-dropdown-btn';
-  if (DEVICE_ICONS[activeDevice]) {
-    const btnIcon = document.createElement('img');
-    btnIcon.src = DEVICE_ICONS[activeDevice];
-    btnIcon.alt = '';
-    btnIcon.className = 'product-badge-device-icon';
-    button.append(btnIcon);
-  }
-  const btnText = document.createElement('span');
-  btnText.className = 'product-badge-device-text';
-  btnText.textContent = activeText || links[0].textContent.trim();
-  button.append(btnText);
-  const chevron = document.createElement('span');
-  chevron.className = 'product-badge-chevron';
-  button.append(chevron);
-
-  const list = document.createElement('div');
-  list.className = 'product-badge-dropdown-list';
-
-  links.forEach((link) => {
-    const text = link.textContent.trim();
-    const device = text.toLowerCase();
-    const isActive = new URL(link.href, window.location.origin).pathname === currentPath;
-
-    const item = document.createElement('a');
-    item.href = link.href;
-    item.className = `product-badge-dropdown-item${isActive ? ' is-active' : ''}`;
-
-    const check = document.createElement('span');
-    check.className = `product-badge-dropdown-check${isActive ? '' : ' hidden'}`;
-    item.append(check);
-
-    if (DEVICE_ICONS[device]) {
-      const icon = document.createElement('img');
-      icon.src = DEVICE_ICONS[device];
-      icon.alt = '';
-      icon.className = 'product-badge-device-icon';
-      item.append(icon);
-    }
-
-    const span = document.createElement('span');
-    span.className = 'product-badge-device-text';
-    span.textContent = text;
-    item.append(span);
-    list.append(item);
-  });
-
-  button.addEventListener('click', () => {
-    const isOpen = list.classList.contains('show');
-    list.classList.toggle('show', !isOpen);
-    dropdown.classList.toggle('is-open', !isOpen);
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target)) {
-      list.classList.remove('show');
-      dropdown.classList.remove('is-open');
-    }
-  });
-
-  dropdown.append(button, list);
-  wrapper.append(tabs, dropdown);
-  return wrapper;
-}
-
-function buildSearch() {
-  const search = document.createElement('div');
-  search.className = 'product-badge-search';
-
-  const container = document.createElement('div');
-  container.className = 'product-badge-search-container';
-
-  const form = document.createElement('form');
-  form.action = '/search';
-  form.method = 'get';
-  form.className = 'product-badge-search-form';
-
-  const input = document.createElement('input');
-  input.type = 'search';
-  input.name = 'q';
-  input.className = 'product-badge-search-input';
-  input.placeholder = 'Search Adobe Help';
-  input.setAttribute('aria-label', 'Search Adobe Help');
-
-  const submitBtn = document.createElement('button');
-  submitBtn.type = 'submit';
-  submitBtn.className = 'product-badge-search-submit';
-  submitBtn.setAttribute('aria-label', 'Search');
-
-  form.append(input, submitBtn);
-  container.append(form);
-  search.append(container);
-  return search;
-}
-
-export default function init(el) {
-  const rows = [...el.querySelectorAll(':scope > div')];
-  if (!rows.length) return;
-
-  const cells = [...rows[0].children];
-  const pic = cells[0]?.querySelector('picture, img');
-  const nameCell = cells[1] || cells[0];
-  const productName = nameCell?.textContent?.trim() || '';
-  const productKey = productName.toLowerCase().replace(/\s+/g, '-');
-
-  const topNav = document.createElement('div');
-  topNav.className = 'product-badge-topnav';
-
-  // Col 1: Product badge (icon + name + open app)
+function buildProductBadge(productName, productKey, pic) {
   const badge = document.createElement('div');
   badge.className = 'product-badge-info';
+
+  const details = document.createElement('div');
+  details.className = 'product-badge-details';
 
   const productLink = OPEN_APP_URLS[productKey] || '#';
 
@@ -213,19 +64,19 @@ export default function init(el) {
       iconLink.append(img);
     }
   }
-  badge.append(iconLink);
+  details.append(iconLink);
 
-  // Product name + Open app
-  const openLinkWrap = document.createElement('div');
-  openLinkWrap.className = 'product-badge-open-link';
+  // Product name + open app
+  const openLink = document.createElement('div');
+  openLink.className = 'product-badge-open-link';
 
   const nameEl = document.createElement('p');
   nameEl.className = 'product-badge-name';
-  const nameLink = document.createElement('a');
-  nameLink.href = productLink;
-  nameLink.textContent = productName;
-  nameEl.append(nameLink);
-  openLinkWrap.append(nameEl);
+  const nameA = document.createElement('a');
+  nameA.href = productLink;
+  nameA.textContent = productName;
+  nameEl.append(nameA);
+  openLink.append(nameEl);
 
   const openApp = document.createElement('a');
   openApp.href = productLink;
@@ -236,23 +87,219 @@ export default function init(el) {
   const openIcon = document.createElement('span');
   openIcon.className = 'product-badge-open-app-icon';
   openApp.append(openText, openIcon);
-  openLinkWrap.append(openApp);
+  openLink.append(openApp);
 
-  badge.append(openLinkWrap);
-  topNav.append(badge);
+  details.append(openLink);
+  badge.append(details);
+  return badge;
+}
 
-  // Col 2: Device selector (absorbed from navigation-list)
+function buildDeviceTabs(links, currentPath) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'product-badge-devices';
+
+  const tabs = document.createElement('div');
+  tabs.className = 'product-badge-device-tabs';
+
+  links.forEach((link) => {
+    const text = link.textContent.trim();
+    const device = text.toLowerCase();
+    const isActive = new URL(link.href, window.location.origin).pathname === currentPath;
+
+    const tab = document.createElement('a');
+    tab.href = link.href;
+    tab.className = `product-badge-device-tab${isActive ? ' is-active' : ''}`;
+
+    if (DEVICE_ICON_URLS[device]) {
+      const icon = document.createElement('img');
+      icon.src = DEVICE_ICON_URLS[device];
+      icon.alt = '';
+      icon.className = 'product-badge-device-icon';
+      tab.append(icon);
+    }
+
+    const span = document.createElement('span');
+    span.className = 'product-badge-device-text';
+    span.textContent = text;
+    tab.append(span);
+    tabs.append(tab);
+  });
+
+  wrapper.append(tabs);
+  return wrapper;
+}
+
+function buildMobileDeviceDropdown(links, currentPath) {
+  const container = document.createElement('div');
+  container.className = 'product-badge-mobile-devices';
+
+  const dropdown = document.createElement('div');
+  dropdown.className = 'product-badge-device-dropdown';
+
+  const activeLink = links.find((a) => new URL(a.href, window.location.origin).pathname === currentPath);
+  const activeText = activeLink?.textContent?.trim() || links[0].textContent.trim();
+  const activeDevice = activeText.toLowerCase();
+
+  // Dropdown button
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'product-badge-dropdown-btn';
+
+  if (DEVICE_ICON_URLS[activeDevice]) {
+    const icon = document.createElement('img');
+    icon.src = DEVICE_ICON_URLS[activeDevice];
+    icon.alt = '';
+    icon.className = 'product-badge-device-icon';
+    button.append(icon);
+  }
+  const btnText = document.createElement('span');
+  btnText.className = 'product-badge-device-text';
+  btnText.textContent = activeText;
+  button.append(btnText);
+  const chevron = document.createElement('span');
+  chevron.className = 'product-badge-chevron';
+  button.append(chevron);
+
+  // Dropdown list
+  const list = document.createElement('div');
+  list.className = 'product-badge-dropdown-list';
+
+  links.forEach((link) => {
+    const text = link.textContent.trim();
+    const device = text.toLowerCase();
+    const isActive = new URL(link.href, window.location.origin).pathname === currentPath;
+
+    const item = document.createElement('div');
+    item.className = 'product-badge-dropdown-item';
+
+    const a = document.createElement('a');
+    a.href = link.href;
+    a.className = 'product-badge-dropdown-link';
+
+    const check = document.createElement('span');
+    check.className = `product-badge-dropdown-check${isActive ? '' : ' hidden'}`;
+    a.append(check);
+
+    if (DEVICE_ICON_URLS[device]) {
+      const icon = document.createElement('img');
+      icon.src = DEVICE_ICON_URLS[device];
+      icon.alt = '';
+      icon.className = 'product-badge-device-icon';
+      a.append(icon);
+    }
+
+    const span = document.createElement('span');
+    span.className = 'product-badge-device-text';
+    span.textContent = text;
+    a.append(span);
+
+    item.append(a);
+    list.append(item);
+  });
+
+  button.addEventListener('click', () => {
+    list.classList.toggle('show');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target)) {
+      list.classList.remove('show');
+    }
+  });
+
+  dropdown.append(button, list);
+  container.append(dropdown);
+  return container;
+}
+
+function buildSearch() {
+  const search = document.createElement('div');
+  search.className = 'product-badge-search';
+
+  const form = document.createElement('form');
+  form.action = '/search';
+  form.method = 'get';
+  form.className = 'product-badge-search-form';
+
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.name = 'q';
+  input.className = 'product-badge-search-input';
+  input.placeholder = 'Search Adobe Help';
+  input.setAttribute('aria-label', 'Search Adobe Help');
+  input.setAttribute('autocomplete', 'off');
+
+  const submitBtn = document.createElement('button');
+  submitBtn.type = 'submit';
+  submitBtn.className = 'product-badge-search-submit';
+  submitBtn.setAttribute('aria-label', 'Search');
+
+  form.append(input, submitBtn);
+  search.append(form);
+  return search;
+}
+
+function buildActionItems(searchEl) {
+  const actions = document.createElement('div');
+  actions.className = 'product-badge-actions';
+
+  const searchToggle = document.createElement('button');
+  searchToggle.type = 'button';
+  searchToggle.className = 'product-badge-action-btn product-badge-search-toggle';
+  searchToggle.setAttribute('aria-label', 'Search');
+  searchToggle.addEventListener('click', () => {
+    searchEl.classList.toggle('active');
+  });
+
+  const tocToggle = document.createElement('button');
+  tocToggle.type = 'button';
+  tocToggle.className = 'product-badge-action-btn product-badge-toc-toggle';
+  tocToggle.setAttribute('aria-label', 'Table of Contents');
+
+  actions.append(searchToggle, tocToggle);
+  return actions;
+}
+
+export default function init(el) {
+  const rows = [...el.querySelectorAll(':scope > div')];
+  if (!rows.length) return;
+
+  const cells = [...rows[0].children];
+  const pic = cells[0]?.querySelector('picture, img');
+  const nameCell = cells[1] || cells[0];
+  const productName = nameCell?.textContent?.trim() || '';
+  const productKey = productName.toLowerCase().replace(/\s+/g, '-');
+  const currentPath = window.location.pathname;
+
+  // Build topnav grid
+  const topNav = document.createElement('div');
+  topNav.className = 'product-badge-topnav';
+
+  // Col 1: Product badge
+  topNav.append(buildProductBadge(productName, productKey, pic));
+
+  // Col 2: Device tabs (from adjacent navigation-list)
   const navListSection = el.closest('.section')?.nextElementSibling;
   const navListBlock = navListSection?.querySelector('.navigation-list');
+  let navLinks = [];
   if (navListBlock) {
-    const devices = buildDeviceSelector(navListBlock);
-    if (devices) topNav.append(devices);
+    navLinks = [...navListBlock.querySelectorAll('a')];
+    topNav.append(buildDeviceTabs(navLinks, currentPath));
     navListSection.style.display = 'none';
   }
 
   // Col 3: Search
-  topNav.append(buildSearch());
+  const searchEl = buildSearch();
+  topNav.append(searchEl);
+
+  // Action items (search + toc toggle for tablet/phone)
+  topNav.append(buildActionItems(searchEl));
 
   el.textContent = '';
   el.append(topNav);
+
+  // Mobile device dropdown (placed after topnav, outside the grid)
+  if (navLinks.length) {
+    el.append(buildMobileDeviceDropdown(navLinks, currentPath));
+  }
 }
