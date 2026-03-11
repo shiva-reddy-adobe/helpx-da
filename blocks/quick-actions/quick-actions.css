@@ -56,10 +56,12 @@
   font-weight: 600;
   text-decoration: none;
   transition: background 0.15s ease;
+  white-space: nowrap;
 }
 
 .quick-actions-cta:hover {
   background: #0d66d0;
+  color: #fff;
 }
 
 @media (max-width: 767px) {

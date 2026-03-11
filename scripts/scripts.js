@@ -132,11 +132,49 @@ const miloLibs = setLibs(LIBS);
   });
 }());
 
+function decorateBrowsingPage() {
+  if (!document.body.classList.contains('browsing-page')) return;
+
+  // Wrap h2 + ul + p groups into .two-col-card divs in two-column-cards sections
+  document.querySelectorAll('.section.two-column-cards > .default-content-wrapper').forEach((wrapper) => {
+    const children = [...wrapper.children];
+    const cards = [];
+    let current = null;
+    children.forEach((child) => {
+      if (child.tagName === 'H2') {
+        current = document.createElement('div');
+        current.className = 'two-col-card';
+        cards.push(current);
+      }
+      if (current) current.append(child);
+    });
+    if (cards.length > 1) {
+      wrapper.textContent = '';
+      cards.forEach((card) => wrapper.append(card));
+    }
+  });
+
+  // Wrap h2 followed by a p containing only a link into .heading-with-link
+  document.querySelectorAll('.section > .default-content-wrapper').forEach((wrapper) => {
+    const headings = wrapper.querySelectorAll('h2');
+    headings.forEach((h2) => {
+      const next = h2.nextElementSibling;
+      if (next?.tagName === 'P' && next.children.length === 1 && next.children[0].tagName === 'A') {
+        const container = document.createElement('div');
+        container.className = 'heading-with-link';
+        h2.before(container);
+        container.append(h2, next);
+      }
+    });
+  });
+}
+
 export async function loadPage() {
   const { loadArea, setConfig } = await import(`${miloLibs}/utils/utils.js`);
   setConfig({ ...CONFIG, miloLibs });
   applyRtlDirection();
   await loadArea();
+  decorateBrowsingPage();
   import('./lazy.js');
 }
 await loadPage();
