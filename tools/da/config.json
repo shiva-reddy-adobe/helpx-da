@@ -1,7 +1,8 @@
 {
   "library": {
     "blocks": [
-      "https://main--milo--adobecom.aem.page/docs/library/library.json"
+      "https://main--milo--adobecom.aem.page/docs/library/library.json",
+      "https://main--helpx-da--shiva-reddy-adobe.aem.page/docs/library/library.json"
     ]
   }
 }
