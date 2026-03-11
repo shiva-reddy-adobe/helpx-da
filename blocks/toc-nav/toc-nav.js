@@ -1,8 +1,14 @@
-function getPageSections() {
+function getPageSections(el) {
   const sections = [];
-  const contentSections = document.querySelectorAll('body.browsing-page main > .section:not(:has(.toc-nav)):not(:has(.product-badge)):not(:has(.navigation-list)):not(:has(.metadata))');
+  const main = el.closest('main') || document.querySelector('main');
+  if (!main) return sections;
 
-  contentSections.forEach((section) => {
+  // Find all section-level divs in main that contain h2 headings (content sections)
+  const allSections = main.querySelectorAll(':scope > .section, :scope > div');
+  allSections.forEach((section) => {
+    // Skip sections containing blocks (toc-nav, product-badge, navigation-list, metadata)
+    if (section.querySelector('.toc-nav, .product-badge, .navigation-list, .metadata')) return;
+
     const h2 = section.querySelector('h2');
     if (!h2) return;
 
@@ -12,8 +18,11 @@ function getPageSections() {
       children: [],
     };
 
+    // Find the content container (may be .default-content-wrapper or the section itself)
+    const container = section.querySelector('.default-content-wrapper') || section;
+
     // Collect h3 sub-sections
-    const h3s = section.querySelectorAll('h3');
+    const h3s = container.querySelectorAll('h3');
     if (h3s.length > 0) {
       h3s.forEach((h3) => {
         const subSection = {
@@ -34,13 +43,10 @@ function getPageSections() {
         sectionData.children.push(subSection);
       });
     } else {
-      // No h3s — collect links directly under h2
-      const wrapper = section.querySelector('.default-content-wrapper');
-      if (wrapper) {
-        wrapper.querySelectorAll('ul a').forEach((a) => {
-          sectionData.children.push({ title: a.textContent.trim(), href: a.href });
-        });
-      }
+      // No h3s — collect links directly
+      container.querySelectorAll('ul a').forEach((a) => {
+        sectionData.children.push({ title: a.textContent.trim(), href: a.href });
+      });
     }
 
     sections.push(sectionData);
@@ -63,10 +69,26 @@ function buildNavTree(sections) {
   homeDiv.append(homeLink);
   nav.append(homeDiv);
 
-  // Product link
+  // Product link — find product name from badge block or page title
   const productBadge = document.querySelector('.product-badge');
+  let productName = '';
   if (productBadge) {
-    const productName = productBadge.textContent.trim();
+    // The badge may still contain raw table cells; extract text from last cell
+    const cells = productBadge.querySelectorAll('td');
+    if (cells.length > 0) {
+      productName = cells[cells.length - 1].textContent.trim();
+    } else {
+      productName = productBadge.textContent.trim();
+    }
+  }
+  if (!productName) {
+    // Fallback: derive from URL path
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    if (pathParts.length > 0) {
+      productName = pathParts[0].charAt(0).toUpperCase() + pathParts[0].slice(1);
+    }
+  }
+  if (productName) {
     const productDiv = document.createElement('div');
     productDiv.className = 'toc-nav-product-link selected';
     const productLink = document.createElement('a');
@@ -167,7 +189,7 @@ function buildMobileToggle() {
 
 export default async function init(el) {
   // Build TOC from the page's own content sections
-  const sections = getPageSections();
+  const sections = getPageSections(el);
   if (!sections.length) return;
 
   const toggle = buildMobileToggle();
