@@ -44,12 +44,12 @@ function observeHeadings(headings, el) {
   headings.forEach((heading) => observer.observe(heading));
 }
 
-function buildMobileToggle(el) {
+function buildMobileToggle(el, titleText) {
   const toggle = document.createElement('button');
   toggle.className = 'toc-toggle';
   toggle.setAttribute('aria-expanded', 'false');
   toggle.setAttribute('aria-controls', 'toc-content');
-  toggle.textContent = 'On this page';
+  toggle.textContent = titleText;
 
   const icon = document.createElement('span');
   icon.className = 'toc-toggle-icon';
@@ -68,12 +68,16 @@ export default function init(el) {
   const headings = [...document.querySelectorAll('main h2, main h3')];
   if (!headings.length) return;
 
+  // Read optional title from first authored row, default to 'On this page'
+  const rows = [...el.querySelectorAll(':scope > div')];
+  const authoredTitle = rows[0]?.textContent?.trim() || 'On this page';
+
   const title = document.createElement('h4');
   title.className = 'toc-title';
-  title.textContent = 'On this page';
+  title.textContent = authoredTitle;
 
   const list = buildTocList(headings);
-  const toggle = buildMobileToggle(el);
+  const toggle = buildMobileToggle(el, authoredTitle);
 
   const content = document.createElement('nav');
   content.id = 'toc-content';

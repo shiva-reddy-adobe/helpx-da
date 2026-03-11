@@ -1,15 +1,15 @@
-function createNavItem(cell, direction) {
+function createNavItem(cell, direction, labelText) {
   const link = cell.querySelector('a');
   if (!link) return null;
 
   const item = document.createElement('a');
   item.href = link.href;
   item.className = `page-nav-${direction}`;
-  item.setAttribute('aria-label', `${direction === 'prev' ? 'Previous' : 'Next'} article`);
+  item.setAttribute('aria-label', `${labelText} article`);
 
   const label = document.createElement('span');
   label.className = 'page-nav-label';
-  label.textContent = direction === 'prev' ? 'Previous' : 'Next';
+  label.textContent = labelText;
 
   const title = document.createElement('span');
   title.className = 'page-nav-title';
@@ -37,13 +37,18 @@ export default function init(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
   if (!rows.length) return;
 
+  // Row 0: prev/next links; Row 1 (optional): custom labels
   const cells = rows[0].children;
+  const labelCells = rows[1]?.children;
+  const prevLabel = labelCells?.[0]?.textContent?.trim() || 'Previous';
+  const nextLabel = labelCells?.[1]?.textContent?.trim() || 'Next';
+
   const nav = document.createElement('nav');
   nav.className = 'page-nav-container';
   nav.setAttribute('aria-label', 'Page navigation');
 
-  const prev = cells[0] ? createNavItem(cells[0], 'prev') : null;
-  const next = cells[1] ? createNavItem(cells[1], 'next') : null;
+  const prev = cells[0] ? createNavItem(cells[0], 'prev', prevLabel) : null;
+  const next = cells[1] ? createNavItem(cells[1], 'next', nextLabel) : null;
 
   if (prev) nav.append(prev);
   if (!prev && next) {

@@ -129,12 +129,18 @@ export default function init(el) {
 
   const headingText = rows[0]?.textContent?.trim() || 'Hi, how can we help?';
   const searchPlaceholder = rows[1]?.textContent?.trim() || 'Search Help & Support';
+  // Row 2 (optional): background image URL or picture element
+  const bgPic = rows[2]?.querySelector('picture, img');
+  const bgLink = !bgPic ? rows[2]?.querySelector('a') : null;
+  const bgUrl = bgLink?.href || '';
+  // Row 3 (optional): search redirect path (default: /search.html)
+  const searchRedirect = rows[3]?.textContent?.trim() || SEARCH_REDIRECT;
 
   // Set usseInfo for ASDE redirect
   window.usseInfo = window.usseInfo || {
     endPoint: 'https://adobesearch.adobe.io/autocomplete/completions',
     apiKey: 'helpxcomprod',
-    redirectUrl: SEARCH_REDIRECT,
+    redirectUrl: searchRedirect,
     autocompleteLocales: 'en,fr,de,ja',
   };
 
@@ -143,6 +149,13 @@ export default function init(el) {
 
   const bg = document.createElement('div');
   bg.className = 'hero-banner-bg';
+  if (bgPic) {
+    bg.append(bgPic);
+  } else if (bgUrl) {
+    bg.style.backgroundImage = `url('${bgUrl}')`;
+    bg.style.backgroundSize = 'cover';
+    bg.style.backgroundPosition = 'center';
+  }
   container.append(bg);
 
   const content = document.createElement('div');
@@ -174,7 +187,7 @@ export default function init(el) {
     const params = new URLSearchParams();
     params.set('q', encodeURIComponent(q));
     params.set('context', encodeURIComponent(window.location.href));
-    const redirectUrl = window.usseInfo?.redirectUrl || SEARCH_REDIRECT;
+    const redirectUrl = window.usseInfo?.redirectUrl || searchRedirect;
     window.location.href = `${window.location.origin}${redirectUrl}?${params.toString()}`;
   };
 

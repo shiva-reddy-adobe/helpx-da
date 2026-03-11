@@ -58,7 +58,7 @@ export default function decorate(block) {
       if (viewMoreLink) {
         const vmLink = viewMoreLink.cloneNode(true);
         vmLink.className = 'account-support-view-more';
-        vmLink.textContent = viewMoreLink.textContent.trim() + ' ›';
+        vmLink.textContent = viewMoreLink.textContent.trim();
         card.appendChild(vmLink);
       }
     }
@@ -75,7 +75,7 @@ export default function decorate(block) {
       if (manageLink) {
         const mLink = manageLink.cloneNode(true);
         mLink.className = 'account-support-manage';
-        mLink.textContent = manageLink.textContent.trim() + ' ›';
+        mLink.textContent = manageLink.textContent.trim();
         card.appendChild(mLink);
       }
     }

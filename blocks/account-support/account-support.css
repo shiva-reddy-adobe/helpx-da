@@ -75,6 +75,10 @@
   margin-top: 0.75rem;
 }
 
+.account-support-view-more::after {
+  content: ' ›';
+}
+
 .account-support-view-more:hover {
   text-decoration: underline;
 }
@@ -90,6 +94,10 @@
   color: #1473e6;
   font-size: 0.9375rem;
   text-decoration: none;
+}
+
+.account-support-manage::after {
+  content: ' ›';
 }
 
 .account-support-manage:hover {

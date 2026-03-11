@@ -16,7 +16,7 @@ function getTextSegments(cell) {
 export default function decorate(block) {
   const rows = [...block.querySelectorAll(':scope > div')];
   const banners = [];
-  let bannerIndex = 0;
+  const isDark = block.classList.contains('dark');
 
   rows.forEach((row) => {
     const cells = [...row.querySelectorAll(':scope > div')];
@@ -25,9 +25,7 @@ export default function decorate(block) {
       if (!cell.textContent.trim()) return;
 
       const banner = document.createElement('div');
-      banner.className = bannerIndex === 1
-        ? 'promo-banner-card promo-banner-dark'
-        : 'promo-banner-card';
+      banner.className = 'promo-banner-card';
 
       const links = [...cell.querySelectorAll('a')];
       const iconLink = links.find((l) => isImageUrl(l.href));
@@ -64,8 +62,13 @@ export default function decorate(block) {
         banner.appendChild(cta);
       }
 
+      // Apply dark variant per-card if authored with "dark" in the cell class
+      // or if the block-level variant is dark
+      if (isDark || cell.classList.contains('dark')) {
+        banner.classList.add('promo-banner-dark');
+      }
+
       banners.push(banner);
-      bannerIndex += 1;
     });
   });
 

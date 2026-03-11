@@ -2,39 +2,55 @@ function parseTocRows(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
   const sections = [];
   let currentSection = null;
+  let homeLink = { text: 'Adobe Help Center', href: '/support.html' };
+  let productSuffix = 'Help';
 
   rows.forEach((row) => {
     const link = row.querySelector('a');
     const text = row.textContent.trim();
     if (!text) return;
 
+    // "Home: <text>" row overrides the home link
+    if (text.startsWith('Home:')) {
+      if (link) {
+        homeLink = { text: link.textContent.trim(), href: link.href };
+      } else {
+        homeLink.text = text.replace('Home:', '').trim();
+      }
+      return;
+    }
+
+    // "Suffix: <text>" row overrides the product link suffix (e.g. "Desktop Help")
+    if (text.startsWith('Suffix:')) {
+      productSuffix = text.replace('Suffix:', '').trim();
+      return;
+    }
+
     if (link) {
-      // This is a link item — add to current section
       if (currentSection) {
         currentSection.links.push({ title: link.textContent.trim(), href: link.href });
       }
     } else {
-      // No link — this is a section header
       currentSection = { title: text, links: [] };
       sections.push(currentSection);
     }
   });
 
-  return sections;
+  return { sections, homeLink, productSuffix };
 }
 
-function buildNavTree(sections) {
+function buildNavTree(sections, homeLink, productSuffix) {
   const nav = document.createElement('nav');
   nav.className = 'toc-nav-tree';
   nav.setAttribute('aria-label', 'Product navigation');
 
-  // Home link
+  // Home link (authorable via "Home:" row)
   const homeDiv = document.createElement('div');
   homeDiv.className = 'toc-nav-home-link';
-  const homeLink = document.createElement('a');
-  homeLink.href = '/support.html';
-  homeLink.textContent = 'Adobe Help Center';
-  homeDiv.append(homeLink);
+  const homeLinkEl = document.createElement('a');
+  homeLinkEl.href = homeLink.href;
+  homeLinkEl.textContent = homeLink.text;
+  homeDiv.append(homeLinkEl);
   nav.append(homeDiv);
 
   // Product link
@@ -58,7 +74,7 @@ function buildNavTree(sections) {
     productDiv.className = 'toc-nav-product-link selected';
     const productLink = document.createElement('a');
     productLink.href = window.location.pathname;
-    productLink.textContent = `${productName} Desktop Help`;
+    productLink.textContent = `${productName} ${productSuffix}`;
     productDiv.append(productLink);
     nav.append(productDiv);
   }
@@ -143,11 +159,11 @@ function buildMobileToggle() {
 }
 
 export default async function init(el) {
-  const sections = parseTocRows(el);
+  const { sections, homeLink, productSuffix } = parseTocRows(el);
   if (!sections.length) return;
 
   const toggle = buildMobileToggle();
-  const tree = buildNavTree(sections);
+  const tree = buildNavTree(sections, homeLink, productSuffix);
 
   const wrapper = document.createElement('div');
   wrapper.className = 'toc-nav-wrapper';

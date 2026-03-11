@@ -15,7 +15,23 @@
   right: 0;
   bottom: 0;
   z-index: 0;
-  background: url('https://helpx-prod.scene7.com/is/image/HelpxProd/Page%20banner?$png$&jpegSize=300&wid=1920') center center / cover no-repeat;
+  background: linear-gradient(135deg, #e8f0fe 0%, #f5f0ff 50%, #fce4ec 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-banner-bg img,
+.hero-banner-bg picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-banner-bg picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hero-banner-content {
