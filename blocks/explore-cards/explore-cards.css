@@ -1,0 +1,52 @@
+.explore-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.explore-card {
+  position: relative;
+  border: 1px solid #e8e8e8;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-decoration: none;
+  color: #2c2c2c;
+  background: #fff;
+  transition: box-shadow 0.2s ease;
+}
+
+.explore-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.explore-card-icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: #6e6e6e;
+  display: flex;
+  align-items: center;
+}
+
+.explore-card h3 {
+  margin: 0 0 1rem;
+  padding-right: 2rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2c2c2c;
+  line-height: 1.4;
+}
+
+.explore-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #4b4b4b;
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .explore-cards {
+    grid-template-columns: 1fr;
+  }
+}

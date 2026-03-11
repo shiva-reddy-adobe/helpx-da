@@ -1,0 +1,112 @@
+.hero-banner-container {
+  position: relative;
+  padding: 3rem 1rem;
+  overflow: hidden;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-banner-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(147, 51, 234, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 40%, rgba(236, 72, 153, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 70%, rgba(251, 146, 60, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 80%, rgba(167, 139, 250, 0.3) 0%, transparent 50%),
+    linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+.hero-banner-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.hero-banner-heading {
+  color: #2c2c2c;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 2rem;
+  line-height: 1.2;
+}
+
+.hero-banner-search {
+  display: flex;
+  align-items: center;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 2.5rem;
+  background-color: white;
+  border: 0.125rem solid #d5d5d5;
+  border-radius: 1.25rem;
+  transition: border-color 0.2s;
+}
+
+.hero-banner-search:focus-within {
+  border-color: #1473e6;
+  outline: none;
+}
+
+.hero-banner-search svg {
+  color: #6e6e6e;
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+}
+
+.hero-banner-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.875rem;
+  color: #2c2c2c;
+  background: transparent;
+  padding: 0;
+}
+
+.hero-banner-search-input::placeholder {
+  color: #6e6e6e;
+  font-style: italic;
+  opacity: 1;
+}
+
+.hero-banner-search:hover .hero-banner-search-input::placeholder {
+  color: #505050;
+}
+
+/* Tablet styles */
+@media (max-width: 900px) {
+  .hero-banner-heading {
+    font-size: 2rem;
+  }
+
+  .hero-banner-container {
+    padding: 2.5rem 1rem;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 600px) {
+  .hero-banner-heading {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-banner-container {
+    padding: 2rem 1rem;
+    min-height: 220px;
+  }
+
+  .hero-banner-search {
+    max-width: 100%;
+  }
+}
