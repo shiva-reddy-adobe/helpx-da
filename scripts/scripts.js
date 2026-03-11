@@ -51,7 +51,7 @@ const CONFIG = {
   codeRoot: '',
   prodDomains: ['helpx.adobe.com', 'helpx-internal.adobe.com'],
   imsClientId: 'helpx_thin',
-  imsScope: 'openid,AdobeID',
+  imsScope: 'AdobeID,openid,gnav',
   decorateArea,
   locales: {
     '': { ietf: 'en-US', tk: 'hah7vzn.css' },
