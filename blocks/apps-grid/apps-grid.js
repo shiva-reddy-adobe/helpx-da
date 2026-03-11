@@ -2,10 +2,11 @@
  * Apps Grid block with "View all" modal.
  *
  * Authoring (DA table):
- *   Row with icon-link + page-link       → featured app (visible in grid)
- *   Row with empty icon + page-link      → "View all" button (opens modal)
- *   Row with "Category: <name>" in cell  → starts a new modal category
- *   Rows after a category header         → modal-only apps in that category
+ *   Row with icon-link + page-link         → featured app (visible in grid)
+ *   Row with empty icon + page-link        → "View all" button (opens modal)
+ *   Row with "Heading: <text>" in cell     → modal dialog heading
+ *   Row with "Category: <name>" in cell    → starts a new modal category
+ *   Rows after a category header           → modal-only apps in that category
  */
 
 function parseRows(rows) {
@@ -13,6 +14,7 @@ function parseRows(rows) {
   const categories = [];
   let currentCat = null;
   let viewAllLabel = 'View all';
+  let modalHeading = 'All apps and services';
   let afterViewAll = false;
 
   rows.forEach((row) => {
@@ -27,6 +29,12 @@ function parseRows(rows) {
       currentCat = { title: catName, apps: [] };
       categories.push(currentCat);
       afterViewAll = true;
+      return;
+    }
+
+    // Modal heading row: "Heading: All apps and services"
+    if (firstText.startsWith('Heading:')) {
+      modalHeading = firstText.replace('Heading:', '').trim();
       return;
     }
 
@@ -52,10 +60,10 @@ function parseRows(rows) {
     }
   });
 
-  return { featured, categories, viewAllLabel };
+  return { featured, categories, viewAllLabel, modalHeading };
 }
 
-function buildModal(categories, allFeatured) {
+function buildModal(categories, allFeatured, heading) {
   const dialog = document.createElement('dialog');
   dialog.className = 'apps-grid-modal';
 
@@ -71,9 +79,9 @@ function buildModal(categories, allFeatured) {
   const content = document.createElement('div');
   content.className = 'apps-grid-modal-content';
 
-  const heading = document.createElement('h2');
-  heading.textContent = 'All apps and services';
-  content.append(heading);
+  const h2 = document.createElement('h2');
+  h2.textContent = heading;
+  content.append(h2);
 
   // If no categories authored, show all featured apps as a flat list
   const cats = categories.length ? categories : [{ title: '', apps: allFeatured }];
@@ -147,7 +155,7 @@ export default function init(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
   el.textContent = '';
 
-  const { featured, categories, viewAllLabel } = parseRows(rows);
+  const { featured, categories, viewAllLabel, modalHeading } = parseRows(rows);
   const hasModal = categories.length > 0;
 
   const grid = document.createElement('div');
@@ -197,7 +205,7 @@ export default function init(el) {
     let dialog;
     const openModal = () => {
       if (!dialog) {
-        dialog = buildModal(categories, featured);
+        dialog = buildModal(categories, featured, modalHeading);
         el.append(dialog);
       }
       dialog.showModal();
