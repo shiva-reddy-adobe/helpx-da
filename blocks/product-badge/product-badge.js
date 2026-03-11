@@ -50,10 +50,25 @@ export default function init(el) {
   }
 
   if (productName) {
-    const name = document.createElement('span');
+    const textWrap = document.createElement('div');
+    textWrap.className = 'product-badge-text';
+
+    // Detect platform context from URL path (desktop, mobile, web)
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const platform = pathParts[pathParts.length - 1];
+    const platformLabel = ['desktop', 'mobile', 'web'].includes(platform) ? platform.charAt(0).toUpperCase() + platform.slice(1) : '';
+    if (platformLabel) {
+      const label = document.createElement('span');
+      label.className = 'product-badge-platform';
+      label.textContent = platformLabel;
+      textWrap.append(label);
+    }
+
+    const name = document.createElement('div');
     name.className = 'product-badge-name';
-    name.textContent = productName;
-    badge.append(name);
+    name.textContent = `${productName} Help`;
+    textWrap.append(name);
+    badge.append(textWrap);
   }
 
   el.textContent = '';
