@@ -37,14 +37,17 @@
   color: #000;
 }
 
+/* Ported from card.less: .media-card:hover .card-photo */
 .content-card-item:has(.content-card-image):hover .content-card-image img {
-  box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 0.125rem 0.5rem 0 rgba(0, 0, 0, 0.16);
+  transform: scale(1.008);
 }
 
 .content-card-image {
   overflow: hidden;
 }
 
+/* Ported from card.less: .media-card .card-photo */
 .content-card-image img {
   border-radius: 0.625rem;
   aspect-ratio: 16 / 9;
@@ -52,6 +55,8 @@
   height: auto;
   object-fit: cover;
   display: block;
+  transform-origin: left center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* media-card body */

@@ -132,44 +132,8 @@ const miloLibs = setLibs(LIBS);
   });
 }());
 
-function buildBrowsingHero() {
-  const pathParts = window.location.pathname.split('/').filter(Boolean);
-  const product = pathParts[0] || '';
-  const device = pathParts[1] || 'desktop';
-  const productName = product.charAt(0).toUpperCase() + product.slice(1);
-  const deviceLabel = device.charAt(0).toUpperCase() + device.slice(1);
-
-  // Find product icon from the product-badge block
-  const badgeIcon = document.querySelector('.product-badge-icon');
-  const iconSrc = badgeIcon?.src || '';
-
-  const hero = document.createElement('div');
-  hero.className = 'browsing-hero';
-  hero.innerHTML = `
-    <div class="browsing-hero-bg"></div>
-    <div class="browsing-hero-content">
-      <span class="browsing-hero-device">${deviceLabel}</span>
-      <div class="browsing-hero-title">
-        ${iconSrc ? `<img class="browsing-hero-icon" src="${iconSrc}" alt="${productName}">` : ''}
-        <span>${productName} Help</span>
-      </div>
-    </div>`;
-  return hero;
-}
-
 function decorateBrowsingPage() {
   if (!document.body.classList.contains('browsing-page')) return;
-
-  // Insert browsing hero as first content section (after TOC + product-badge sections)
-  const contentSections = document.querySelectorAll('body.browsing-page main > .section:not(:has(.toc-nav)):not(:has(.product-badge)):not(:has(.navigation-list))');
-  if (contentSections.length > 0) {
-    const firstSection = contentSections[0];
-    const heroWrapper = firstSection.querySelector('.default-content-wrapper, .content');
-    if (heroWrapper) {
-      const hero = buildBrowsingHero();
-      heroWrapper.prepend(hero);
-    }
-  }
 
   // Wrap h2 + ul + p groups into .two-col-card divs in two-column-cards sections
   document.querySelectorAll('.section.two-column-cards > .default-content-wrapper, .section.two-column-cards > .content').forEach((wrapper) => {
