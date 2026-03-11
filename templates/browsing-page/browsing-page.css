@@ -6,6 +6,14 @@ body.browsing-page main {
   padding: 0 24px;
 }
 
+/* Product badge TopNav — full width, breaks out of main constraint */
+body.browsing-page main > .section:has(.product-badge) {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 0;
+  margin-bottom: 0;
+}
+
 /* Desktop: 2-column grid — TOC sidebar (col 1) + content sections (col 2) */
 @media only screen and (min-width: 1080px) {
   body.browsing-page main {
@@ -14,12 +22,22 @@ body.browsing-page main {
     gap: 0 40px;
   }
 
-  body.browsing-page main > .section:has(.toc-nav) {
-    grid-column: 1;
-    grid-row: 1 / span 50;
+  /* Product badge TopNav spans full width above the grid */
+  body.browsing-page main > .section:has(.product-badge) {
+    grid-column: 1 / -1;
   }
 
-  body.browsing-page main > .section:not(:has(.toc-nav)) {
+  /* Hidden navigation-list section (absorbed by product-badge) */
+  body.browsing-page main > .section:has(.navigation-list) {
+    grid-column: 1 / -1;
+  }
+
+  body.browsing-page main > .section:has(.toc-nav) {
+    grid-column: 1;
+    grid-row: 2 / span 50;
+  }
+
+  body.browsing-page main > .section:not(:has(.toc-nav)):not(:has(.product-badge)):not(:has(.navigation-list)) {
     grid-column: 2;
   }
 }
@@ -58,14 +76,20 @@ body.browsing-page .section > .content {
   margin: 0;
 }
 
-/* Product badge spacing */
-body.browsing-page .product-badge {
-  margin-bottom: 0;
+/* Product badge TopNav — full width bar */
+body.browsing-page .section:has(.product-badge) {
+  padding: 0 !important;
+  max-width: 100% !important;
 }
 
-/* Navigation list (Desktop / Mobile / Web tabs) */
-body.browsing-page .navigation-list {
-  margin-bottom: 16px;
+body.browsing-page .product-badge {
+  margin-bottom: 0;
+  max-width: 100%;
+}
+
+/* Navigation list section hidden (absorbed by product-badge dropdown) */
+body.browsing-page .section:has(.navigation-list) {
+  margin-bottom: 0;
 }
 
 /* ===== Section headings — match helpx ===== */
