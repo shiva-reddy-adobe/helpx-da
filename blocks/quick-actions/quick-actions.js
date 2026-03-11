@@ -1,33 +1,54 @@
 export default function init(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
+  if (!rows.length) return;
 
-  const container = document.createElement('div');
-  container.className = 'quick-actions-grid';
+  const row = rows[0];
+  const cells = [...row.children];
 
-  rows.forEach((row) => {
-    const link = row.querySelector('a');
-    if (!link) return;
+  const banner = document.createElement('div');
+  banner.className = 'quick-actions-banner';
 
-    const action = document.createElement('a');
-    action.href = link.href;
-    action.className = 'quick-action-item';
+  // Icon from first cell
+  const pic = cells[0]?.querySelector('picture, img');
+  if (pic) {
+    const iconWrap = document.createElement('div');
+    iconWrap.className = 'quick-actions-icon';
+    iconWrap.append(pic);
+    banner.append(iconWrap);
+  }
 
-    const pic = row.querySelector('picture, img');
-    if (pic) {
-      const icon = document.createElement('div');
-      icon.className = 'quick-action-icon';
-      icon.append(pic);
-      action.append(icon);
+  // Text content from second cell
+  const textCell = cells[1] || cells[0];
+  if (textCell) {
+    const textWrap = document.createElement('div');
+    textWrap.className = 'quick-actions-text';
+
+    // Split on <br> — first part is title, rest is description
+    const html = textCell.innerHTML;
+    const parts = html.split(/<br\s*\/?>/i);
+    if (parts.length > 0) {
+      const title = document.createElement('p');
+      title.className = 'quick-actions-title';
+      title.textContent = parts[0].replace(/<[^>]+>/g, '').trim();
+      textWrap.append(title);
+    }
+    if (parts.length > 1) {
+      const desc = document.createElement('p');
+      desc.className = 'quick-actions-desc';
+      desc.textContent = parts[1].replace(/<[^>]+>/g, '').trim();
+      textWrap.append(desc);
     }
 
-    const label = document.createElement('span');
-    label.className = 'quick-action-label';
-    label.textContent = link.textContent;
-    action.append(label);
+    banner.append(textWrap);
+  }
 
-    container.append(action);
-  });
+  // CTA button
+  const ctaBtn = document.createElement('a');
+  ctaBtn.className = 'quick-actions-cta';
+  ctaBtn.href = '#';
+  ctaBtn.textContent = 'Open desktop app';
+  banner.append(ctaBtn);
 
   el.textContent = '';
-  el.append(container);
+  el.append(banner);
 }
