@@ -1,4 +1,4 @@
-/* Browsing Page Template — 2-column layout with left TOC sidebar */
+/* Browsing Page Template — matches helpx.adobe.com/{product}/desktop.html */
 
 body.browsing-page main {
   max-width: var(--grid-container-width);
@@ -14,15 +14,20 @@ body.browsing-page main {
     gap: 0 40px;
   }
 
-  /* TOC sidebar spans all rows in column 1 */
   body.browsing-page main > .section:has(.toc-nav) {
     grid-column: 1;
     grid-row: 1 / span 50;
   }
 
-  /* All other sections stack in column 2 */
   body.browsing-page main > .section:not(:has(.toc-nav)) {
     grid-column: 2;
+  }
+}
+
+/* Big Desktop (1440px+) */
+@media only screen and (min-width: 1440px) {
+  body.browsing-page main {
+    grid-template-columns: 320px 1fr;
   }
 }
 
@@ -46,50 +51,81 @@ body.browsing-page .toc-nav {
   }
 }
 
-/* Content sections */
+/* Content sections — override Milo defaults */
 body.browsing-page .section > .default-content-wrapper {
   max-width: none;
-}
-
-/* Section headings */
-body.browsing-page main h2 {
-  font-size: var(--heading-font-size-l);
-  margin-top: 32px;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-gray-160);
-}
-
-body.browsing-page main p {
-  color: var(--color-gray-700);
-  line-height: 1.5;
+  margin: 0;
 }
 
 /* Product badge spacing */
 body.browsing-page .product-badge {
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 /* Navigation list (Desktop / Mobile / Web tabs) */
 body.browsing-page .navigation-list {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
-/* Breadcrumb spacing */
-body.browsing-page main > .section:nth-child(1 of .section:not(:has(.toc-nav))) {
-  margin-bottom: 8px;
+/* ===== Section headings — match helpx ===== */
+body.browsing-page main h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-gray-925);
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-gray-160);
 }
 
-body.browsing-page .section:first-child p {
-  font-size: var(--body-font-size-s);
-  color: var(--color-breadcrumb-text);
+body.browsing-page main .section:not(:has(.toc-nav)):first-of-type h2 {
+  margin-top: 0;
 }
 
-/* Big Desktop (1440px+) */
-@media only screen and (min-width: 1440px) {
-  body.browsing-page main {
-    grid-template-columns: 320px 1fr;
-  }
+body.browsing-page main h3 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-gray-700);
+  margin: 1.25rem 0 0.5rem;
+}
+
+/* ===== Link lists — match helpx ===== */
+body.browsing-page main .default-content-wrapper ul {
+  list-style: none;
+  margin: 0 0 0.5rem;
+  padding: 0;
+}
+
+body.browsing-page main .default-content-wrapper li {
+  margin: 0;
+  padding: 0.375rem 0;
+  line-height: 1.375;
+}
+
+body.browsing-page main .default-content-wrapper li a {
+  color: var(--color-blue-500);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+body.browsing-page main .default-content-wrapper li a:hover {
+  text-decoration: underline;
+}
+
+/* ===== General text ===== */
+body.browsing-page main p {
+  color: var(--color-gray-700);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* ===== Section spacing ===== */
+body.browsing-page main > .section:not(:has(.toc-nav)):not(:has(.product-badge)):not(:has(.navigation-list)) {
+  margin-bottom: 0.5rem;
+}
+
+/* Last section (metadata) — hide */
+body.browsing-page main > .section:last-child:has(.metadata) {
+  display: none;
 }
 
 /* RTL */
