@@ -6,24 +6,23 @@ body.browsing-page main {
   padding: 0 24px;
 }
 
-/* Desktop: 2-column layout — TOC sidebar + content */
+/* Desktop: 2-column grid — TOC sidebar (col 1) + content sections (col 2) */
 @media only screen and (min-width: 1080px) {
   body.browsing-page main {
-    display: flex;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 0 40px;
   }
 
-  /* The section containing the toc-nav block becomes the left sidebar */
-  body.browsing-page main .section:has(.toc-nav) {
-    flex: 0 0 300px;
-    max-width: 300px;
-    order: -1;
+  /* TOC sidebar spans all rows in column 1 */
+  body.browsing-page main > .section:has(.toc-nav) {
+    grid-column: 1;
+    grid-row: 1 / span 50;
   }
 
-  /* All other sections flow as the main content column */
-  body.browsing-page main .section:not(:has(.toc-nav)) {
-    flex: 1;
-    min-width: 0;
+  /* All other sections stack in column 2 */
+  body.browsing-page main > .section:not(:has(.toc-nav)) {
+    grid-column: 2;
   }
 }
 
@@ -48,26 +47,8 @@ body.browsing-page .toc-nav {
 }
 
 /* Content sections */
-body.browsing-page .section > .default-content {
+body.browsing-page .section > .default-content-wrapper {
   max-width: none;
-}
-
-/* Browsing cards — 2-column grid matching original HelpX */
-body.browsing-page .browsing-page {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2%;
-}
-
-body.browsing-page .browsing-page > div {
-  flex: 0 0 100%;
-  margin-bottom: 16px;
-}
-
-@media only screen and (min-width: 768px) {
-  body.browsing-page .browsing-page > div {
-    flex: 0 0 49%;
-  }
 }
 
 /* Section headings */
@@ -95,7 +76,7 @@ body.browsing-page .navigation-list {
 }
 
 /* Breadcrumb spacing */
-body.browsing-page .section:first-child {
+body.browsing-page main > .section:nth-child(1 of .section:not(:has(.toc-nav))) {
   margin-bottom: 8px;
 }
 
@@ -106,9 +87,8 @@ body.browsing-page .section:first-child p {
 
 /* Big Desktop (1440px+) */
 @media only screen and (min-width: 1440px) {
-  body.browsing-page main .section:has(.toc-nav) {
-    flex: 0 0 320px;
-    max-width: 320px;
+  body.browsing-page main {
+    grid-template-columns: 320px 1fr;
   }
 }
 
