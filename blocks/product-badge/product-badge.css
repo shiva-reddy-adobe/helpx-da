@@ -1,4 +1,4 @@
-/* Product Badge - based on productbadge/styles.less */
+/* Product Badge - Hero Banner with Blue Gradient */
 .product-badge {
   max-width: var(--grid-container-width);
   margin: 0.75rem auto;
@@ -7,8 +7,11 @@
 .product-badge-container {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  color: #4b4b4b;
+  gap: 1.25rem;
+  background: linear-gradient(135deg, #1473e6 0%, #0d66d0 100%);
+  border-radius: 12px;
+  padding: 24px 32px;
+  color: #fff;
 }
 
 .product-badge-icon {
@@ -18,38 +21,57 @@
 }
 
 .product-badge-icon img {
-  height: 3.25rem;
-  width: auto;
+  height: 64px;
+  width: 64px;
   object-fit: contain;
   align-self: center;
-}
-
-.product-badge-name {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #2c2c2c;
-  margin: 0;
-  line-height: 1.2;
 }
 
 .product-badge-text {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .product-badge-platform {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 400;
-  color: #6e6e6e;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: capitalize;
+  letter-spacing: 0;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.product-badge-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .product-badge-name a {
-  color: #4b4b4b;
+  color: #fff;
   text-decoration: none;
 }
 
 .product-badge-name a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 767px) {
+  .product-badge-container {
+    padding: 20px 24px;
+    gap: 1rem;
+  }
+
+  .product-badge-icon img {
+    height: 48px;
+    width: 48px;
+  }
+
+  .product-badge-name {
+    font-size: 1.5rem;
+  }
 }

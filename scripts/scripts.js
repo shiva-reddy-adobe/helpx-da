@@ -154,6 +154,27 @@ function decorateBrowsingPage() {
     }
   });
 
+  // Add icons to two-col-cards (Get started and Troubleshoot)
+  document.querySelectorAll('.section.two-column-cards .two-col-card').forEach((card) => {
+    const h2 = card.querySelector('h2');
+    if (!h2) return;
+
+    const heading = h2.textContent.trim().toLowerCase();
+    let iconSvg = '';
+
+    if (heading.includes('get started') || heading.includes('getting started')) {
+      // Paper airplane icon
+      iconSvg = '<svg class="card-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 34l4-14L34 6 20 30l-6 2 2-6z" stroke="#2c2c2c" stroke-width="1.5"/><path d="M10 20L34 6M16 28l4-8" stroke="#2c2c2c" stroke-width="1.5"/></svg>';
+    } else if (heading.includes('troubleshoot')) {
+      // Question mark icon
+      iconSvg = '<svg class="card-icon" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="16" stroke="#2c2c2c" stroke-width="1.5"/><path d="M15 15a5.5 5.5 0 015.5-3c3 0 5.5 2 5.5 5 0 2.5-2 4-4 5s-2 2-2 3" stroke="#2c2c2c" stroke-width="1.5"/><circle cx="20" cy="29" r="1" fill="#2c2c2c"/></svg>';
+    }
+
+    if (iconSvg) {
+      h2.insertAdjacentHTML('beforebegin', iconSvg);
+    }
+  });
+
   // Wrap h2 followed by a p containing only a link into .heading-with-link
   document.querySelectorAll('.section > .default-content-wrapper, .section > .content').forEach((wrapper) => {
     const headings = wrapper.querySelectorAll('h2');

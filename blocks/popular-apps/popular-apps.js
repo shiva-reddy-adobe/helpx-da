@@ -1,3 +1,30 @@
+function createAllAppsIcon() {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', '48');
+  svg.setAttribute('height', '48');
+  svg.setAttribute('viewBox', '0 0 48 48');
+  svg.setAttribute('fill', 'none');
+
+  const positions = [
+    { x: 8, y: 8 }, { x: 20, y: 8 }, { x: 32, y: 8 },
+    { x: 8, y: 20 }, { x: 20, y: 20 }, { x: 32, y: 20 },
+    { x: 8, y: 32 }, { x: 20, y: 32 }, { x: 32, y: 32 },
+  ];
+
+  positions.forEach((pos) => {
+    const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    rect.setAttribute('x', pos.x);
+    rect.setAttribute('y', pos.y);
+    rect.setAttribute('width', '8');
+    rect.setAttribute('height', '8');
+    rect.setAttribute('rx', '2');
+    rect.setAttribute('fill', '#6e6e6e');
+    svg.append(rect);
+  });
+
+  return svg;
+}
+
 export default function init(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
   const grid = document.createElement('div');
@@ -39,6 +66,23 @@ export default function init(el) {
 
     grid.append(item);
   });
+
+  // Add "All apps" item at the end
+  const allAppsItem = document.createElement('a');
+  allAppsItem.className = 'popular-apps-item';
+  allAppsItem.href = 'https://www.adobe.com/creativecloud/all-apps.html';
+
+  const allAppsIconWrap = document.createElement('div');
+  allAppsIconWrap.className = 'popular-apps-icon popular-apps-icon-grid';
+  allAppsIconWrap.append(createAllAppsIcon());
+  allAppsItem.append(allAppsIconWrap);
+
+  const allAppsLabel = document.createElement('span');
+  allAppsLabel.className = 'popular-apps-label';
+  allAppsLabel.textContent = 'All apps';
+  allAppsItem.append(allAppsLabel);
+
+  grid.append(allAppsItem);
 
   el.textContent = '';
   el.append(grid);
