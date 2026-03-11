@@ -1,7 +1,7 @@
 /* Browsing Page Template — matches helpx.adobe.com/{product}/desktop.html */
 
 body.browsing-page main {
-  max-width: var(--grid-container-width);
+  max-width: 75rem;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -47,6 +47,7 @@ body.browsing-page main > .section:has(.product-badge) {
 /* Big Desktop (1440px+) */
 @media only screen and (min-width: 1440px) {
   body.browsing-page main {
+    max-width: 82.5rem;
     grid-template-columns: 320px 1fr;
   }
 }

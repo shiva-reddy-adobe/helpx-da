@@ -15,6 +15,17 @@
   max-width: 100%;
 }
 
+/* Override global img/svg resets */
+.product-badge img {
+  width: auto;
+  height: auto;
+}
+
+.product-badge svg {
+  width: auto;
+  height: auto;
+}
+
 .product-badge-topnav {
   display: grid;
   align-items: center;
