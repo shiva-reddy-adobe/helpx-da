@@ -296,6 +296,37 @@ function buildActionItems(searchEl) {
   tocToggle.type = 'button';
   tocToggle.className = 'product-badge-action-btn product-badge-toc-toggle';
   tocToggle.setAttribute('aria-label', 'Table of Contents');
+  tocToggle.setAttribute('aria-expanded', 'false');
+
+  tocToggle.addEventListener('click', () => {
+    const tocSection = document.querySelector('.section:has(.toc-nav)');
+    if (!tocSection) return;
+
+    const isVisible = tocSection.classList.contains('toc-overlay-open');
+    if (isVisible) {
+      tocSection.classList.remove('toc-overlay-open');
+      tocToggle.setAttribute('aria-expanded', 'false');
+      tocToggle.classList.remove('is-active');
+      document.body.style.overflow = '';
+    } else {
+      tocSection.classList.add('toc-overlay-open');
+      tocToggle.setAttribute('aria-expanded', 'true');
+      tocToggle.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  // Close TOC overlay when clicking outside
+  document.addEventListener('click', (e) => {
+    const tocSection = document.querySelector('.section.toc-overlay-open');
+    if (!tocSection) return;
+    if (!tocSection.contains(e.target) && !tocToggle.contains(e.target)) {
+      tocSection.classList.remove('toc-overlay-open');
+      tocToggle.setAttribute('aria-expanded', 'false');
+      tocToggle.classList.remove('is-active');
+      document.body.style.overflow = '';
+    }
+  });
 
   actions.append(searchToggle, tocToggle);
   return actions;

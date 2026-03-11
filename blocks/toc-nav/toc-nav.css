@@ -280,24 +280,22 @@
   }
 }
 
-/* Tablet */
+/* Tablet & Phone — overlay mode triggered by topnav toggle */
 @media only screen and (max-width: 1079px) {
   .toc-nav {
-    border-bottom: 0.0625rem solid var(--color-toc-mobile-border);
-    margin-bottom: 1rem;
+    border-bottom: none;
+    margin-bottom: 0;
   }
 
-  .toc-nav-home-link {
-    padding-left: 0.625rem;
-    padding-top: 1.25rem;
+  .toc-nav-mobile-toggle {
+    display: none;
   }
-}
 
-/* Phone */
-@media only screen and (max-width: 767px) {
-  .toc-nav {
-    border-bottom: 0.0625rem solid var(--color-toc-mobile-border);
-    margin-bottom: 1rem;
+  .toc-nav-wrapper {
+    display: block;
+    max-height: none;
+    overflow-y: auto;
+    border: none;
   }
 
   .toc-nav-home-link {
