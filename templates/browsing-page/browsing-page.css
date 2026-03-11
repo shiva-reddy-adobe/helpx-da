@@ -52,7 +52,8 @@ body.browsing-page .toc-nav {
 }
 
 /* Content sections — override Milo defaults */
-body.browsing-page .section > .default-content-wrapper {
+body.browsing-page .section > .default-content-wrapper,
+body.browsing-page .section > .content {
   max-width: none;
   margin: 0;
 }
@@ -82,7 +83,8 @@ body.browsing-page main .section:not(:has(.toc-nav)):first-of-type h2 {
 }
 
 /* ===== "What's new" hero section ===== */
-body.browsing-page .section:has(h2) .default-content-wrapper + .content-card {
+body.browsing-page .section:has(h2) .default-content-wrapper + .content-card,
+body.browsing-page .section:has(h2) .content + .content-card {
   margin-top: 1rem;
 }
 
@@ -92,91 +94,53 @@ body.browsing-page .section:has(h2) > .content-card:first-of-type {
 }
 
 /* ===== Two-column cards (Get started + Troubleshoot side-by-side) ===== */
-body.browsing-page .section.two-column-cards > .default-content-wrapper {
+body.browsing-page .section.two-column-cards > .default-content-wrapper,
+body.browsing-page .section.two-column-cards > .content {
   display: flex;
   gap: 1.5rem;
 }
 
 @media (max-width: 767px) {
-  body.browsing-page .section.two-column-cards > .default-content-wrapper {
+  body.browsing-page .section.two-column-cards > .default-content-wrapper,
+  body.browsing-page .section.two-column-cards > .content {
     flex-direction: column;
   }
 }
 
 /* Each column card wrapper */
-body.browsing-page .section.two-column-cards .default-content-wrapper .two-col-card {
+body.browsing-page .section.two-column-cards .two-col-card {
   flex: 1;
   background: #f0f5ff;
   border-radius: 0.75rem;
   overflow: hidden;
 }
 
-body.browsing-page .section.two-column-cards .default-content-wrapper .two-col-card h2 {
-  background: #f0f5ff;
+body.browsing-page .section.two-column-cards .two-col-card h2 {
   padding: 1.25rem 1.5rem 0.5rem;
   margin: 0;
   border: none;
 }
 
-body.browsing-page .section.two-column-cards .default-content-wrapper .two-col-card ul {
-  background: #f0f5ff;
+body.browsing-page .section.two-column-cards .two-col-card ul {
   padding: 0 1.5rem 0.5rem;
   margin: 0;
 }
 
-body.browsing-page .section.two-column-cards .default-content-wrapper .two-col-card p {
-  background: #f0f5ff;
+body.browsing-page .section.two-column-cards .two-col-card p {
   padding: 0.25rem 1.5rem 1.25rem;
   margin: 0;
-}
-
-/* Fallback: if JS doesn't wrap, use CSS columns */
-body.browsing-page .section.two-column-cards > .default-content-wrapper:not(:has(.two-col-card)) {
-  display: block;
-  columns: 2;
-  column-gap: 1.5rem;
-}
-
-body.browsing-page .section.two-column-cards > .default-content-wrapper:not(:has(.two-col-card)) h2 {
-  break-before: column;
-  background: #f0f5ff;
-  border-radius: 0.75rem 0.75rem 0 0;
-  padding: 1.25rem 1.5rem 0.5rem;
-  margin: 0;
-  border: none;
-}
-
-body.browsing-page .section.two-column-cards > .default-content-wrapper:not(:has(.two-col-card)) h2:first-child {
-  break-before: auto;
-}
-
-body.browsing-page .section.two-column-cards > .default-content-wrapper:not(:has(.two-col-card)) ul {
-  background: #f0f5ff;
-  padding: 0 1.5rem 0.5rem;
-  margin: 0;
-}
-
-body.browsing-page .section.two-column-cards > .default-content-wrapper:not(:has(.two-col-card)) p {
-  background: #f0f5ff;
-  padding: 0.25rem 1.5rem 1.25rem;
-  margin: 0;
-  border-radius: 0 0 0.75rem 0.75rem;
-}
-
-@media (max-width: 767px) {
-  body.browsing-page .section.two-column-cards > .default-content-wrapper:not(:has(.two-col-card)) {
-    columns: 1;
-  }
 }
 
 /* Link lists within browsing page */
-body.browsing-page main .default-content-wrapper ul {
+body.browsing-page main .default-content-wrapper ul,
+body.browsing-page main .content ul {
   list-style: none;
   margin: 0 0 0.5rem;
   padding: 0;
 }
 
-body.browsing-page main .default-content-wrapper li {
+body.browsing-page main .default-content-wrapper li,
+body.browsing-page main .content li {
   margin: 0;
   padding: 0.25rem 0;
   line-height: 1.375;
@@ -184,7 +148,8 @@ body.browsing-page main .default-content-wrapper li {
   padding-left: 1rem;
 }
 
-body.browsing-page main .default-content-wrapper li::before {
+body.browsing-page main .default-content-wrapper li::before,
+body.browsing-page main .content li::before {
   content: "\203A";
   position: absolute;
   left: 0;
@@ -192,45 +157,45 @@ body.browsing-page main .default-content-wrapper li::before {
   font-weight: 700;
 }
 
-body.browsing-page main .default-content-wrapper li a {
+body.browsing-page main .default-content-wrapper li a,
+body.browsing-page main .content li a {
   color: #1473e6;
   text-decoration: none;
   font-size: 0.875rem;
 }
 
-body.browsing-page main .default-content-wrapper li a:hover {
+body.browsing-page main .default-content-wrapper li a:hover,
+body.browsing-page main .content li a:hover {
   text-decoration: underline;
 }
 
 /* "View more" links */
-body.browsing-page main .default-content-wrapper p a {
+body.browsing-page main .default-content-wrapper p a,
+body.browsing-page main .content p a {
   color: #1473e6;
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 600;
 }
 
-body.browsing-page main .default-content-wrapper p a:hover {
+body.browsing-page main .default-content-wrapper p a:hover,
+body.browsing-page main .content p a:hover {
   text-decoration: underline;
 }
 
 /* Section heading with "View more" link — flex layout */
-body.browsing-page .section > .default-content-wrapper > h2:has(+ p > a:only-child) {
-  margin-bottom: 0;
-}
-
-body.browsing-page .section .default-content-wrapper .heading-with-link {
+body.browsing-page .section .heading-with-link {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 0.75rem;
 }
 
-body.browsing-page .section .default-content-wrapper .heading-with-link h2 {
+body.browsing-page .section .heading-with-link h2 {
   margin: 0;
 }
 
-body.browsing-page .section .default-content-wrapper .heading-with-link p {
+body.browsing-page .section .heading-with-link p {
   margin: 0;
   white-space: nowrap;
 }
@@ -285,12 +250,14 @@ html[dir="rtl"] body.browsing-page main {
   direction: rtl;
 }
 
-html[dir="rtl"] body.browsing-page main .default-content-wrapper li {
+html[dir="rtl"] body.browsing-page main .default-content-wrapper li,
+html[dir="rtl"] body.browsing-page main .content li {
   padding-left: 0;
   padding-right: 1rem;
 }
 
-html[dir="rtl"] body.browsing-page main .default-content-wrapper li::before {
+html[dir="rtl"] body.browsing-page main .default-content-wrapper li::before,
+html[dir="rtl"] body.browsing-page main .content li::before {
   left: auto;
   right: 0;
   content: "\2039";

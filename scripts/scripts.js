@@ -136,7 +136,7 @@ function decorateBrowsingPage() {
   if (!document.body.classList.contains('browsing-page')) return;
 
   // Wrap h2 + ul + p groups into .two-col-card divs in two-column-cards sections
-  document.querySelectorAll('.section.two-column-cards > .default-content-wrapper').forEach((wrapper) => {
+  document.querySelectorAll('.section.two-column-cards > .default-content-wrapper, .section.two-column-cards > .content').forEach((wrapper) => {
     const children = [...wrapper.children];
     const cards = [];
     let current = null;
@@ -155,7 +155,7 @@ function decorateBrowsingPage() {
   });
 
   // Wrap h2 followed by a p containing only a link into .heading-with-link
-  document.querySelectorAll('.section > .default-content-wrapper').forEach((wrapper) => {
+  document.querySelectorAll('.section > .default-content-wrapper, .section > .content').forEach((wrapper) => {
     const headings = wrapper.querySelectorAll('h2');
     headings.forEach((h2) => {
       const next = h2.nextElementSibling;
