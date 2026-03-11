@@ -15,12 +15,7 @@
   right: 0;
   bottom: 0;
   z-index: 0;
-  background:
-    radial-gradient(ellipse at 20% 30%, rgba(147, 51, 234, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 40%, rgba(236, 72, 153, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 70%, rgba(251, 146, 60, 0.3) 0%, transparent 50%),
-    radial-gradient(ellipse at 30% 80%, rgba(167, 139, 250, 0.3) 0%, transparent 50%),
-    linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  background: url('https://helpx-prod.scene7.com/is/image/HelpxProd/Page%20banner?$png$&jpegSize=300&wid=1920') center center / cover no-repeat;
 }
 
 .hero-banner-content {

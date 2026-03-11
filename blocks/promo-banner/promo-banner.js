@@ -1,20 +1,29 @@
+function isImageUrl(url) {
+  return /\.(jpg|jpeg|png|gif|svg|webp)(\?.*)?$/i.test(url);
+}
+
 export default function decorate(block) {
   const rows = [...block.querySelectorAll(':scope > div')];
 
-  rows.forEach((row, index) => {
+  // Single row with multiple cells — each non-empty cell is a promo banner
+  rows.forEach((row) => {
     const cells = [...row.querySelectorAll(':scope > div')];
+    let bannerIndex = 0;
 
-    if (cells.length >= 3) {
-      const iconCell = cells[0];
-      const textCell = cells[1];
-      const ctaCell = cells[2];
+    cells.forEach((cell) => {
+      if (!cell.textContent.trim()) return; // skip empty cells
 
-      // Create banner card
       const banner = document.createElement('div');
-      banner.className = index === 1 ? 'promo-banner-card promo-banner-dark' : 'promo-banner-card';
+      banner.className = bannerIndex === 1
+        ? 'promo-banner-card promo-banner-dark'
+        : 'promo-banner-card';
 
-      // Create icon
-      const iconLink = iconCell.querySelector('a');
+      // Parse cell: optional icon-link, text lines (BR separated), CTA link
+      const links = [...cell.querySelectorAll('a')];
+      const iconLink = links.find((l) => isImageUrl(l.href));
+      const ctaLink = links.find((l) => !isImageUrl(l.href));
+
+      // Icon
       if (iconLink) {
         const icon = document.createElement('img');
         icon.src = iconLink.href;
@@ -23,37 +32,42 @@ export default function decorate(block) {
         banner.appendChild(icon);
       }
 
-      // Create text wrapper
+      // Text content
       const textWrapper = document.createElement('div');
       textWrapper.className = 'promo-banner-text';
 
-      // Parse text content - first strong/bold as heading, rest as description
-      const textContent = textCell.innerHTML;
+      // Clone cell, remove links, get text segments
       const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = textContent;
+      tempDiv.innerHTML = cell.innerHTML;
+      tempDiv.querySelectorAll('a').forEach((a) => a.remove());
+      const segments = tempDiv.textContent.split(/\n/).map((s) => s.trim()).filter(Boolean);
 
-      const heading = document.createElement('h3');
-      const strongElem = tempDiv.querySelector('strong');
-      if (strongElem) {
-        heading.textContent = strongElem.textContent;
-        strongElem.remove();
+      if (segments[0]) {
+        const heading = document.createElement('h3');
+        heading.textContent = segments[0];
+        textWrapper.appendChild(heading);
       }
 
-      const description = document.createElement('p');
-      description.innerHTML = tempDiv.innerHTML.trim();
+      if (segments[1]) {
+        const desc = document.createElement('p');
+        desc.textContent = segments[1];
+        textWrapper.appendChild(desc);
+      }
 
-      textWrapper.appendChild(heading);
-      textWrapper.appendChild(description);
       banner.appendChild(textWrapper);
 
-      // Create CTA button
-      const ctaLink = ctaCell.querySelector('a');
+      // CTA button
       if (ctaLink) {
-        ctaLink.className = 'promo-banner-cta';
-        banner.appendChild(ctaLink);
+        const cta = ctaLink.cloneNode(true);
+        cta.className = 'promo-banner-cta';
+        banner.appendChild(cta);
       }
 
-      row.replaceWith(banner);
-    }
+      row.appendChild(banner);
+      bannerIndex += 1;
+    });
+
+    // Remove original cells
+    cells.forEach((c) => c.remove());
   });
 }
