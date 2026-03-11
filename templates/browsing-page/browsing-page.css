@@ -107,34 +107,36 @@ body.browsing-page .section.two-column-cards > .content {
   }
 }
 
-/* Each column card wrapper */
+/* Each column card wrapper — no background (matches helpx browsingpages) */
 body.browsing-page .section.two-column-cards .two-col-card {
   flex: 1;
-  background: #f5f5f5;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
+  background: none;
+  padding: 0;
+  margin-top: 2rem;
 }
 
 body.browsing-page .section.two-column-cards .two-col-card .card-icon {
   display: block;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0;
 }
 
 body.browsing-page .section.two-column-cards .two-col-card h2 {
   padding: 0;
-  margin: 0 0 1rem;
+  margin: 1rem 0 1.375rem;
   border: none;
-  font-size: 1.375rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2c2c2c;
 }
 
 body.browsing-page .section.two-column-cards .two-col-card ul {
   padding: 0;
-  margin: 0 0 0.5rem;
+  margin: 0;
 }
 
 body.browsing-page .section.two-column-cards .two-col-card p {
   padding: 0;
-  margin: 0.5rem 0 0;
+  margin: 1.25rem 0 0;
 }
 
 /* Link lists within browsing page */
@@ -166,6 +168,8 @@ body.browsing-page main .content li::before {
 /* Document icon for two-col-card list items */
 body.browsing-page .section.two-column-cards .two-col-card li {
   padding-left: 1.5rem;
+  padding-top: 0.3125rem;
+  padding-bottom: 0.4375rem;
 }
 
 body.browsing-page .section.two-column-cards .two-col-card li::before {
@@ -179,9 +183,9 @@ body.browsing-page .section.two-column-cards .two-col-card li::before {
 }
 
 body.browsing-page .section.two-column-cards .two-col-card li a {
-  color: #2c2c2c;
+  color: #1473e6;
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 body.browsing-page .section.two-column-cards .two-col-card li a:hover {
@@ -261,25 +265,9 @@ body.browsing-page main > .section:last-child:has(.metadata) {
   display: none;
 }
 
-/* ===== Feedback section — fixed at viewport bottom ===== */
+/* ===== Feedback section — inline (matches helpx) ===== */
 body.browsing-page .section:has(.feedback) {
-  margin: 0;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-  pointer-events: none;
-}
-
-body.browsing-page .feedback {
-  position: static;
-  transform: none;
-  left: auto;
-}
-
-body.browsing-page .feedback {
-  margin: 0;
+  margin: 2rem 0;
 }
 
 /* ===== Popular Apps grid ===== */

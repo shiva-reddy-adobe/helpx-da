@@ -1,29 +1,20 @@
-/* Feedback block - floating bar at bottom of viewport */
+/* Feedback block - inline centered bar (matches helpx feedbackV2) */
 .feedback {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  max-width: 650px;
   width: 100%;
-  max-width: 100%;
-  z-index: 9999;
-  padding: 1rem;
-  pointer-events: none;
+  margin: 0 auto;
+  padding: 1rem 0;
 }
 
 .feedback-bar {
-  max-width: 650px;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-  border: 1px solid #e8e8e8;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.875rem 1.25rem;
-  pointer-events: auto;
-  animation: slideUp 0.3s ease-out;
+  justify-content: center;
+  margin: 0 auto;
+  background: #f5f5f5;
+  border-radius: 10px;
+  border: 1px solid #e8e8e8;
+  padding: 0.7rem 1rem;
 }
 
 .feedback-content {
@@ -34,10 +25,10 @@
 }
 
 .feedback-question {
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #2c2c2c;
-  margin: 0;
+  margin: 0 1rem 0 0;
   white-space: nowrap;
 }
 
@@ -84,7 +75,7 @@
   flex-shrink: 0;
   width: 32px;
   height: 32px;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   background: transparent;
@@ -94,10 +85,11 @@
   padding: 0;
   margin-left: 0.5rem;
   transition: background 0.15s ease;
+  visibility: hidden;
 }
 
 .feedback-close:hover {
-  background: #f5f5f5;
+  background: #e8e8e8;
 }
 
 .feedback-close:focus-visible {
@@ -179,17 +171,7 @@
   margin: 0;
 }
 
-/* Animation */
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+/* No animation needed - feedback is inline */
 
 /* Tablet */
 @media (max-width: 1079px) {
