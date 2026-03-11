@@ -98,9 +98,42 @@ body.browsing-page .content-card {
   }
 }
 
-/* ===== Get started / Troubleshoot side-by-side ===== */
-body.browsing-page .section:has(h2) + .section:has(h2) {
-  /* These should appear side by side — handled by letting grid flow naturally */
+/* ===== Two-column cards (Get started + Troubleshoot side-by-side) ===== */
+body.browsing-page .section.two-column-cards > .default-content-wrapper {
+  columns: 2;
+  column-gap: 1.5rem;
+}
+
+@media (max-width: 767px) {
+  body.browsing-page .section.two-column-cards > .default-content-wrapper {
+    columns: 1;
+  }
+}
+
+body.browsing-page .section.two-column-cards .default-content-wrapper h2 {
+  break-before: column;
+  background: #f0f5ff;
+  border-radius: 0.75rem 0.75rem 0 0;
+  padding: 1.25rem 1.5rem 0.5rem;
+  margin: 0;
+  border: none;
+}
+
+body.browsing-page .section.two-column-cards .default-content-wrapper h2:first-child {
+  break-before: auto;
+}
+
+body.browsing-page .section.two-column-cards .default-content-wrapper ul {
+  background: #f0f5ff;
+  padding: 0 1.5rem 0.5rem;
+  margin: 0;
+}
+
+body.browsing-page .section.two-column-cards .default-content-wrapper p {
+  background: #f0f5ff;
+  padding: 0.25rem 1.5rem 1.25rem;
+  margin: 0;
+  border-radius: 0 0 0.75rem 0.75rem;
 }
 
 /* Link lists within browsing page */

@@ -10,11 +10,16 @@ export default function init(el) {
     card.className = 'content-card-item';
 
     // First cell with image becomes card image
-    const pic = cells[0]?.querySelector('picture');
+    const pic = cells[0]?.querySelector('picture, img');
     if (pic) {
       const imageWrap = document.createElement('div');
       imageWrap.className = 'content-card-image';
-      imageWrap.append(pic);
+      if (pic.tagName === 'IMG') {
+        pic.loading = 'lazy';
+        imageWrap.append(pic);
+      } else {
+        imageWrap.append(pic);
+      }
       card.append(imageWrap);
       cells.shift();
     }
