@@ -1,271 +1,383 @@
-/* Product Badge TopNav - matches helpx.adobe.com production TopNav */
+/* Product Badge TopNav — matches helpx.adobe.com production */
 .product-badge {
-  background: var(--color-nav-top-bg, #fff);
-  border-bottom: 1px solid var(--color-gray-150, #eaeaea);
+  background-color: #fff;
+  border-bottom: 0.0625rem solid #e1e1e1;
   padding: 0;
   margin: 0;
   max-width: 100%;
 }
 
+/* 3-column grid matching production layout */
 .product-badge-topnav {
-  display: flex;
+  display: grid;
   align-items: center;
-  min-height: 64px;
-  max-width: var(--grid-container-width, 83.4%);
+  grid-template-columns: 1fr 1fr 1.75fr;
+  height: 4.1875rem;
+  max-width: 75rem;
   margin: 0 auto;
-  padding: 0 16px;
-  gap: 24px;
+  padding: 0 1.5rem;
 }
 
-/* Left: Product details (icon + name + open app) */
-.product-badge-details {
+/* ===== Col 1: Product badge (icon + name + open app) ===== */
+.product-badge-info {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
+  color: #2c2c2c;
 }
 
 .product-badge-icon-link {
   display: flex;
-  align-items: center;
-  text-decoration: none;
+  margin-right: 0.75rem;
 }
 
 .product-badge-icon {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  border-radius: 6px;
+  height: 2.625rem;
+  width: auto;
+  align-self: center;
 }
 
-.product-badge-name-wrap {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.product-badge-open-link {
+  margin-right: 0.75rem;
 }
 
 .product-badge-name {
-  font-size: 16px;
+  margin: 0;
   font-weight: 700;
-  color: var(--color-gray-900, #2c2c2c);
-  text-decoration: none;
-  white-space: nowrap;
+  font-size: 1rem;
+  line-height: 1.3;
 }
 
-.product-badge-name:hover {
-  text-decoration: underline;
+.product-badge-name a {
+  color: #2c2c2c;
+  text-decoration: none;
 }
 
 .product-badge-open-app {
+  color: #0265dc;
+  text-decoration: underline;
+  margin: 0;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  color: var(--color-link, #0265dc);
-  text-decoration: none;
-  white-space: nowrap;
-  border-left: 1px solid var(--color-gray-200, #d5d5d5);
-  padding-left: 16px;
 }
 
-.product-badge-open-app:hover {
+.product-badge-open-app-text {
+  line-height: 1.25rem;
+  color: #0265dc;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.product-badge-open-app-text:hover {
   text-decoration: underline;
 }
 
-.product-badge-open-app svg {
-  width: 12px;
-  height: 12px;
+.product-badge-open-app-icon {
+  display: inline-block;
+  background-image: url('https://helpx.adobe.com/content/dam/helpx/icons/launch-icon.svg');
+  width: 0.75rem;
+  height: 0.75rem;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  margin-left: 0.3125rem;
 }
 
-/* Center: Device dropdown */
-.product-badge-device-dropdown {
-  position: relative;
-  margin-left: auto;
+/* ===== Col 2: Device selector ===== */
+.product-badge-devices {
+  justify-self: left;
+  width: 100%;
 }
 
-.product-badge-device-button {
+/* Desktop: horizontal tabs (visible on desktop, hidden on mobile) */
+.product-badge-device-tabs {
+  display: flex;
+  margin-top: 0.9375rem;
+}
+
+.product-badge-device-tab {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: none;
-  border: 1px solid var(--color-device-dropdown, #e9e9e9);
-  border-radius: 4px;
-  padding: 6px 12px;
-  font-size: 14px;
-  color: var(--color-gray-700, #464646);
+  margin-top: 0.625rem;
   cursor: pointer;
+  margin-right: 2rem;
+  text-decoration: none;
+  padding-bottom: 0.875rem;
+  border-bottom: 0.125rem solid transparent;
+}
+
+.product-badge-device-tab .product-badge-device-icon {
+  min-width: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.product-badge-device-tab .product-badge-device-text {
+  margin-left: 0.5rem;
+  color: #505050;
+  vertical-align: top;
+  font-size: 0.875rem;
   white-space: nowrap;
 }
 
-.product-badge-device-button:hover {
-  border-color: var(--color-gray-300, #8e8e8e);
+.product-badge-device-tab.is-active {
+  border-bottom: 0.125rem solid #292929;
+  z-index: 1;
 }
 
-.product-badge-device-button svg:not(.product-badge-chevron) {
-  width: 16px;
-  height: 16px;
+.product-badge-device-tab.is-active .product-badge-device-text {
+  color: #292929;
 }
 
-.product-badge-chevron {
-  width: 10px;
-  height: 10px;
-  transition: transform 0.2s;
+/* Mobile dropdown (hidden on desktop, visible on mobile/tablet) */
+.product-badge-device-dropdown {
+  display: none;
+  position: relative;
+  width: 100%;
+  background-color: #e9e9e9;
+  border-radius: 0.625rem;
 }
 
-.product-badge-device-dropdown.is-open .product-badge-chevron {
-  transform: rotate(180deg);
-}
-
-.product-badge-device-list {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  background: #fff;
-  border: 1px solid var(--color-gray-200, #d5d5d5);
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  z-index: 100;
-  min-width: 160px;
-  padding: 4px 0;
-}
-
-.product-badge-device-item {
+.product-badge-dropdown-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-  color: var(--color-gray-700, #464646);
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: #333;
   text-decoration: none;
-  white-space: nowrap;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  height: 2.25rem;
+  gap: 0.313rem;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
 }
 
-.product-badge-device-item:hover {
-  background: var(--color-gray-100, #f5f5f5);
+.product-badge-dropdown-btn .product-badge-device-text {
+  flex-grow: 1;
+  color: #000;
 }
 
-.product-badge-device-item.is-active {
-  font-weight: 600;
-  color: var(--color-gray-900, #2c2c2c);
+.product-badge-dropdown-btn:hover {
+  background-color: #e6e6e6;
 }
 
-.product-badge-device-item svg {
-  width: 16px;
-  height: 16px;
+.product-badge-chevron::before {
+  content: url('https://helpx.adobe.com/content/dam/help/devicedropdown/chevron-down.svg');
+  float: right;
 }
 
-.product-badge-device-check {
-  font-size: 12px;
-  width: 14px;
-  text-align: center;
-  color: var(--color-gray-900, #2c2c2c);
+.product-badge-dropdown-list {
+  display: none;
+  background-color: #fff;
+  border: 0.0625rem solid #ccc;
+  border-radius: 4px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  margin-top: 0.25rem;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.product-badge-device-check.hidden {
+.product-badge-dropdown-list.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-badge-dropdown-item {
+  display: flex;
+  align-items: center;
+  color: #2c2c2c;
+  padding: 0.375rem 0;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.product-badge-dropdown-item:hover {
+  background-color: #e6e6e6;
+}
+
+.product-badge-dropdown-item .product-badge-device-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.product-badge-dropdown-item .product-badge-device-text {
+  margin-left: 0.5rem;
+}
+
+.product-badge-dropdown-check {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  padding: 0 0.5rem;
+  position: relative;
+  top: -0.125rem;
+}
+
+.product-badge-dropdown-check:not(.hidden)::before {
+  content: url('https://helpx.adobe.com/content/dam/help/devicedropdown/selected-icon.svg');
+  vertical-align: middle;
+}
+
+.product-badge-dropdown-check.hidden {
   visibility: hidden;
 }
 
-/* Right: Search */
+/* ===== Col 3: Search ===== */
 .product-badge-search {
-  flex-shrink: 0;
+  justify-self: flex-start;
+  min-width: 19.5rem;
 }
 
-.product-badge-search-wrap {
+.product-badge-search-container {
+  width: 100%;
+}
+
+.product-badge-search-form {
   display: flex;
   align-items: center;
-  border: 1px solid var(--color-search-border, #eaeaea);
-  border-radius: 20px;
-  padding: 0 12px;
-  background: var(--color-search-background, #fff);
-  width: 240px;
-  height: 36px;
+  width: 19.5rem;
+  height: 2.5rem;
+  border: 0.125rem solid #eaeaea;
+  border-radius: 1.25rem;
+  padding: 0 1rem;
+  background-color: #fff;
 }
 
-.product-badge-search-wrap:focus-within {
-  border-color: var(--color-blue-500, #1473e6);
-  box-shadow: 0 0 0 1px var(--color-blue-500, #1473e6);
-}
-
-.product-badge-search-icon {
-  display: flex;
-  align-items: center;
-  color: var(--color-gray-400, #6e6e6e);
-  flex-shrink: 0;
-}
-
-.product-badge-search-icon svg {
-  width: 16px;
-  height: 16px;
+.product-badge-search-form:focus-within {
+  border-color: #1473e6;
 }
 
 .product-badge-search-input {
   border: none;
   background: transparent;
-  font-size: 14px;
-  color: var(--color-gray-900, #2c2c2c);
+  font-size: 0.875rem;
+  color: #2c2c2c;
   width: 100%;
-  padding: 0 8px;
+  padding: 0;
   font-family: inherit;
   outline: none;
+  height: 2.25rem;
 }
 
 .product-badge-search-input::placeholder {
-  color: var(--color-gray-400, #6e6e6e);
+  color: #6e6e6e;
   font-style: italic;
 }
 
-/* Tablet */
-@media (max-width: 1079px) {
+.product-badge-search-submit {
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18.5303 17.4697L13.447 12.3865C14.4164 11.1851 15 9.66003 15 8C15 4.14062 11.8594 1 8 1C4.14062 1 1 4.14061 1 7.99999C1 11.8594 4.14062 15 8 15C9.66003 15 11.1851 14.4164 12.3865 13.447L17.4697 18.5303C17.6162 18.6767 17.8076 18.75 18 18.75C18.1924 18.75 18.3838 18.6768 18.5303 18.5303C18.8232 18.2373 18.8232 17.7627 18.5303 17.4697ZM8 13.5C4.96777 13.5 2.5 11.0322 2.5 7.99999C2.5 4.96776 4.96777 2.49999 8 2.49999C11.0322 2.49999 13.5 4.96776 13.5 7.99999C13.5 11.0322 11.0322 13.5 8 13.5Z' fill='%23292929'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+/* ===== Responsive: Larger desktops ===== */
+@media only screen and (min-width: 75rem) {
   .product-badge-topnav {
-    gap: 16px;
-    padding: 0 12px;
+    grid-template-columns: 6fr 11fr auto;
+  }
+}
+
+@media only screen and (min-width: 90rem) {
+  .product-badge-topnav {
+    grid-template-columns: auto 3fr 1.1fr;
+    gap: 60px;
+    max-width: 82.5rem;
+  }
+}
+
+/* ===== Tablet (600px - 1199px) ===== */
+@media only screen and (max-width: 74.9375rem) {
+  .product-badge-topnav {
+    grid-template-columns: 1fr 4fr 1.5fr;
   }
 
-  .product-badge-search-wrap {
-    width: 200px;
+  .product-badge-info {
+    margin-right: 5.75rem;
   }
 
-  .product-badge-open-app {
+  /* Hide search, show action items on tablet */
+  .product-badge-search {
     display: none;
   }
 }
 
-/* Mobile */
-@media (max-width: 767px) {
+/* ===== Mobile (< 600px) ===== */
+@media only screen and (max-width: 37.4375rem) {
   .product-badge-topnav {
+    display: flex;
     flex-wrap: wrap;
-    min-height: auto;
-    padding: 12px 16px;
-    gap: 10px;
+    height: auto;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
   }
 
-  .product-badge-details {
+  .product-badge-info {
     flex: 1;
+    min-width: 0;
+    margin-right: 0;
   }
 
-  .product-badge-open-app {
+  /* Hide desktop tabs, show mobile dropdown */
+  .product-badge-device-tabs {
     display: none;
   }
 
   .product-badge-device-dropdown {
-    margin-left: 0;
+    display: block;
+    width: 100%;
   }
 
-  .product-badge-search {
+  .product-badge-devices {
     width: 100%;
     order: 3;
   }
 
-  .product-badge-search-wrap {
+  .product-badge-search {
+    display: block;
+    width: 100%;
+    order: 4;
+    min-width: 0;
+  }
+
+  .product-badge-search-form {
     width: 100%;
   }
+}
 
-  .product-badge-icon {
-    width: 28px;
-    height: 28px;
-  }
+/* RTL */
+html[dir="rtl"] .product-badge-icon-link {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
 
-  .product-badge-name {
-    font-size: 15px;
-  }
+html[dir="rtl"] .product-badge-device-tab .product-badge-device-text {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+html[dir="rtl"] .product-badge-device-tab {
+  margin-right: 0;
+  margin-left: 2rem;
+}
+
+html[dir="rtl"] .product-badge-open-app-icon {
+  margin-left: 0;
+  margin-right: 0.3125rem;
 }

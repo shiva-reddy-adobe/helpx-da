@@ -24,35 +24,78 @@ const OPEN_APP_URLS = {
 };
 
 const DEVICE_ICONS = {
-  desktop: '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M14 2H2C1.448 2 1 2.448 1 3v8c0 .552.448 1 1 1h5v1H5.5a.5.5 0 000 1h5a.5.5 0 000-1H9v-1h5c.552 0 1-.448 1-1V3c0-.552-.448-1-1-1zm0 9H2V3h12v8z"/></svg>',
-  mobile: '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11 1H5c-.552 0-1 .448-1 1v12c0 .552.448 1 1 1h6c.552 0 1-.448 1-1V2c0-.552-.448-1-1-1zm0 12H5V3h6v10zm-3 1.5a.75.75 0 110-1.5.75.75 0 010 1.5z"/></svg>',
-  web: '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1C4.134 1 1 4.134 1 8s3.134 7 7 7 7-3.134 7-7-3.134-7-7-7zm5.74 4.5h-2.356c-.188-1.007-.502-1.95-.925-2.771A5.996 5.996 0 0113.74 5.5zM8.25 2.109c.618.841 1.117 1.865 1.428 3.021H6.322c.311-1.156.81-2.18 1.428-3.021v.001zM2.26 9A4.48 4.48 0 012 7.93c0-.385.094-.75.261-1.07h2.489A8.3 8.3 0 004.675 8c0 .364.025.721.075 1.07H2.261zm.52 1h2.356c.188 1.007.502 1.95.925 2.771A5.996 5.996 0 012.78 10zm2.356-5.5H2.78A5.996 5.996 0 016.06 1.729c-.423.821-.737 1.764-.925 2.771zM8.25 13.89c-.618-.84-1.117-1.864-1.428-3.02h2.856c-.311 1.156-.81 2.18-1.428 3.02zM9.916 9.93H6.584A7.29 7.29 0 016.5 8.96c0-.333.03-.658.084-.97h3.332c.054.312.084.637.084.97s-.03.658-.084.97zm.545 3.841c.423-.821.737-1.764.925-2.771h2.356a5.996 5.996 0 01-3.281 3.271v-.5zm1.175-3.771c.05-.349.075-.706.075-1.07s-.025-.721-.075-1.07h2.489c.167.32.261.685.261 1.07s-.094.75-.261 1.07h-2.489z"/></svg>',
+  desktop: 'https://helpx.adobe.com/content/dam/help/devicedropdown/desktop-icon.svg',
+  mobile: 'https://helpx.adobe.com/content/dam/help/devicedropdown/mobile-icon.svg',
+  web: 'https://helpx.adobe.com/content/dam/help/devicedropdown/web-icon.svg',
 };
 
-function buildDeviceDropdown(navListEl) {
+function buildDeviceSelector(navListEl) {
   const links = [...navListEl.querySelectorAll('a')];
   if (!links.length) return null;
 
   const currentPath = window.location.pathname;
+  const wrapper = document.createElement('div');
+  wrapper.className = 'product-badge-devices';
+
+  // Desktop: horizontal tabs
+  const tabs = document.createElement('div');
+  tabs.className = 'product-badge-device-tabs';
+
+  // Mobile: dropdown
   const dropdown = document.createElement('div');
   dropdown.className = 'product-badge-device-dropdown';
 
-  const activeLink = links.find((a) => new URL(a.href, window.location.origin).pathname === currentPath);
-  const activeText = activeLink?.textContent?.trim() || links[0].textContent.trim();
-  const activeDevice = activeText.toLowerCase();
+  let activeText = '';
+  let activeDevice = '';
 
+  links.forEach((link) => {
+    const text = link.textContent.trim();
+    const device = text.toLowerCase();
+    const isActive = new URL(link.href, window.location.origin).pathname === currentPath;
+
+    if (isActive) {
+      activeText = text;
+      activeDevice = device;
+    }
+
+    // Tab item (desktop)
+    const tab = document.createElement('a');
+    tab.href = link.href;
+    tab.className = `product-badge-device-tab${isActive ? ' is-active' : ''}`;
+    if (isActive) tab.setAttribute('data-im', 'true');
+    const tabIcon = document.createElement('img');
+    tabIcon.src = DEVICE_ICONS[device] || '';
+    tabIcon.alt = '';
+    tabIcon.className = 'product-badge-device-icon';
+    tab.append(tabIcon);
+    const tabText = document.createElement('span');
+    tabText.className = 'product-badge-device-text';
+    tabText.textContent = text;
+    tab.append(tabText);
+    tabs.append(tab);
+  });
+
+  // Dropdown button (mobile)
   const button = document.createElement('button');
   button.type = 'button';
-  button.className = 'product-badge-device-button';
-  button.innerHTML = `
-    ${DEVICE_ICONS[activeDevice] || ''}
-    <span class="product-badge-device-text">${activeText}</span>
-    <svg class="product-badge-chevron" width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M1.5 3.5L5 7l3.5-3.5"/></svg>
-  `;
+  button.className = 'product-badge-dropdown-btn';
+  if (DEVICE_ICONS[activeDevice]) {
+    const btnIcon = document.createElement('img');
+    btnIcon.src = DEVICE_ICONS[activeDevice];
+    btnIcon.alt = '';
+    btnIcon.className = 'product-badge-device-icon';
+    button.append(btnIcon);
+  }
+  const btnText = document.createElement('span');
+  btnText.className = 'product-badge-device-text';
+  btnText.textContent = activeText || links[0].textContent.trim();
+  button.append(btnText);
+  const chevron = document.createElement('span');
+  chevron.className = 'product-badge-chevron';
+  button.append(chevron);
 
   const list = document.createElement('div');
-  list.className = 'product-badge-device-list';
-  list.hidden = true;
+  list.className = 'product-badge-dropdown-list';
 
   links.forEach((link) => {
     const text = link.textContent.trim();
@@ -61,46 +104,56 @@ function buildDeviceDropdown(navListEl) {
 
     const item = document.createElement('a');
     item.href = link.href;
-    item.className = `product-badge-device-item${isActive ? ' is-active' : ''}`;
-    item.innerHTML = `
-      <span class="product-badge-device-check ${isActive ? '' : 'hidden'}">&#10003;</span>
-      ${DEVICE_ICONS[device] || ''}
-      <span>${text}</span>
-    `;
+    item.className = `product-badge-dropdown-item${isActive ? ' is-active' : ''}`;
+
+    const check = document.createElement('span');
+    check.className = `product-badge-dropdown-check${isActive ? '' : ' hidden'}`;
+    item.append(check);
+
+    if (DEVICE_ICONS[device]) {
+      const icon = document.createElement('img');
+      icon.src = DEVICE_ICONS[device];
+      icon.alt = '';
+      icon.className = 'product-badge-device-icon';
+      item.append(icon);
+    }
+
+    const span = document.createElement('span');
+    span.className = 'product-badge-device-text';
+    span.textContent = text;
+    item.append(span);
     list.append(item);
   });
 
   button.addEventListener('click', () => {
-    const isOpen = !list.hidden;
-    list.hidden = isOpen;
+    const isOpen = list.classList.contains('show');
+    list.classList.toggle('show', !isOpen);
     dropdown.classList.toggle('is-open', !isOpen);
   });
 
   document.addEventListener('click', (e) => {
     if (!dropdown.contains(e.target)) {
-      list.hidden = true;
+      list.classList.remove('show');
       dropdown.classList.remove('is-open');
     }
   });
 
   dropdown.append(button, list);
-  return dropdown;
+  wrapper.append(tabs, dropdown);
+  return wrapper;
 }
 
 function buildSearch() {
   const search = document.createElement('div');
   search.className = 'product-badge-search';
 
+  const container = document.createElement('div');
+  container.className = 'product-badge-search-container';
+
   const form = document.createElement('form');
   form.action = '/search';
   form.method = 'get';
-
-  const inputWrap = document.createElement('div');
-  inputWrap.className = 'product-badge-search-wrap';
-
-  const searchIcon = document.createElement('span');
-  searchIcon.className = 'product-badge-search-icon';
-  searchIcon.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10 10l4 4"/></svg>';
+  form.className = 'product-badge-search-form';
 
   const input = document.createElement('input');
   input.type = 'search';
@@ -109,9 +162,14 @@ function buildSearch() {
   input.placeholder = 'Search Adobe Help';
   input.setAttribute('aria-label', 'Search Adobe Help');
 
-  inputWrap.append(searchIcon, input);
-  form.append(inputWrap);
-  search.append(form);
+  const submitBtn = document.createElement('button');
+  submitBtn.type = 'submit';
+  submitBtn.className = 'product-badge-search-submit';
+  submitBtn.setAttribute('aria-label', 'Search');
+
+  form.append(input, submitBtn);
+  container.append(form);
+  search.append(container);
   return search;
 }
 
@@ -128,22 +186,22 @@ export default function init(el) {
   const topNav = document.createElement('div');
   topNav.className = 'product-badge-topnav';
 
-  // Left: product details
-  const details = document.createElement('div');
-  details.className = 'product-badge-details';
+  // Col 1: Product badge (icon + name + open app)
+  const badge = document.createElement('div');
+  badge.className = 'product-badge-info';
 
   const productLink = OPEN_APP_URLS[productKey] || '#';
 
-  // Icon
-  const iconWrap = document.createElement('a');
-  iconWrap.href = productLink;
-  iconWrap.className = 'product-badge-icon-link';
+  // Product icon
+  const iconLink = document.createElement('a');
+  iconLink.href = productLink;
+  iconLink.className = 'product-badge-icon-link';
   if (pic) {
     const img = pic.tagName === 'IMG' ? pic : pic.querySelector('img');
     if (img) {
       img.className = 'product-badge-icon';
       img.alt = productName;
-      iconWrap.append(img);
+      iconLink.append(img);
     }
   } else {
     const iconUrl = PRODUCT_ICONS[productKey];
@@ -152,41 +210,47 @@ export default function init(el) {
       img.src = iconUrl;
       img.alt = productName;
       img.className = 'product-badge-icon';
-      img.loading = 'lazy';
-      iconWrap.append(img);
+      iconLink.append(img);
     }
   }
-  details.append(iconWrap);
+  badge.append(iconLink);
 
   // Product name + Open app
-  const nameWrap = document.createElement('div');
-  nameWrap.className = 'product-badge-name-wrap';
+  const openLinkWrap = document.createElement('div');
+  openLinkWrap.className = 'product-badge-open-link';
 
-  const name = document.createElement('a');
-  name.href = productLink;
-  name.className = 'product-badge-name';
-  name.textContent = productName;
-  nameWrap.append(name);
+  const nameEl = document.createElement('p');
+  nameEl.className = 'product-badge-name';
+  const nameLink = document.createElement('a');
+  nameLink.href = productLink;
+  nameLink.textContent = productName;
+  nameEl.append(nameLink);
+  openLinkWrap.append(nameEl);
 
   const openApp = document.createElement('a');
   openApp.href = productLink;
   openApp.className = 'product-badge-open-app';
-  openApp.innerHTML = '<span>Open app</span><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3.5 1.5h7v7M10 2L2 10" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>';
-  nameWrap.append(openApp);
+  const openText = document.createElement('span');
+  openText.className = 'product-badge-open-app-text';
+  openText.textContent = 'Open app';
+  const openIcon = document.createElement('span');
+  openIcon.className = 'product-badge-open-app-icon';
+  openApp.append(openText, openIcon);
+  openLinkWrap.append(openApp);
 
-  details.append(nameWrap);
-  topNav.append(details);
+  badge.append(openLinkWrap);
+  topNav.append(badge);
 
-  // Center: device dropdown (absorbed from navigation-list)
+  // Col 2: Device selector (absorbed from navigation-list)
   const navListSection = el.closest('.section')?.nextElementSibling;
   const navListBlock = navListSection?.querySelector('.navigation-list');
   if (navListBlock) {
-    const dropdown = buildDeviceDropdown(navListBlock);
-    if (dropdown) topNav.append(dropdown);
+    const devices = buildDeviceSelector(navListBlock);
+    if (devices) topNav.append(devices);
     navListSection.style.display = 'none';
   }
 
-  // Right: search
+  // Col 3: Search
   topNav.append(buildSearch());
 
   el.textContent = '';

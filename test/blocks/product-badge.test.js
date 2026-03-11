@@ -2,7 +2,6 @@ import { expect } from '@esm-bundle/chai';
 
 describe('Product Badge', () => {
   it('renders a product badge topnav', async () => {
-    // Create section wrapper (simulates Milo section)
     const section = document.createElement('div');
     section.className = 'section';
 
@@ -17,13 +16,13 @@ describe('Product Badge', () => {
 
     expect(el.querySelector('.product-badge-topnav')).to.exist;
     expect(el.querySelector('.product-badge-icon')).to.exist;
-    expect(el.querySelector('.product-badge-name').textContent).to.equal('Photoshop');
+    expect(el.querySelector('.product-badge-name a').textContent).to.equal('Photoshop');
     expect(el.querySelector('.product-badge-open-app')).to.exist;
     expect(el.querySelector('.product-badge-search')).to.exist;
     section.remove();
   });
 
-  it('absorbs adjacent navigation-list into device dropdown', async () => {
+  it('absorbs adjacent navigation-list into device selector', async () => {
     const section1 = document.createElement('div');
     section1.className = 'section';
     const el = document.createElement('div');
@@ -47,8 +46,10 @@ describe('Product Badge', () => {
     const { default: init } = await import('../../blocks/product-badge/product-badge.js');
     init(el);
 
+    expect(el.querySelector('.product-badge-devices')).to.exist;
+    expect(el.querySelector('.product-badge-device-tabs')).to.exist;
     expect(el.querySelector('.product-badge-device-dropdown')).to.exist;
-    expect(el.querySelector('.product-badge-device-button')).to.exist;
+    expect(el.querySelectorAll('.product-badge-device-tab').length).to.equal(3);
     expect(section2.style.display).to.equal('none');
     section1.remove();
     section2.remove();
