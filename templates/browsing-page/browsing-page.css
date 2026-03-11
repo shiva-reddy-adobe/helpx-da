@@ -1,29 +1,42 @@
-/* Browsing Page Template — helpxNext-browsingPage */
+/* Browsing Page Template — 2-column layout with left TOC sidebar */
 
-/* Layout: left rail nav + content grid */
 body.browsing-page main {
   max-width: var(--grid-container-width);
   margin: 0 auto;
-  padding: 0 var(--grid-gutter);
+  padding: 0 24px;
 }
 
+/* Desktop: 2-column layout — TOC sidebar + content */
 @media only screen and (min-width: 1080px) {
-  body.browsing-page main .section {
-    display: grid;
-    grid-template-columns: 260px 1fr;
+  body.browsing-page main {
+    display: flex;
     gap: 40px;
+  }
+
+  /* The section containing the toc-nav block becomes the left sidebar */
+  body.browsing-page main .section:has(.toc-nav) {
+    flex: 0 0 300px;
+    max-width: 300px;
+    order: -1;
+  }
+
+  /* All other sections flow as the main content column */
+  body.browsing-page main .section:not(:has(.toc-nav)) {
+    flex: 1;
+    min-width: 0;
   }
 }
 
-/* Left rail navigation */
+/* Left rail TOC — sticky on desktop */
 body.browsing-page .toc-nav {
   position: sticky;
-  top: 80px;
+  top: 96px;
   align-self: start;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 120px);
   overflow-y: auto;
 }
 
+/* Mobile/Tablet: TOC above content */
 @media only screen and (max-width: 1079px) {
   body.browsing-page .toc-nav {
     position: static;
@@ -34,36 +47,30 @@ body.browsing-page .toc-nav {
   }
 }
 
-/* Content area */
-body.browsing-page .section > div:not(.toc-nav) {
-  min-width: 0;
+/* Content sections */
+body.browsing-page .section > .default-content {
+  max-width: none;
 }
 
-/* Card grid within browsing pages */
-body.browsing-page .content-card-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+/* Browsing cards — 2-column grid matching original HelpX */
+body.browsing-page .browsing-page {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+}
+
+body.browsing-page .browsing-page > div {
+  flex: 0 0 100%;
+  margin-bottom: 16px;
 }
 
 @media only screen and (min-width: 768px) {
-  body.browsing-page .content-card-wrapper {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media only screen and (min-width: 1080px) {
-  body.browsing-page .content-card-wrapper {
-    grid-template-columns: repeat(3, 1fr);
+  body.browsing-page .browsing-page > div {
+    flex: 0 0 49%;
   }
 }
 
 /* Section headings */
-body.browsing-page main h1 {
-  font-size: var(--heading-font-size-xl);
-  margin-bottom: 8px;
-}
-
 body.browsing-page main h2 {
   font-size: var(--heading-font-size-l);
   margin-top: 32px;
@@ -77,12 +84,35 @@ body.browsing-page main p {
   line-height: 1.5;
 }
 
+/* Product badge spacing */
+body.browsing-page .product-badge {
+  margin-bottom: 8px;
+}
+
+/* Navigation list (Desktop / Mobile / Web tabs) */
+body.browsing-page .navigation-list {
+  margin-bottom: 24px;
+}
+
 /* Breadcrumb spacing */
-body.browsing-page .breadcrumb {
-  margin-bottom: 16px;
+body.browsing-page .section:first-child {
+  margin-bottom: 8px;
+}
+
+body.browsing-page .section:first-child p {
+  font-size: var(--body-font-size-s);
+  color: var(--color-breadcrumb-text);
+}
+
+/* Big Desktop (1440px+) */
+@media only screen and (min-width: 1440px) {
+  body.browsing-page main .section:has(.toc-nav) {
+    flex: 0 0 320px;
+    max-width: 320px;
+  }
 }
 
 /* RTL */
-html[dir="rtl"] body.browsing-page main .section {
+html[dir="rtl"] body.browsing-page main {
   direction: rtl;
 }
