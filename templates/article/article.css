@@ -1,4 +1,4 @@
-/* helpxNext article template — pixel-perfect match */
+/* helpxNext article template — grid layout with optional TOC sidebar */
 
 body.article {
   --article-max-width: 900px;
@@ -7,26 +7,26 @@ body.article {
 
 /* Article content area */
 body.article main {
-  max-width: var(--article-max-width);
+  max-width: calc(var(--article-max-width) + var(--article-sidebar-width) + 48px);
   margin: 0 auto;
   padding: 24px 16px 48px;
 }
 
-body.article main .section > .default-content {
+body.article main .section > .default-content-wrapper {
   max-width: 100%;
 }
 
 /* Reading-optimized typography */
 body.article main p,
 body.article main li {
-  font-size: var(--body-font-size-l);
+  font-size: var(--body-font-size-l, 1rem);
   line-height: 1.7;
-  color: var(--color-text-body);
+  color: var(--color-text-body, #2c2c2c);
 }
 
 /* Article title */
 body.article main h1 {
-  font-size: var(--heading-font-size-xxl);
+  font-size: var(--heading-font-size-xxl, 2.25rem);
   margin-bottom: 24px;
   line-height: 1.2;
 }
@@ -45,9 +45,9 @@ body.article main h3 {
 
 /* Last updated date */
 body.article .last-updated {
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-s, 0.875rem);
   font-style: italic;
-  color: var(--color-gray-400);
+  color: var(--color-gray-400, #b0b0b0);
   margin-bottom: 24px;
 }
 
@@ -55,15 +55,17 @@ body.article .last-updated {
 body.article main img {
   border-radius: 8px;
   margin: 16px 0;
+  max-width: 100%;
+  height: auto;
 }
 
 /* Code blocks */
 body.article main pre {
-  background: var(--color-gray-100);
+  background: var(--color-gray-100, #f5f5f5);
   padding: 16px;
   border-radius: 8px;
   overflow-x: auto;
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-s, 0.875rem);
   line-height: 1.5;
 }
 
@@ -73,28 +75,60 @@ body.article main code {
 }
 
 body.article main :not(pre) > code {
-  background: var(--color-gray-100);
+  background: var(--color-gray-100, #f5f5f5);
   padding: 2px 6px;
   border-radius: 3px;
 }
 
-/* Blockquotes */
+/* Blockquotes / Notes */
 body.article main blockquote {
-  border-left: 3px solid var(--color-blue-500);
+  border-left: 3px solid var(--color-blue-500, #1473e6);
   padding-left: 16px;
   margin: 24px 0;
-  color: var(--color-gray-600);
+  color: var(--color-gray-600, #6e6e6e);
 }
 
 /* Links in article content */
 body.article main a:not(.btn) {
-  color: var(--color-link);
+  color: var(--color-link, #1473e6);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 body.article main a:not(.btn):hover {
-  color: var(--color-blue-700);
+  color: var(--color-blue-700, #0d66d0);
+}
+
+/* ===== Desktop: Grid layout with TOC sidebar ===== */
+@media only screen and (min-width: 1080px) {
+  body.article main {
+    display: grid;
+    grid-template-columns: var(--article-sidebar-width) 1fr;
+    gap: 0 48px;
+    padding: 32px 24px 64px;
+  }
+
+  /* Product badge spans full width */
+  body.article main > .section:has(.product-badge) {
+    grid-column: 1 / -1;
+  }
+
+  /* TOC nav sits in left column, spanning all rows */
+  body.article main > .section:has(.toc-nav),
+  body.article main > .section:has(.table-of-contents) {
+    grid-column: 1;
+    grid-row: 2 / span 50;
+    position: sticky;
+    top: 96px;
+    align-self: start;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  /* All other sections go in the right column */
+  body.article main > .section:not(:has(.toc-nav)):not(:has(.table-of-contents)):not(:has(.product-badge)) {
+    grid-column: 2;
+  }
 }
 
 /* Tablet breakpoint */
@@ -108,38 +142,26 @@ body.article main a:not(.btn):hover {
   }
 }
 
-/* Desktop: TOC sidebar layout */
-@media only screen and (min-width: 1080px) {
-  body.article main {
-    display: flex;
-    gap: 48px;
-    max-width: calc(var(--article-max-width) + var(--article-sidebar-width) + 48px);
-    padding: 32px 24px 64px;
-  }
+/* ===== Section spacing ===== */
+body.article main > .section {
+  margin-bottom: 1.5rem;
+}
 
-  /* When toc-nav is present, it becomes the sidebar */
-  body.article main .toc-nav {
-    flex: 0 0 var(--article-sidebar-width);
-    order: -1;
-  }
+body.article main > .section:has(.toc-nav),
+body.article main > .section:has(.table-of-contents),
+body.article main > .section:has(.product-badge) {
+  margin-bottom: 0;
+}
 
-  /* When table-of-contents is present inline */
-  body.article main .table-of-contents {
-    flex: 0 0 var(--article-sidebar-width);
-    order: -1;
-  }
-
-  /* Main content sections take remaining space */
-  body.article main .section {
-    flex: 1;
-    min-width: 0;
-  }
+/* Hide metadata section */
+body.article main > .section:last-child:has(.metadata) {
+  display: none;
 }
 
 /* RTL */
 html[dir="rtl"] body.article main blockquote {
   border-left: none;
-  border-right: 3px solid var(--color-blue-500);
+  border-right: 3px solid var(--color-blue-500, #1473e6);
   padding-left: 0;
   padding-right: 16px;
 }
